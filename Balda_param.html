@@ -1,61 +1,61 @@
 <!DOCTYPE html> 
 <html>
-	<head>
-		<meta charset="utf-8"/>
-		<title>
-			Balda
-		</title>
-		<link rel="stylesheet" type="text/css" href="css/style.css"/>
-	</head>
-	<body lang="ru">
-		<div id="main">
-			<p class="text">Игрок 1</p>
-			<input type="text" class="input-text shadow control"/>
-			<p class="text">Игрок 2</p>
-			<input type="text" class="input-text shadow control"/>
-			<p class="text">Размер поля</p>
-			<div class="check-group">	
-				<label class="text">
-					5x5
-					<div class="control check-wrap border shadow">
-						<input id="5x5" checked="chesked" name="field-size" type="radio"/>
-						<div class="check-wrap"></div>
-					</div>
-				</label>
-		    </div>
+  <head>
+    <meta charset="utf-8"/>
+    <title>
+      Balda
+    </title>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+  </head>
+  <body lang="ru">
+    <div id="main">
+      <label for="player-1" class="text">Игрок 1</label>
+      <input id="player-1" type="text" class="input-text shadow control"/>
+      <label for="player-2" class="text">Игрок 2</label>
+      <input id="player-2" type="text" class="input-text shadow control"/>
+      <p class="text">Размер поля</p>
+      <div class="check-group">
+        <label class="text">
+          5x5
+          <span class="control check-wrap border shadow">
+            <input id="5x5" checked="checked" name="field-size" type="radio"/>
+            <span class="check-wrap"></span>
+          </span>
+        </label>
+      </div>
 
-		    <div class="check-group">	
-				<label class="text">
-					6x6
-					<div class="control check-wrap border shadow">
-						<input id="6x6" name="field-size" type="radio"/>
-						<div class="check-wrap"></div>
-					</div>
-				</label>
-		    </div>
+      <div class="check-group">
+        <label class="text">
+          6x6
+          <span class="control check-wrap border shadow">
+            <input id="6x6" name="field-size" type="radio"/>
+            <span class="check-wrap"></span>
+          </span>
+        </label>
+      </div>
 
-		     <div class="check-group">	
-				<label class="text">
-					7x7
-					<div class="control check-wrap border shadow">
-						<input id="7x7" name="field-size" type="radio"/>
-						<div class="check-wrap"></div>
-					</div>
-				</label>
-		    </div>
+      <div class="check-group">
+        <label class="text">
+          7x7
+          <span class="control check-wrap border shadow">
+            <input id="7x7" name="field-size" type="radio"/>
+            <span class="check-wrap"></span>
+          </span>
+        </label>
+      </div>
 
-		    <div class="check-group" style="min-width: 300px;">	
-				<label class="text">
-					Поединок
-					<div class="control check-wrap border shadow" style="margin-top: 0px;">
-						<input id="battle" type="checkbox"/>
-						<div class="check-wrap"></div>
-					</div>
-				</label>
-			</div>
+      <div class="check-group" style="min-width: 300px;">
+        <label class="text">
+          Поединок
+          <span class="control check-wrap border shadow" style="margin-top: 0;">
+            <input id="battle" type="checkbox"/>
+            <span class="check-wrap"></span>
+          </span>
+        </label>
+      </div>
 
-			<button class="control border shadow text small" >OK</button>
-			<button class="control border shadow text small" style="float: right">Назад</button>
-		</div>
-	</body>
+      <button class="control border shadow text small" >OK</button>
+      <button class="control border shadow text small" style="float: right">Назад</button>
+    </div>
+  </body>
 </html>
