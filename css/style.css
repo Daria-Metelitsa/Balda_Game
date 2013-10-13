@@ -54,6 +54,35 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
   width:      1em;
 }
 
+.cell {
+  background: #ebdaa3;
+  background: linear-gradient(to right, #ebdaa3, #e8d599);
+  border:     1px solid #d6963a;
+  cursor:     pointer;
+  display:    inline-block;
+}
+
+.cell-5 {
+  height: 4em;
+  width:  4em;
+}
+
+.cell-6 {
+  height: 3.3em;
+  width:  3.3em;
+}
+
+.cell-7 {
+  height: 2.8em;
+  width:  2.8em;
+}
+
+#game-field {
+  border-collapse: collapse;
+  margin-top:      5%;
+  margin-left:     2%;
+}
+
 .input-text {
   border:        0;
   font-size:     265%;
@@ -66,8 +95,7 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
   position:  relative;
   border:    0;
   margin:    3% auto;
-  width:     80%;
-  max-width: 360px;
+  width:     360px;
 }
 
 .text {
@@ -79,12 +107,13 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
 }
 
 .shadow {
-  box-shadow:         10px 10px 10px rgba(0,0,0,0.5);
-  -moz-box-shadow:    10px 10px 10px rgba(0,0,0,0.5);
-  -webkit-box-shadow: 10px 10px 10px rgba(0,0,0,0.5);
+  box-shadow:         10px 10px 10px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow:    10px 10px 10px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }
 
 .small {
   width: 40%;
 }
+
 

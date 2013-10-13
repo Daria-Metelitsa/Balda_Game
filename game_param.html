@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8"/>
@@ -6,6 +6,8 @@
       Balda
     </title>
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <script type="text/javascript" src="js/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
   </head>
   <body lang="ru">
     <div id="main">
@@ -18,7 +20,7 @@
         <label class="text">
           5x5
           <span class="control check-wrap border shadow">
-            <input id="5x5" checked="checked" name="field-size" type="radio"/>
+            <input id="5x5" data-field-size="5" checked="checked" name="field-size" type="radio"/>
             <span class="check-wrap"></span>
           </span>
         </label>
@@ -28,7 +30,7 @@
         <label class="text">
           6x6
           <span class="control check-wrap border shadow">
-            <input id="6x6" name="field-size" type="radio"/>
+            <input id="6x6" data-field-size="6" name="field-size" type="radio"/>
             <span class="check-wrap"></span>
           </span>
         </label>
@@ -38,7 +40,7 @@
         <label class="text">
           7x7
           <span class="control check-wrap border shadow">
-            <input id="7x7" name="field-size" type="radio"/>
+            <input id="7x7" data-field-size="7" name="field-size" type="radio"/>
             <span class="check-wrap"></span>
           </span>
         </label>
@@ -54,8 +56,8 @@
         </label>
       </div>
 
-      <button class="control border shadow text small" >OK</button>
-      <button class="control border shadow text small" style="float: right">Назад</button>
+      <button class="control border shadow text small" id="start-game">OK</button>
+      <button class="control border shadow text small" style="float: right" id="to-main">Назад</button>
     </div>
   </body>
 </html>
