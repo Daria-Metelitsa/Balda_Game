@@ -16,6 +16,7 @@ $(function() {
     'Ь': 3, 'Э': 5, 'Ю': 3, 'Я': 2
   };
 
+  //последний объект, на котором был произведен клик
   var last_click = null;
 
   //получить очки за букву
@@ -44,6 +45,7 @@ $(function() {
     }
   }, '#start-game');
 
+  //переход из меню в окно настройки игры
   $(document).on({
     touchmove: function(event) {
       alert('touch');
@@ -54,6 +56,7 @@ $(function() {
     }
   }, '#game-param');
 
+  //вернуться из настроек игры в главное меню
   $(document).on({
     click: function() {
       $('body').load('/balda/game_menu.html #main', function() {
