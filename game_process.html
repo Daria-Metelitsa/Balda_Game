@@ -14,18 +14,21 @@
     <div id="main">
 
       <div>
-        <label class="text">Игрок 1</label>
-        <label class="text" style="position: absolute; right: 0;">Игрок 2</label>
+        <label class="text text-shadow">Игрок 1</label>
+        <label class="text text-shadow" style="position: absolute; right: 0;">Игрок 2</label>
       </div>
 
-      <table id="game-field"> </table>
+      <table id="game-field" class="shadow"> </table>
 
-      <!--
-      <div>
-        <button class="control border shadow text small" >Пропустить ход</button>
-        <button class="control border shadow text small" style="float: right">Сдаться</button>
+      <div class="input-group ">
+        <div id="word" class="input-text control shadow text-disabled"> Слово </div>
+        <div id="send-word" class="button control text-disabled" >OK</div>
       </div>
-        -->
+
+      <div style="margin-top: 30%">
+        <button class="control border shadow small text-shadow" style="font: 1.45em Georgia, 'Century Schoolbook L', Serif;">Пропустить ход</button>
+        <button class="control border shadow small text-shadow" style="float: right; font: 1.45em Georgia, 'Century Schoolbook L', Serif; padding-top: 4%; padding-bottom: 4%">Сдаться</button>
+      </div>
 
     </div>
   </body>

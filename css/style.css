@@ -6,19 +6,8 @@ button {
   margin-top: 0.5em !important; 
 }
 
-button:active {
-  box-shadow:         0 0 0 10px rgba(255, 0, 0, 0.5);
-  -moz-box-shadow:    0 0 0 10px rgba(255, 0, 0, 0.5);
-  -webkit-box-shadow: 0 0 0 10px rgba(255, 0, 0, 0.5);
-}
-
-.border {
-  border: 2px solid #f2e6bf #d1bc7e #d1bc7e #f2e6bf;
-}
-
-.control {
-  background-color: #ead89f;
-  border-radius:    5px;
+.button:active, button:active {
+  background-color: #fbcf4d;
 }
 
 input[type="radio"], input[type="checkbox"] {
@@ -35,6 +24,24 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
   background:      url(../img/check.png) no-repeat;
   background-size: cover;
   width:           1.2em;
+}
+
+.border {
+  border: 2px outset #f2e6bf;
+}
+
+.button {
+  cursor:              pointer;
+  -moz-user-select:    -moz-none;
+  -o-user-select:      none;
+  -khtml-user-select:  none;
+  -webkit-user-select: none;
+  user-select:         none;
+}
+
+.control {
+  background-color: #ead89f;
+  border-radius:    5px;
 }
 
 .check-group {
@@ -58,8 +65,15 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
   background: #ebdaa3;
   background: linear-gradient(to right, #ebdaa3, #e8d599);
   border:     1px solid #d6963a;
-  cursor:     pointer;
   display:    inline-block;
+}
+
+.cell-word {
+  background: #fbd250;
+}
+
+.cell-letter {
+  background: #f8ae20;
 }
 
 .cell-5 {
@@ -80,7 +94,52 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
 #game-field {
   border-collapse: collapse;
   margin-top:      5%;
-  margin-left:     2%;
+  margin-left:     4%;
+}
+
+.game-name {
+  margin-right:   4%;
+  padding-bottom: 1%;
+  position:       absolute;
+  text-align:     center;
+  width:          15%;
+}
+
+.game-name-text-big{
+  font:        2.65em Georgia, "Century Schoolbook L", Serif;
+  padding-top: 2%;
+}
+
+.game-name-text-small{
+  font:     0.5em Georgia, "Century Schoolbook L", Serif;
+  float:    right;
+  position: absolute;
+  top:      -12%;
+  right:    3%;
+}
+
+.input-group {
+  margin-top: 10%;
+  position:   relative;
+}
+
+.input-group .button {
+  border-left:   1px solid #d6963a;
+  border-radius: 0 5px 5px 0;
+  font-size:     265%;
+  padding:       2%;
+  position:      absolute;
+  right:         -2%;
+}
+
+.input-group .input-text {
+  left:          0;
+  overflow:      hidden;
+  padding:       2% 0 2% 2%;
+  position:      absolute;
+  text-overflow: clip;
+  width:         100%;
+  white-space:   nowrap;
 }
 
 .input-text {
@@ -91,19 +150,49 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
   width:         95%;
 }
 
-#main {
+
+.letter {
+  margin-right:   4%;
+  padding-bottom: 1%;
+  position:       absolute;
+  text-align:     center;
+  width:          15%;
+}
+
+#main, .main {
   position:  relative;
   border:    0;
   margin:    3% auto;
   width:     360px;
 }
 
+.middle-div {
+  padding-bottom: 2%;
+  padding-top:    2%;
+  width:          90%;
+}
+
 .text {
-  font:                2.65em Georgia, "Century Schoolbook L", Serif;
+  font:   2.65em Georgia, "Century Schoolbook L", Serif;
+  margin: 0.5%;
+}
+
+.text-cell {
+  font:   1.25em Georgia, "Century Schoolbook L", Serif;
+}
+
+.text-disabled {
+  color: #ab9a87;
+}
+
+.text-disabled:active {
+  background-color: #ead89f;
+}
+
+.text-shadow {
   text-shadow:         1.5px 1.5px 1px white;
   -moz-text-shadow:    1.5px 1.5px 1px white;
   -webkit-text-shadow: 1.5px 1.5px 1px white;
-  margin:              0.5%;
 }
 
 .shadow {
