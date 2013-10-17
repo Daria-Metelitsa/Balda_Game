@@ -28,52 +28,46 @@ $(function() {
   $(document).on({
     click: function() {
       var field_size = $('input[name="field-size"]:checked').attr('data-field-size');
+      var html       = '';
 
-      $('body').load('/balda/game_process.html #main', function() {
-        var html = '';
+      $('#param').slideUp();
+      $('#progress').slideDown(500);
 
-        for (var i = 0; i < field_size; i++) {
-          html += '<tr>';
-          for (var j = 0; j < field_size; j++) {
-            html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"> ' + i + '-' + j + ' </td>';
-          }
-          html += '</tr>';
+      for (var i = 0; i < field_size; i++) {
+        html += '<tr>';
+        for (var j = 0; j < field_size; j++) {
+          html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"> ' + i + '-' + j + ' </td>';
         }
+        html += '</tr>';
+      }
 
-        $('#game-field').html(html);
-      });
+      $('#game-field').html(html);
     }
   }, '#start-game');
 
   //переход из меню в окно настройки игры
   $(document).on({
-    touchmove: function(event) {
-      alert('touch');
-    },
     click: function() {
-      $('body').load('/balda/game_param.html #main', function() {
-      });
+      $('#menu').slideUp();
+      $('#param').slideDown();
     }
   }, '#game-param');
 
   //вернуться из настроек игры в главное меню
   $(document).on({
     click: function() {
-      $('body').load('/balda/game_menu.html #main', function() {
-      });
+      alert(1);
+      $('#menu').slideUp();
+      $('#param').slideDown();
     }
   }, '#to-main');
-
-  $('#to-main').click();
 
   //переход на форму выбора буквы
   $(document).on({
     click: function() {
       last_click = $(this);
-      $('#main').attr('style', 'display:none;');
-
-      $('body').append('<div class="main"></div>');
-      $('.main').load('/balda/game_letter.html #main');
+      $('#progress').slideUp();
+      $('#letter').slideDown();
     }
   }, '.cell');
 
@@ -83,8 +77,8 @@ $(function() {
       var obj = $(this);
       last_click.html(obj.find('span').html());
       last_click.addClass('');
-      $('#main').attr('style', 'display:block;');
-      $('.main').remove();
+      $('#letter').slideUp();
+      $('#progress').slideDown();
     }
   }, '.letter');
 })
