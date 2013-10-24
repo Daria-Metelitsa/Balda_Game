@@ -36,7 +36,7 @@ $(function() {
       for (var i = 0; i < field_size; i++) {
         html += '<tr>';
         for (var j = 0; j < field_size; j++) {
-          html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"> ' + i + '-' + j + ' </td>';
+          html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"> <div>' + i + '-' + j + ' </div> </td>';
         }
         html += '</tr>';
       }
@@ -56,7 +56,6 @@ $(function() {
   //вернуться из настроек игры в главное меню
   $(document).on({
     click: function() {
-      alert(1);
       $('#menu').slideUp();
       $('#param').slideDown();
     }
@@ -75,7 +74,7 @@ $(function() {
   $(document).on({
     click: function() {
       var obj = $(this);
-      last_click.html(obj.find('span').html());
+      last_click.html('<div style="font-size: 3em; text-align: center">' + obj.find('span').html() + '</div>');
       last_click.addClass('');
       $('#letter').slideUp();
       $('#progress').slideDown();
