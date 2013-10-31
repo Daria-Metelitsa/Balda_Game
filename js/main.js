@@ -18,6 +18,11 @@ $(function() {
 
   //последний объект, на котором был произведен клик
   var last_click = null;
+  var last_change = null;
+  var last_cell_i=-1;
+  var last_cell_j=-1;
+  var input_mode='input_char';
+  var word="";
 
   //получить очки за букву
   function getLetterPoints(letter){
@@ -36,7 +41,16 @@ $(function() {
       for (var i = 0; i < field_size; i++) {
         html += '<tr>';
         for (var j = 0; j < field_size; j++) {
-          html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"> <div>' + i + '-' + j + ' </div> </td>';
+            //пока нет слова из словаря для примера
+            var c='';
+            if(i==2){
+                if(j==0) c='С';
+                if(j==1) c='Л';
+                if(j==2) c='О';
+                if(j==3) c='В';
+                if(j==4) c='О';
+            }
+            html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"> <div style="font-size: 3em; text-align: center">' + c + '</div> </td>';
         }
         html += '</tr>';
       }
@@ -61,19 +75,23 @@ $(function() {
     }
   }, '#to-main');
 
-  //переход на форму выбора буквы
-  $(document).on({
-    click: function() {
-      last_click = $(this);
-      $('#progress').slideUp();
-      $('#letter').slideDown();
-    }
-  }, '.cell');
+    //переход на форму выбора буквы
+    $(document).on({
+        click: function() {
+            if (input_mode == 'input_char') {
+                last_click = $(this);
+                $('#progress').slideUp();
+                $('#letter').slideDown();
+                input_mode = 'input_word';
+            }
+        }
+    }, '.cell');
 
   //переход обратно на форму с игрой (из формы выбора буквы)
   $(document).on({
     click: function() {
       var obj = $(this);
+
       last_click.html('<div style="font-size: 3em; text-align: center">' + obj.find('span').html() + '</div>');
       last_click.addClass('');
       $('#letter').slideUp();
