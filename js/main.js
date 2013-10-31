@@ -19,10 +19,10 @@ $(function() {
   //последний объект, на котором был произведен клик
   var last_click = null;
   var last_change = null;
-  var last_cell_i=-1;
-  var last_cell_j=-1;
-  var input_mode='input_char';
-  var word="";
+  var last_cell_i = -1;
+  var last_cell_j = -1;
+  var input_mode = 'input_char';
+  var word = "";
 
   //получить очки за букву
   function getLetterPoints(letter){
@@ -83,6 +83,33 @@ $(function() {
                 $('#progress').slideUp();
                 $('#letter').slideDown();
                 input_mode = 'input_word';
+            } else if (input_mode == 'input_word'){
+                if($(this).text() != '') {
+                    var i = $(this).attr('id').charAt(5) * 1;
+                    var j = $(this).attr('id').charAt(7) * 1;
+                    if (last_cell_i >= 0 && last_cell_j >=0) {
+
+                        //лежат на одном столбце
+                        if(((i+1 == last_cell_i) || (i-1 == last_cell_i)) &&(j == last_cell_j)){
+                            word += $(this).text();
+                            last_cell_i = i;
+                            last_cell_j = j;
+                        }
+
+                        // лежат на одной строке
+                        if(((j+1 == last_cell_j) || (j-1 == last_cell_j)) &&(i == last_cell_i)){
+                            word += $(this).text();
+                            last_cell_i = i;
+                            last_cell_j = j;
+                        }
+                    }
+                    else {
+                        word += $(this).text();
+                        last_cell_i = i;
+                        last_cell_j = j;
+                    }
+                }
+                $('#word').html(word);
             }
         }
     }, '.cell');
@@ -91,9 +118,12 @@ $(function() {
   $(document).on({
     click: function() {
       var obj = $(this);
-
+        if(last_change != null) {
+            last_change.html ('');
+        }
       last_click.html('<div style="font-size: 3em; text-align: center">' + obj.find('span').html() + '</div>');
       last_click.addClass('');
+        last_change = last_click;
       $('#letter').slideUp();
       $('#progress').slideDown();
     }
