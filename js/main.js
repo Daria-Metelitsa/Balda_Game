@@ -23,6 +23,7 @@ $(function() {
   var last_cell_j = -1;
   var input_mode = 'input_char';
   var word = "";
+  var charList = [];
 
   //получить очки за букву
   function getLetterPoints(letter){
@@ -89,11 +90,19 @@ $(function() {
                     var j = $(this).attr('id').charAt(7) * 1;
                     if (last_cell_i >= 0 && last_cell_j >=0) {
 
+                        //буква входит в слово
+                        for (var k=0; k < charList.length; k++){
+                            if (charList[k] == this) {
+                                return;
+                            }
+                        }
+
                         //лежат на одном столбце
                         if(((i+1 == last_cell_i) || (i-1 == last_cell_i)) &&(j == last_cell_j)){
                             word += $(this).text();
                             last_cell_i = i;
                             last_cell_j = j;
+                            charList.push(this);
                         }
 
                         // лежат на одной строке
@@ -101,12 +110,14 @@ $(function() {
                             word += $(this).text();
                             last_cell_i = i;
                             last_cell_j = j;
+                            charList.push(this);
                         }
                     }
                     else {
                         word += $(this).text();
                         last_cell_i = i;
                         last_cell_j = j;
+                        charList.push(this);
                     }
                 }
                 $('#word').html(word);
