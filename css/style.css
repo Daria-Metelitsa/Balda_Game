@@ -39,11 +39,6 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
   user-select:         none;
 }
 
-.control {
-  background-color: #ead89f;
-  border-radius:    5px;
-}
-
 .check-group {
   cursor:        pointer;
   display:       inline-block;
@@ -89,6 +84,11 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
 .cell-7 {
   height: 2.8em;
   width:  2.8em;
+}
+
+.control {
+  background-color: #ead89f;
+  border-radius:    5px;
 }
 
 #game-field {
@@ -150,7 +150,6 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
   width:         95%;
 }
 
-
 .letter {
   margin-right:   4%;
   padding-bottom: 1%;
@@ -170,6 +169,57 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
   padding-bottom: 2%;
   padding-top:    2%;
   width:          90%;
+}
+
+#popup_container {
+  font-family: Georgia, serif;
+  color: #ead89f;
+  background:  	#F5F5DC;
+  border: solid 3px #d6963a !important;
+}
+
+#popup_cancel {
+  background-color:  #ead89f;
+  color:             #000000;
+  cursor:            pointer;
+  font:              2.65em Georgia, "Century Schoolbook L", Serif;
+  margin: 5%;
+}
+
+#popup_ok {
+  cursor:              pointer;
+  font:   2.65em Georgia, "Century Schoolbook L", Serif;
+  color: #000000;
+  background-color: #ead89f;
+}
+
+#popup_container #popup_title {
+  font:   2.65em Georgia, "Century Schoolbook L", Serif;
+  color: #000000;
+  font-weight: normal;
+  text-align: left;
+  background-color: #ead89f;
+  border: solid 1px #d6963a;
+  padding-left: 1em;
+}
+
+#popup_container #popup_content {
+  background: none;
+}
+
+#popup_container #popup_message {
+  color: black;
+  padding-left: 0;
+}
+
+#popup_message {
+  font:   2.65em Georgia, "Century Schoolbook L", Serif;
+  color: #000000;
+}
+
+#popup_overlay {
+  background-color: #000000 !important;
+  opacity: 0.5 !important;
 }
 
 .text {
@@ -204,5 +254,3 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
 .small {
   width: 40%;
 }
-
-

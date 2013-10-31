@@ -68,6 +68,30 @@ $(function() {
     }
   }, '#game-param');
 
+  //всплывающее сообщение - сдаться
+  $(document).on({
+    click: function() {
+      jConfirm('Вы уверены, что хотите сдаться ?', 'Сдаться?', function(is_ok) {
+        if (is_ok) {
+          $('#progress').slideUp();
+          $('#menu').slideDown();
+        }
+      });
+    }
+  }, '#surrender');
+
+//всплывающее сообщение - пропустить ход
+  $(document).on({
+    click: function() {
+      jConfirm('Вы уверены, что хотите пропустить ход ?', 'Пропустить ход?', function(is_ok) {
+        if (is_ok) {
+          $('#progress').slideUp();
+          $('#progress').slideDown();
+        }
+      });
+    }
+  }, '#skip');
+
   //вернуться из настроек игры в главное меню
   $(document).on({
     click: function() {

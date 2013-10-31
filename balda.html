@@ -4,7 +4,11 @@
     <meta charset="utf-8"/>
     <title> Balda </title>
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <link href="css/jquery.alerts.css" rel="stylesheet" type="text/css" media="screen" />
+
     <script type="text/javascript" src="js/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="js/jquery.browser.js"></script>
+    <script type="text/javascript" src="js/jquery.alerts.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
   </head>
   <body lang="ru">
@@ -101,8 +105,8 @@
       </div>
 
       <div style="margin-top: 30%">
-        <button class="control border shadow small text-shadow" style="font: 1.45em Georgia, 'Century Schoolbook L', Serif;">Пропустить ход</button>
-        <button class="control border shadow small text-shadow" style="float: right; font: 1.45em Georgia, 'Century Schoolbook L', Serif; padding-top: 4%; padding-bottom: 4%">Сдаться</button>
+        <button id="skip" class="control border shadow small text-shadow" style="font: 1.45em Georgia, 'Century Schoolbook L', Serif;">Пропустить ход</button>
+        <button id="surrender" class="control border shadow small text-shadow" style="float: right; font: 1.45em Georgia, 'Century Schoolbook L', Serif; padding-top: 4%; padding-bottom: 4%">Сдаться</button>
       </div>
 
     </div>
