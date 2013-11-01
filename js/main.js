@@ -125,7 +125,7 @@ $(function() {
                             }
                             word = word.substring(0, word.length - 1);
                             $('#word').html(word);
-                            $(this).html('<div style="font-size: 3em; text-align: center; background: #ebdaa3">' + $(this).text() + '</div>');
+                            $(this).html('<div style="font-size: 3em; text-align: center; background:#ebdaa3">' + $(this).text() + '</div>');
                             return;
                         } else {
                         //буква входит в слово
@@ -173,7 +173,7 @@ $(function() {
         if(last_change != null) {
             last_change.html ('');
         }
-      last_click.html('<div style="font-size: 3em; text-align: center">' + obj.find('span').html() + '</div>');
+      last_click.html('<div style="font-size: 3em; text-align: center; background: #f8ac1f">' + obj.find('span').html() + '</div>');
       last_click.addClass('');
         last_change = last_click;
       $('#letter').slideUp();
