@@ -51,7 +51,8 @@ $(function() {
                 if(j==3) c='В';
                 if(j==4) c='О';
             }
-            html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"> <div style="font-size: 3em; text-align: center">' + c + '</div> </td>';
+           // html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"> <div style="font-size: 3em; text-align: center;">' + c + '</div> </td>';
+            html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 3em; text-align: center">' + c + '</div></td>';
         }
         html += '</tr>';
       }
@@ -113,20 +114,34 @@ $(function() {
                     var i = $(this).attr('id').charAt(5) * 1;
                     var j = $(this).attr('id').charAt(7) * 1;
                     if (last_cell_i >= 0 && last_cell_j >=0) {
-
+                        if (charList.length > 0 && charList[charList.length-1] == this) {
+                            charList.pop();
+                            if (charList.length == 0) {
+                                last_cell_i = -1;
+                                last_cell_j = -1;
+                            } else {
+                                last_cell_i = $(charList[charList.length-1]).attr('id').charAt(5) * 1;
+                                last_cell_j = $(charList[charList.length-1]).attr('id').charAt(7) * 1;
+                            }
+                            word = word.substring(0, word.length - 1);
+                            $('#word').html(word);
+                            $(this).html('<div style="font-size: 3em; text-align: center; background: #ebdaa3">' + $(this).text() + '</div>');
+                            return;
+                        } else {
                         //буква входит в слово
                         for (var k=0; k < charList.length; k++){
                             if (charList[k] == this) {
                                 return;
                             }
                         }
-
+                        }
                         //лежат на одном столбце
                         if(((i+1 == last_cell_i) || (i-1 == last_cell_i)) &&(j == last_cell_j)){
                             word += $(this).text();
                             last_cell_i = i;
                             last_cell_j = j;
                             charList.push(this);
+                            $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252">' + $(this).text() + '</div>');
                         }
 
                         // лежат на одной строке
@@ -135,6 +150,7 @@ $(function() {
                             last_cell_i = i;
                             last_cell_j = j;
                             charList.push(this);
+                            $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252">' + $(this).text() + '</div>');
                         }
                     }
                     else {
@@ -142,6 +158,7 @@ $(function() {
                         last_cell_i = i;
                         last_cell_j = j;
                         charList.push(this);
+                        $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252">' + $(this).text() + '</div>');
                     }
                 }
                 $('#word').html(word);
