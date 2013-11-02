@@ -86,12 +86,11 @@
         </label>
       </div>
 
-      <button class="control border shadow text text-shadow small" id="start-game">OK</button>
-      <button class="control border shadow text text-shadow small" style="float: right" id="to-main">Назад</button>
+      <button class="control border shadow text text-shadow small" id="to-main">Назад</button>
+      <button class="control border shadow text text-shadow small" style="float: right" id="start-game">ОК</button>
     </div>
 
     <div class="main" id="progress" style="display: none;">
-
       <div>
         <label class="text text-shadow">Игрок 1</label>
         <label class="text text-shadow" style="position: absolute; right: 0;">Игрок 2</label>
@@ -108,7 +107,7 @@
         <button id="skip" class="control border shadow small text-shadow" style="font: 1.45em Georgia, 'Century Schoolbook L', Serif;">Пропустить ход</button>
         <button id="surrender" class="control border shadow small text-shadow" style="float: right; font: 1.45em Georgia, 'Century Schoolbook L', Serif; padding-top: 4%; padding-bottom: 4%">Сдаться</button>
       </div>
-
+      <button id="statist" class="control border shadow small text-shadow" style="float: right; font: 1.45em Georgia, 'Century Schoolbook L', Serif; padding-top: 4%; padding-bottom: 4%">Слова</button>
     </div>
 
     <div class="main" id="letter" style="display: none;">
@@ -231,7 +230,25 @@
           <div class="game-name-text-small text-shadow">2</div> <span>Я</span>
         </div>
       </div>
-
     </div>
+
+    <div class="main" id="statistics" style="display: none;">
+      <div>
+        <label class="text text-shadow">Игрок 1</label>
+        <label class="text text-shadow" style="position: absolute; right: 0;">Игрок 2</label>
+      </div>
+      <div>
+        <textarea class="area" rows="15" cols="12" readonly="readonly" disabled="disabled">
+          dsddsdddddddddddddddddddddddddddddddddddds
+        </textarea>
+        <textarea class="area" rows="15" cols="12" readonly="readonly" disabled="disabled" style="position:absolute; right: 0%">
+          dswwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+        </textarea>
+      </div>
+      <div class="input-group" style="margin-top: 5%">
+        <button id="return" class="control border shadow text text-shadow small" style="padding-left: 3%; padding-right: 3%; margin-left: 27%"> Назад </button>
+      </div>
+    </div>
+
   </body>
 </html>

@@ -69,6 +69,30 @@ $(function() {
     }
   }, '#game-param');
 
+  //вернуться из настроек игры в меню
+  $(document).on({
+    click: function() {
+      $('#param').slideUp();
+      $('#menu').slideDown();
+    }
+  }, '#to-main');
+
+  //переход из игры в окно статитики
+  $(document).on({
+    click: function() {
+      $('#progress').slideUp();
+      $('#statistics').slideDown();
+    }
+  }, '#statist');
+
+  //переход из статистики в окно игры
+  $(document).on({
+    click: function() {
+      $('#statistics').slideUp();
+      $('#progress').slideDown();
+    }
+  }, '#return');
+
   //всплывающее сообщение - сдаться
   $(document).on({
     click: function() {
@@ -92,14 +116,6 @@ $(function() {
       });
     }
   }, '#skip');
-
-  //вернуться из настроек игры в главное меню
-  $(document).on({
-    click: function() {
-      $('#menu').slideUp();
-      $('#param').slideDown();
-    }
-  }, '#to-main');
 
     //переход на форму выбора буквы
     $(document).on({

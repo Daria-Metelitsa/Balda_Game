@@ -26,8 +26,17 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
   width:           1.2em;
 }
 
+.area {
+  background-color: #e8d599;
+  border:           2px outset #f2e6bf;
+  font:             1.5em Georgia, "Century Schoolbook L", Serif;
+  margin-left:      3%;
+  margin-top:       5%;
+  width:            45%;
+}
+
 .border {
-  border: 2px outset #f2e6bf;
+  border: 2px outset #d6963a;
 }
 
 .button {
@@ -187,20 +196,20 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
 }
 
 #popup_ok {
-  cursor:              pointer;
-  font:   2.65em Georgia, "Century Schoolbook L", Serif;
-  color: #000000;
+  cursor:           pointer;
+  font:             2.65em Georgia, "Century Schoolbook L", Serif;
+  color:            #000000;
   background-color: #ead89f;
 }
 
 #popup_container #popup_title {
-  font:   2.65em Georgia, "Century Schoolbook L", Serif;
-  color: #000000;
-  font-weight: normal;
-  text-align: left;
-  background-color: #ead89f;
-  border: solid 1px #d6963a;
-  padding-left: 1em;
+  font:              2.65em Georgia, "Century Schoolbook L", Serif;
+  color:             #000000;
+  font-weight:       normal;
+  text-align:        left;
+  background-color:  #ead89f;
+  border:            solid 1px #d6963a;
+  padding-left:      1em;
 }
 
 #popup_container #popup_content {
@@ -219,7 +228,7 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
 
 #popup_overlay {
   background-color: #000000 !important;
-  opacity: 0.5 !important;
+  opacity:          0.5 !important;
 }
 
 .text {
