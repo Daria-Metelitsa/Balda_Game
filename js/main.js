@@ -157,7 +157,7 @@ $(function() {
                             last_cell_i = i;
                             last_cell_j = j;
                             charList.push(this);
-                            $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252">' + $(this).text() + '</div>');
+                            $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');
                         }
 
                         // лежат на одной строке
@@ -166,7 +166,7 @@ $(function() {
                             last_cell_i = i;
                             last_cell_j = j;
                             charList.push(this);
-                            $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252">' + $(this).text() + '</div>');
+                            $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');
                         }
                     }
                     else {
@@ -174,7 +174,7 @@ $(function() {
                         last_cell_i = i;
                         last_cell_j = j;
                         charList.push(this);
-                        $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252">' + $(this).text() + '</div>');
+                        $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');
                     }
                 }
                 $('#word').html(word);
@@ -189,7 +189,7 @@ $(function() {
         if(last_change != null) {
             last_change.html ('');
         }
-      last_click.html('<div style="font-size: 3em; text-align: center; background: #f8ac1f">' + obj.find('span').html() + '</div>');
+      last_click.html('<div style="font-size: 3em; text-align: center; background: #f8ac1f; height: 100%">' + obj.find('span').html() + '</div>');
       last_click.addClass('');
         last_change = last_click;
       $('#letter').slideUp();
