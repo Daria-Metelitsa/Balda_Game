@@ -30,26 +30,111 @@ $(function() {
     return array_letter_points[letter];
   }
 
+  var string = [];// объявляем массив слов
+  var bukva = [];//массив букв
+  var r;//переменная для выбора случайного слова
+  $.ajax({ url:"BALDAD.txt", success: foo, dataType: "text" }); // заполняем массив слов
+  function foo( text )
+  {
+    string = text.split( /\s+/ );
+    // alert(string);
+  }
+
+  //Целочисленный Random (случайное целое число от a до b включительно)
+  function Random(a,b) {
+    //var r = 0;
+    if (!a && !b) return Math.round(Math.random());
+    if (a && !b) {
+      b=a;
+      a=0;
+    }
+    if (a > b)
+    {
+      r = Math.floor(b+Math.random()*(a-b+1));
+    }
+    else
+    { r = Math.floor(a+Math.random()*(b-a+1));}
+    return r;
+  }
+
+  //функция добавления начального слова
+  function AddFirstWord(size)
+  {
+    var word;// слово
+    var cc = 0;
+    do
+    {
+      Random(0,5996);
+      word = string[r];
+      bukva=word.split('');
+      //alert(bukva);
+      if (bukva.length==size)
+      {
+        cc=1;
+      }
+    }while( cc == 0);
+    return bukva;
+  }
+
+  //поиск слова в словаре
+  function Poisk(slovo)
+  {
+    var str1 = slovo.split('');
+    var s =str1.length;
+    //alert(str1);
+    var str2;
+    var i=0;
+    // var c=0;
+    var ff = false;
+    do{
+      var c=0;
+      str2=string[i].split('');
+      //alert(str2);
+      if(s==str2.length)
+      {
+        for(var j=0; j<s; j++)
+        {
+          if(str1[j]==str2[j])
+          {
+            c=c+1;
+          }
+        }
+        if(c==s){ ff=true; //alert(c);
+        }
+        else { i=i+1; }
+      }
+      else { i=i+1;}
+      //alert(c);
+    }while((i<5996) && (ff==false));
+    /*if(ff==true)
+    {
+      alert (slovo);
+    }*/
+  }
+
   //переход на страницу игрового процесса и генерация поля произвольного размера
   $(document).on({
     click: function() {
       var field_size = $('input[name="field-size"]:checked').attr('data-field-size');
       var html       = '';
 
+      AddFirstWord(field_size);
+      // var f= "РАНЬ";
+      //Poisk(f);
+      // alert (string);
       $('#param').slideUp();
       $('#progress').slideDown(500);
 
       for (var i = 0; i < field_size; i++) {
         html += '<tr>';
         for (var j = 0; j < field_size; j++) {
-            //пока нет слова из словаря для примера
-            var c='';
-            if(i==2){
-                if(j==0) c='С';
-                if(j==1) c='Л';
-                if(j==2) c='О';
-                if(j==3) c='В';
-                if(j==4) c='О';
+          var c = '';
+          if(i==2){
+            if(j==0) c=bukva[0];
+            if(j==1) c=bukva[1];
+            if(j==2) c=bukva[2];
+            if(j==3) c=bukva[3];
+            if(j==4) c=bukva[4];
             }
            // html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"> <div style="font-size: 3em; text-align: center;">' + c + '</div> </td>';
             html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 3em; text-align: center">' + c + '</div></td>';
@@ -90,7 +175,8 @@ $(function() {
     click: function() {
       $('#statistics').slideUp();
       $('#progress').slideDown();
-    }
+        for (var i =0; i< Player1.length; i++)document.write(Player1.list[i] + "<br />");
+            }
   }, '#return');
 
   //всплывающее сообщение - сдаться
