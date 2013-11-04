@@ -180,6 +180,12 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
   width:          90%;
 }
 
+.player-active {
+  text-shadow:         2px 2px 3px white;
+  -moz-text-shadow:    2px 2px 3px white;
+  -webkit-text-shadow: 2px 2px 3px white;
+}
+
 #popup_container {
   font-family: Georgia, serif;
   color: #ead89f;

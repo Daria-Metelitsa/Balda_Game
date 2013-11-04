@@ -1,17 +1,8 @@
-﻿function Player (name, count, state, word, list, total) {
-	this.name = name; // имя игрока
-	this.count = count; // счет за текущее слово
-	this.state = true; // переменная отвечает за активность игрока
-	this.word = word; // текущее слово
-	this.list = list; // весь массив слов
-	this.total = total; // общая сумма баллов
+﻿var ClassPlayer = function (name) {
+	this.name  = name; // имя игрока
+	this.list  = []; // весь массив слов
+	this.total = 0; // общая сумма баллов
 }
-
-
-// создать игроков
-var Player1;
-Player1 = new Player(name1, 0, true, "", ["пинок", "слово", "парад", "горан"], 0);
-var Player2 = new Player (name2, 0, false, "", [], 0);
 
 // функция пропуска хода
 function Pass (state1, state2) {
@@ -44,7 +35,7 @@ function Change (player1, player2) {
 		player2.state = true;
 	}
 	if(player2.state == true)
-	
+  {
 		player2.list[list.length] = player2.word;
 		player2.total = player2.total + count; 
 		player2.state = false;

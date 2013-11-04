@@ -17,10 +17,13 @@ $(function() {
   };
 
   //последний объект, на котором был произведен клик
+  var active_player = 1; // какой игрок в текущий момент активен
   var last_click = null;
   var last_change = null;
   var last_cell_i = -1;
   var last_cell_j = -1;
+  var player1; // хранится объект первого игрока
+  var player2; // хранится объект второго игрока
   var input_mode = 'input_char';
   var word = "";
   var charList = [];
@@ -34,8 +37,7 @@ $(function() {
   var bukva = [];//массив букв
   var r;//переменная для выбора случайного слова
   $.ajax({ url:"BALDAD.txt", success: foo, dataType: "text" }); // заполняем массив слов
-  function foo( text )
-  {
+  function foo( text ) {
     string = text.split( /\s+/ );
     // alert(string);
   }
@@ -125,22 +127,23 @@ $(function() {
       $('#param').slideUp();
       $('#progress').slideDown(500);
 
+      var center = Math.floor(field_size/2);
       for (var i = 0; i < field_size; i++) {
         html += '<tr>';
         for (var j = 0; j < field_size; j++) {
-          var c = '';
-          if(i==2){
-            if(j==0) c=bukva[0];
-            if(j==1) c=bukva[1];
-            if(j==2) c=bukva[2];
-            if(j==3) c=bukva[3];
-            if(j==4) c=bukva[4];
-            }
-           // html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"> <div style="font-size: 3em; text-align: center;">' + c + '</div> </td>';
-            html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 3em; text-align: center">' + c + '</div></td>';
+          html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 3em; text-align: center">' + ( center == i ? bukva[j] : '') + '</div></td>';
         }
         html += '</tr>';
       }
+
+      // инициализируем игроков
+      var name = $('#player-1').val();
+      player1 = new ClassPlayer(name.length ? name : 'Игрок 1');
+      name = $('#player-2').val();
+      player2 = new ClassPlayer(name.length ? name : 'Игрок 2');
+
+      $('#progress-player-1').html(player1.name).addClass('player-active').removeClass('text-shadow');
+      $('#progress-player-2').html(player2.name).addClass('text-disabled');
 
       $('#game-field').html(html);
     }
@@ -196,8 +199,8 @@ $(function() {
     click: function() {
       jConfirm('Вы уверены, что хотите пропустить ход ?', 'Пропустить ход?', function(is_ok) {
         if (is_ok) {
-          $('#progress').slideUp();
-          $('#progress').slideDown();
+          //$('#progress').slideUp();
+         // $('#progress').slideDown();
         }
       });
     }
