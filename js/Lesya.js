@@ -23,7 +23,7 @@ function Change (player1, player2) {
 		//проверяем не занято ли слово 
 		
 		//высчитываем count
-		
+
 	if(player1.state == true)
 	{
 		//добавить слово в общий массив слов
@@ -44,6 +44,7 @@ function Change (player1, player2) {
 }
 // функция поиска, будем использовать как для поиска слова в массиве уже существующих слов
 // так и для поиска слова в словаре
+
 function find(array, value) 
 {
 	for(var i=0; i<array.length; i++) 

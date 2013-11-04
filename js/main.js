@@ -27,6 +27,7 @@ $(function() {
   var input_mode = 'input_char';
   var word = "";
   var charList = [];
+  var input_char = null;
 
   //получить очки за букву
   function getLetterPoints(letter){
@@ -211,6 +212,7 @@ $(function() {
         click: function() {
             if (input_mode == 'input_char') {
                 last_click = $(this);
+                input_char = this;
                 $('#progress').slideUp();
                 $('#letter').slideDown();
                 input_mode = 'input_word';
@@ -285,4 +287,27 @@ $(function() {
       $('#progress').slideDown();
     }
   }, '.letter');
+
+    // проверить вхождение добавленной буквы в слово
+    function checkInputCharInWord() {
+        for (var i = 0; i < charList.length; i++) {
+            if (charList[i] == input_char) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // нажатие на кнопку "OK"
+    $(document).on({
+        click: function() {
+            if (checkInputCharInWord()) {
+                alert(word);
+                // currentPlayer.addWord(word);
+                // nextPlayer();
+            } else {
+                alert("Слово не содержит букву");
+            }
+        }
+    }, '#send-word');
 })
