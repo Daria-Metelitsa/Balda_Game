@@ -30,6 +30,16 @@ $(function() {
     return array_letter_points[letter];
   }
 
+  var string = [];// объявляем массив слов
+  var bukva = [];//массив букв
+  var r;//переменная для выбора случайного слова
+  $.ajax({ url:"BALDAD.txt", success: foo, dataType: "text" }); // делаем запрос
+  function foo( text )
+  {
+    string = text.split( /\s+/ );
+    // alert(string);
+  }
+
   //переход на страницу игрового процесса и генерация поля произвольного размера
   $(document).on({
     click: function() {
