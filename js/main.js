@@ -57,26 +57,48 @@ $(function() {
     return r;
   }
 
+  //функция добавления начального слова
+  function AddFirstWord(size)
+  {
+    var word;// слово
+    var cc = 0;
+    do
+    {
+      Random(0,5996);
+      word = string[r];
+      bukva=word.split('');
+      //alert(bukva);
+      if (bukva.length==size)
+      {
+        cc=1;
+      }
+    }while( cc == 0);
+    return bukva;
+  }
+
   //переход на страницу игрового процесса и генерация поля произвольного размера
   $(document).on({
     click: function() {
       var field_size = $('input[name="field-size"]:checked').attr('data-field-size');
       var html       = '';
 
+      AddFirstWord(field_size);
+      // var f= "РАНЬ";
+      //Poisk(f);
+      // alert (string);
       $('#param').slideUp();
       $('#progress').slideDown(500);
 
       for (var i = 0; i < field_size; i++) {
         html += '<tr>';
         for (var j = 0; j < field_size; j++) {
-            //пока нет слова из словаря для примера
-            var c='';
-            if(i==2){
-                if(j==0) c='С';
-                if(j==1) c='Л';
-                if(j==2) c='О';
-                if(j==3) c='В';
-                if(j==4) c='О';
+          var c = '';
+          if(i==2){
+            if(j==0) c=bukva[0];
+            if(j==1) c=bukva[1];
+            if(j==2) c=bukva[2];
+            if(j==3) c=bukva[3];
+            if(j==4) c=bukva[4];
             }
            // html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"> <div style="font-size: 3em; text-align: center;">' + c + '</div> </td>';
             html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 3em; text-align: center">' + c + '</div></td>';
