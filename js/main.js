@@ -90,7 +90,8 @@ $(function() {
     click: function() {
       $('#statistics').slideUp();
       $('#progress').slideDown();
-    }
+        for (var i =0; i< Player1.length; i++)document.write(Player1.list[i] + "<br />");
+            }
   }, '#return');
 
   //всплывающее сообщение - сдаться

@@ -9,7 +9,8 @@
 
 
 // создать игроков
-var Player1 = new Player (name1, 0, true, "", [], 0);
+var Player1;
+Player1 = new Player(name1, 0, true, "", ["пинок", "слово", "парад", "горан"], 0);
 var Player2 = new Player (name2, 0, false, "", [], 0);
 
 // функция пропуска хода
