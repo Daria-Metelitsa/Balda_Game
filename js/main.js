@@ -33,11 +33,28 @@ $(function() {
   var string = [];// объявляем массив слов
   var bukva = [];//массив букв
   var r;//переменная для выбора случайного слова
-  $.ajax({ url:"BALDAD.txt", success: foo, dataType: "text" }); // делаем запрос
+  $.ajax({ url:"BALDAD.txt", success: foo, dataType: "text" }); // заполняем массив слов
   function foo( text )
   {
     string = text.split( /\s+/ );
     // alert(string);
+  }
+
+  //Целочисленный Random (случайное целое число от a до b включительно)
+  function Random(a,b) {
+    //var r = 0;
+    if (!a && !b) return Math.round(Math.random());
+    if (a && !b) {
+      b=a;
+      a=0;
+    }
+    if (a > b)
+    {
+      r = Math.floor(b+Math.random()*(a-b+1));
+    }
+    else
+    { r = Math.floor(a+Math.random()*(b-a+1));}
+    return r;
   }
 
   //переход на страницу игрового процесса и генерация поля произвольного размера
