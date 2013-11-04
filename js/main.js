@@ -76,6 +76,42 @@ $(function() {
     return bukva;
   }
 
+  //поиск слова в словаре
+  function Poisk(slovo)
+  {
+    var str1 = slovo.split('');
+    var s =str1.length;
+    //alert(str1);
+    var str2;
+    var i=0;
+    // var c=0;
+    var ff = false;
+    do{
+      var c=0;
+      str2=string[i].split('');
+      //alert(str2);
+      if(s==str2.length)
+      {
+        for(var j=0; j<s; j++)
+        {
+          if(str1[j]==str2[j])
+          {
+            c=c+1;
+          }
+        }
+        if(c==s){ ff=true; //alert(c);
+        }
+        else { i=i+1; }
+      }
+      else { i=i+1;}
+      //alert(c);
+    }while((i<5996) && (ff==false));
+    /*if(ff==true)
+    {
+      alert (slovo);
+    }*/
+  }
+
   //переход на страницу игрового процесса и генерация поля произвольного размера
   $(document).on({
     click: function() {
