@@ -120,6 +120,7 @@ $(function() {
     click: function() {
       var field_size = $('input[name="field-size"]:checked').attr('data-field-size');
       var html       = '';
+        $('#word').html("Введите букву");
 
       AddFirstWord(field_size);
       // var f= "РАНЬ";
@@ -140,11 +141,11 @@ $(function() {
       // инициализируем игроков
       var name = $('#player-1').val();
       player1 = new ClassPlayer(name.length ? name : 'Игрок 1', true, [], 0);
-        player1.list = ["слово"];
+       // player1.list = ["слово"];
 
       name = $('#player-2').val();
       player2 = new ClassPlayer(name.length ? name : 'Игрок 2', false, [], 0);
-        player2.list = ["словарик"];
+      //  player2.list = ["словарик"];
 
       $('#progress-player-1').html(player1.name).addClass('player-active').removeClass('text-shadow');
       $('#progress-player-2').html(player2.name).addClass('text-disabled');
@@ -244,7 +245,7 @@ $(function() {
                 input_char = this;
                 $('#progress').slideUp();
                 $('#letter').slideDown();
-                input_mode = 'input_word';
+              //  input_mode = 'input_word';
             } else if (input_mode == 'input_word'){
                 if($(this).text() != '') {
                     var i = $(this).attr('id').charAt(5) * 1;
@@ -303,19 +304,19 @@ $(function() {
     }, '.cell');
 
   //переход обратно на форму с игрой (из формы выбора буквы)
-  $(document).on({
-    click: function() {
-      var obj = $(this);
-        if(last_change != null) {
-            last_change.html ('');
+    $(document).on({
+        click: function() {
+            var obj = $(this);
+            if(last_change != null) {
+                last_change.html ('');
+            }
+            last_click.html('<div style="font-size: 3em; text-align: center; background: #f8ac1f; height: 100%">' + obj.find('span').html() + '</div>');
+            last_click.addClass('');
+            last_change = last_click;
+            $('#letter').slideUp();
+            $('#progress').slideDown();
         }
-      last_click.html('<div style="font-size: 3em; text-align: center; background: #f8ac1f; height: 100%">' + obj.find('span').html() + '</div>');
-      last_click.addClass('');
-        last_change = last_click;
-      $('#letter').slideUp();
-      $('#progress').slideDown();
-    }
-  }, '.letter');
+    }, '.letter');
 
     // проверить вхождение добавленной буквы в слово
     function checkInputCharInWord() {
@@ -330,15 +331,54 @@ $(function() {
     // нажатие на кнопку "OK"
     $(document).on({
         click: function() {
-            if (checkInputCharInWord()) {
-                alert(word);
-                // currentPlayer.addWord(word);
-                // nextPlayer();
+            if (input_mode == 'input_char') {
+                input_mode = 'input_word';
+                $('#word').html("Ваше слово");
             } else {
-                alert("Слово не содержит букву");
+                if (charList.length <= 1) {
+                    alert("Размер слова должен быть минимум 2 буквы!");
+                    return;
+                }
+                // добавить проверку на наличие слова в словаре
+
+                if (!checkInputCharInWord()) {
+                    alert("Слово не содержит добавленную букву!");
+                    return;
+                }
+                nextPlayer();
+                word = "";
+                for (var i = 0; i < charList.length; i++) {
+                    $(charList[i]).html('<div style="font-size: 3em; text-align: center; background:#ebdaa3">' + $(charList[i]).text() + '</div>');
+                }
+                charList = [];
+                input_char = null;
+                last_change = null;
+                last_cell_i = -1;
+                last_cell_j = -1;
+                input_mode = 'input_char';
+                $('#word').html(word);
+                $('#word').html("Введите букву");
+               /// nextPlayer();
             }
         }
     }, '#send-word');
+
+    function nextPlayer() {
+        if(player1.state==true){
+        player2.state= true;
+        player1.state=false;
+            player1.list =[word];
+            $('#progress-player-2').html(player2.name).addClass('player-active').removeClass('text-shadow');
+            $('#progress-player-1').html(player1.name).addClass('text-disabled');
+        } else {
+        player1.state= true;
+        player2.state=false;
+            player2.list = [word];
+            $('#progress-player-1').html(player1.name).addClass('player-active').removeClass('text-shadow');
+            $('#progress-player-2').html(player2.name).addClass('text-disabled');
+        }
+    }
+
     //функция подсчета общего количества букв
     function genCount1 (){
         for (var i =0; i<player1.list.length; i++)
