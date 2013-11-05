@@ -300,6 +300,7 @@ $(function() {
                     }
                 }
                 $('#word').html(word);
+                $('#send-word').removeClass('text-disabled ');
             }
         }
     }, '.cell');
@@ -314,6 +315,7 @@ $(function() {
             last_click.html('<div style="font-size: 3em; text-align: center; background: #f8ac1f; height: 100%">' + obj.find('span').html() + '</div>');
             last_click.addClass('');
             last_change = last_click;
+            $('#send-word').removeClass('text-disabled ');
             $('#letter').slideUp();
             $('#progress').slideDown();
         }
@@ -332,12 +334,10 @@ $(function() {
     // нажатие на кнопку "OK"
     $(document).on({
         click: function() {
+            $('#send-word').addClass('text-disabled ');
             if (input_mode == 'input_char') {
                 input_mode = 'input_word';
                 $('#word').html("Ваше слово");
-             //   $('#send-word').removeClass('text-disabled ');
-               // <div id="send-word" class="button control"> … </div>
-               // <div id="send-word" class="button control text-disabled"> … </div>
             } else {
                 if (charList.length <= 1) {
                     alert("Размер слова должен быть минимум 2 буквы!");
