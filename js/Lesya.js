@@ -1,7 +1,8 @@
-﻿var ClassPlayer = function (name) {
+﻿var ClassPlayer = function (name, state, list, total) {
 	this.name  = name; // имя игрока
 	this.list  = []; // весь массив слов
 	this.total = 0; // общая сумма баллов
+    this.state = true; // активность игрока
 }
 
 // функция пропуска хода

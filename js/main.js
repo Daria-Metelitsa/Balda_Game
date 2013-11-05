@@ -37,7 +37,7 @@ $(function() {
   var string = [];// объявляем массив слов
   var bukva = [];//массив букв
   var r;//переменная для выбора случайного слова
-  $.ajax({ url:"BALDAD.txt", success: foo, dataType: "text" }); // заполняем массив слов
+  $.ajax({ url:"BALDAD.html", success: foo, dataType: "text" }); // заполняем массив слов
   function foo( text ) {
     string = text.split( /\s+/ );
     // alert(string);
@@ -139,9 +139,12 @@ $(function() {
 
       // инициализируем игроков
       var name = $('#player-1').val();
-      player1 = new ClassPlayer(name.length ? name : 'Игрок 1');
+      player1 = new ClassPlayer(name.length ? name : 'Игрок 1', true, [], 0);
+        player1.list = ["слово"];
+
       name = $('#player-2').val();
-      player2 = new ClassPlayer(name.length ? name : 'Игрок 2');
+      player2 = new ClassPlayer(name.length ? name : 'Игрок 2', false, [], 0);
+        player2.list = ["словарик"];
 
       $('#progress-player-1').html(player1.name).addClass('player-active').removeClass('text-shadow');
       $('#progress-player-2').html(player2.name).addClass('text-disabled');
@@ -169,28 +172,54 @@ $(function() {
   //переход из игры в окно статитики
   $(document).on({
     click: function() {
-      $('#progress').slideUp();
-      $('#statistics').slideDown();
+        /*var text = document.getElementById("#text1");
+        for (var i = 0 ; i < player1.list.length; i++)
+        {
+            text.innerHTML(player1.list[i]);
+        }
+        */
+        jAlert (player1.name + ": "+ player1.list+ ";"+"<br />"+player2.name + ": "+ player2.list+ ";"+"<br />" ,player1.name + " "+genCount1() + " очков, " +player2.name + " "+genCount2() + " очков");
+        //
+      $('#statistics').slideUp();
+      $('#progress').slideDown();
+
     }
   }, '#statist');
 
-  //переход из статистики в окно игры
-  $(document).on({
-    click: function() {
-      $('#statistics').slideUp();
-      $('#progress').slideDown();
-        for (var i =0; i< Player1.length; i++)document.write(Player1.list[i] + "<br />");
-            }
-  }, '#return');
+    //Реализация функции сдаться
+    function GameOver () {
+        if(player1.state == true)
+        {
+            genCount2();
+            jAlert (player2.name + " победил со счетом " + player2.total, 'ПОБЕДА!!!');
+            player1.list=[];
+            player1.total=0;
 
+            player2.list=[];
+            player2.total=0;
+        }
+        else
+        {
+            genCount1();
+            jAlert (player1.name + " победил со счетом " + player1.total, 'ПОБЕДА!!!');
+
+            player1.list=[];
+            player1.total=0;
+
+            player2.list=[];
+            player2.total=0;
+        }
+    }
   //всплывающее сообщение - сдаться
   $(document).on({
     click: function() {
       jConfirm('Вы уверены, что хотите сдаться ?', 'Сдаться?', function(is_ok) {
-        if (is_ok) {
-          $('#progress').slideUp();
-          $('#menu').slideDown();
-        }
+          if (is_ok) {
+              GameOver();
+              $('#progress').slideUp();
+              $('#menu').slideDown();
+
+          }
       });
     }
   }, '#surrender');
@@ -310,4 +339,20 @@ $(function() {
             }
         }
     }, '#send-word');
+    //функция подсчета общего количества букв
+    function genCount1 (){
+        for (var i =0; i<player1.list.length; i++)
+        {
+            player1.total =player1.total + player1.list[i].length;
+        }
+        return player1.total;
+    }
+    function genCount2 (){
+        for (var i =0; i< player2.list.length; i++)
+        {
+            player2.total =player2.total + player2.list[i].length;
+        }
+        return player2.total;
+    }
+
 })
