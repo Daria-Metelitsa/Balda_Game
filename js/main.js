@@ -334,6 +334,9 @@ $(function() {
             if (input_mode == 'input_char') {
                 input_mode = 'input_word';
                 $('#word').html("Ваше слово");
+             //   $('#send-word').removeClass('text-disabled ');
+               // <div id="send-word" class="button control"> … </div>
+               // <div id="send-word" class="button control text-disabled"> … </div>
             } else {
                 if (charList.length <= 1) {
                     alert("Размер слова должен быть минимум 2 буквы!");
@@ -345,6 +348,8 @@ $(function() {
                     alert("Слово не содержит добавленную букву!");
                     return;
                 }
+               // $('#progress-send-word').removeClass('text-disabled ');
+              //  <div id="send-word" class="button control text-active"> … </div>
                 nextPlayer();
                 word = "";
                 for (var i = 0; i < charList.length; i++) {
@@ -367,14 +372,14 @@ $(function() {
         if(player1.state==true){
         player2.state= true;
         player1.state=false;
-            player1.list =[word];
-            $('#progress-player-2').html(player2.name).addClass('player-active').removeClass('text-shadow');
+            player1.list.push(word);
+            $('#progress-player-2').html(player2.name).addClass('player-active').removeClass('text-disabled');
             $('#progress-player-1').html(player1.name).addClass('text-disabled');
         } else {
         player1.state= true;
         player2.state=false;
-            player2.list = [word];
-            $('#progress-player-1').html(player1.name).addClass('player-active').removeClass('text-shadow');
+            player2.list.push(word);
+            $('#progress-player-1').html(player1.name).addClass('player-active').removeClass('text-disabled');
             $('#progress-player-2').html(player2.name).addClass('text-disabled');
         }
     }
