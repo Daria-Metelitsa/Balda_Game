@@ -109,6 +109,7 @@ $(function() {
       else { i=i+1;}
       //alert(c);
     }while((i<5996) && (ff==false));
+      return ff;
     /*if(ff==true)
     {
       alert (slovo);
@@ -343,13 +344,11 @@ $(function() {
                     return;
                 }
                 // добавить проверку на наличие слова в словаре
-
-                if (!checkInputCharInWord()) {
+                if(Poisk(word)==true){
+                    if (!checkInputCharInWord()) {
                     alert("Слово не содержит добавленную букву!");
                     return;
                 }
-               // $('#progress-send-word').removeClass('text-disabled ');
-              //  <div id="send-word" class="button control text-active"> … </div>
                 nextPlayer();
                 word = "";
                 for (var i = 0; i < charList.length; i++) {
@@ -362,7 +361,10 @@ $(function() {
                 last_cell_j = -1;
                 input_mode = 'input_char';
                 $('#word').html(word);
-                $('#word').html("Введите букву");
+                $('#word').html("Введите букву");}
+                else {
+                    alert("Слово не содержится в словаре!");
+                    return;}
                /// nextPlayer();
             }
         }
