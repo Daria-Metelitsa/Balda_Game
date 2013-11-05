@@ -312,7 +312,7 @@ $(function() {
             if(last_change != null) {
                 last_change.html ('');
             }
-            last_click.html('<div style="font-size: 3em; text-align: center; background: #f8ac1f; height: 100%">' + obj.find('span').html() + '</div>');
+            last_click.html('<div style="font-size: 3em; text-align: center;  background: #fba82b; height: 100%">' + obj.find('span').html() + '</div>');
             last_click.addClass('');
             last_change = last_click;
             $('#send-word').removeClass('text-disabled ');
@@ -340,13 +340,15 @@ $(function() {
                 $('#word').html("Ваше слово");
             } else {
                 if (charList.length <= 1) {
-                    alert("Размер слова должен быть минимум 2 буквы!");
+                   // alert("Размер слова должен быть минимум 2 буквы!");
+                    jConfirm('Размер слова должен быть минимум 2 буквы!', 'Недопустимый размер слова!');
                     return;
                 }
                 // добавить проверку на наличие слова в словаре
                 if(Poisk(word)==true){
                     if (!checkInputCharInWord()) {
-                    alert("Слово не содержит добавленную букву!");
+                   // alert("Слово не содержит добавленную букву!");
+                        jConfirm('Выберите слово с учетом добавленной буквы!', 'Слово не содержит добавленную букву!');
                     return;
                 }
                 nextPlayer();
@@ -363,9 +365,9 @@ $(function() {
                 $('#word').html(word);
                 $('#word').html("Введите букву");}
                 else {
-                    alert("Слово не содержится в словаре!");
+                  //  alert("Слово не содержится в словаре!");
+                    jConfirm('Проверьте правильность выбранного слова!', 'Слово не содержится в словаре!');
                     return;}
-               /// nextPlayer();
             }
         }
     }, '#send-word');
