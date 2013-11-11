@@ -242,13 +242,17 @@ $(function() {
     $(document).on({
         click: function() {
             if (input_mode == 'input_char') {
+                // пропускаем заполненые
+                if ($(this).text() != '' && this != input_char) {
+                    return;
+                }
                 last_click = $(this);
                 input_char = this;
                 $('#progress').slideUp();
                 $('#letter').slideDown();
               //  input_mode = 'input_word';
             } else if (input_mode == 'input_word'){
-                if($(this).text() != '') {
+                    if($(this).text() != '') {
                     var i = $(this).attr('id').charAt(5) * 1;
                     var j = $(this).attr('id').charAt(7) * 1;
                     if (last_cell_i >= 0 && last_cell_j >=0) {
