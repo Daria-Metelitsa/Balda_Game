@@ -28,6 +28,7 @@ $(function() {
   var word = "";
   var charList = [];
   var input_char = null;
+  var field_size = 0; //размер поля
 
   //получить очки за букву
   function getLetterPoints(letter){
@@ -128,10 +129,23 @@ $(function() {
                         || (j < field_size-1 && $('#cell-' + i + '-' + (j+1)).text() != '')) {
                         $('#cell-' + i + '-' + j).html('<div style="font-size: 3em; text-align: center; background: #ebdaa3; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
                     } else {
-                        $('#cell-' + i + '-' + j).html('<div style="font-size: 3em; text-align: center; background: #ffffff; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                        $('#cell-' + i + '-' + j).html('<div style="font-size: 3em; text-align: center; opacity: 0.5; background: #996633; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                    }
+                }else {
+                    if (last_change.attr('id').charAt(5) * 1 == i && last_change.attr('id').charAt(7) * 1 == j) {
+                        $('#cell-' + i + '-' + j).html('<div style="font-size: 3em; text-align: center; background: #fba82b; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                        continue;
+                    }
+                    // пропускаем не соприкасающиеся с заполнеными (прошлая введеная не в счет)
+                    if  ((i > 0 && $('#cell-' + (i-1) + '-' + j).text() != '' && (last_change.attr('id').charAt(5) * 1 != (i-1) || last_change.attr('id').charAt(7) * 1 != j))
+                        || (j > 0 && $('#cell-' + i + '-' + (j-1)).text() != '' && (last_change.attr('id').charAt(5) * 1 != i || last_change.attr('id').charAt(7) * 1 != (j-1)))
+                        || (i < field_size-1 && $('#cell-' + (i+1) + '-' + j).text() != '' && (last_change.attr('id').charAt(5) * 1 != (i+1) || last_change.attr('id').charAt(7) * 1 != j))
+                        || (j < field_size-1 && $('#cell-' + i + '-' + (j+1)).text() != '' && (last_change.attr('id').charAt(5) * 1 != i || last_change.attr('id').charAt(7) * 1 != (j+1)))) {
+                        $('#cell-' + i + '-' + j).html('<div style="font-size: 3em; text-align: center; background: #ebdaa3; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                    } else {
+                        $('#cell-' + i + '-' + j).html('<div style="font-size: 3em; text-align: center; opacity: 0.5; background: #996633; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
                     }
                 }
-
             }
         }
     }
@@ -139,7 +153,7 @@ $(function() {
   //переход на страницу игрового процесса и генерация поля произвольного размера
   $(document).on({
     click: function() {
-      var field_size = $('input[name="field-size"]:checked').attr('data-field-size');
+      field_size = $('input[name="field-size"]:checked').attr('data-field-size');
       var html       = '';
         $('#word').html("Введите букву");
 
@@ -172,6 +186,7 @@ $(function() {
       $('#progress-player-2').html(player2.name).addClass('text-disabled');
 
       $('#game-field').html(html);
+        drawBlocked();
     }
   }, '#start-game');
 
@@ -277,6 +292,8 @@ $(function() {
     //переход на форму выбора буквы
     $(document).on({
         click: function() {
+            var i = $(this).attr('id').charAt(5) * 1;
+            var j = $(this).attr('id').charAt(7) * 1;
             if (input_mode == 'input_char') {
                 // пропускаем заполненые
                 if ($(this).text() != '' && this != input_char) {
@@ -376,7 +393,7 @@ $(function() {
             if(last_change != null) {
                 last_change.html ('');
             }
-            last_click.html('<div style="font-size: 4em; text-align: center;  background: #fba82b; height: 100%">' + obj.find('span').html() + '</div>');
+            last_click.html('<div style="font-size: 3em; text-align: center;  background: #fba82b; height: 100%">' + obj.find('span').html() + '</div>');
             last_click.addClass('');
             last_change = last_click;
             $('#send-word').removeClass('text-disabled ');
@@ -433,6 +450,7 @@ $(function() {
                     jAlert('Проверьте правильность выбранного слова!', 'Слово не содержится в словаре!');
                     return;}
             }
+            drawBlocked();
         }
     }, '#send-word');
 
