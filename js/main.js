@@ -183,6 +183,22 @@ $(function() {
     }
   }, '#game-param');
 
+  //переход из меню в справку
+  $(document).on({
+    click: function() {
+      $('#menu').slideUp();
+      $('#info').slideDown();
+    }
+  }, '#reference');
+
+  //переход из справки в меню
+  $(document).on({
+    click: function() {
+      $('#info').slideUp();
+      $('#menu').slideDown();
+    }
+  }, '#backfrominfo');
+
   //вернуться из настроек игры в меню
   $(document).on({
     click: function() {
@@ -413,8 +429,8 @@ $(function() {
                 $('#word').html(word);
                 $('#word').html("Введите букву");}
                 else {
-                  //  alert("Слово не содержится в словаре!");
-                    jConfirm('Проверьте правильность выбранного слова!', 'Слово не содержится в словаре!');
+                  //alert("Слово не содержится в словаре!");
+                    jAlert('Проверьте правильность выбранного слова!', 'Слово не содержится в словаре!');
                     return;}
             }
         }
