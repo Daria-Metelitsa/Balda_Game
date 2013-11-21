@@ -92,6 +92,7 @@
     </div>
 
     <div class="main" id="progress" style="display: none;">
+      <button id="pause" class="control border shadow" style="background: url(img/pause.jpg) no-repeat; background-size: cover; height: 40px;margin-left: 90%; width: 40px"></button>
       <div>
         <label id="progress-player-1" class="text text-shadow"></label>
         <label id="progress-player-2" class="text text-shadow" style="position: absolute; right: 0;"></label>
@@ -108,7 +109,9 @@
         <button id="skip" class="control border shadow small text-shadow" style="font: 1.45em Georgia, 'Century Schoolbook L', Serif;">Пропустить ход</button>
         <button id="surrender" class="control border shadow small text-shadow" style="float: right; font: 1.45em Georgia, 'Century Schoolbook L', Serif; padding-top: 4%; padding-bottom: 4%">Сдаться</button>
       </div>
-      <button id="statist" class="control border shadow small text-shadow" style="float: right; font: 1.45em Georgia, 'Century Schoolbook L', Serif; padding-top: 4%; padding-bottom: 4%">Слова</button>
+      <button id="statist" class="control border shadow small text-shadow" style="font: 1.45em Georgia, 'Century Schoolbook L', Serif; padding-top: 4%; padding-bottom: 4%">Слова</button>
+      <button id="setting_game" class="control border shadow small text-shadow" style="float: right; font: 1.45em Georgia, 'Century Schoolbook L', Serif; padding-top: 4%; padding-bottom: 4%">Настройки</button>
+
     </div>
 
     <div class="main" id="letter" style="display: none;">
@@ -251,12 +254,12 @@
     <div class="main" id="setting" style="display: none">
       <p class="text text-shadow">Фон</p>
       <div style="height: 250px">
-        <div class="picture" style="background: url(img/background/1.jpg) no-repeat; background-size: cover"></div>
-        <div class="picture" style="background: url(img/background/2.jpg) no-repeat; background-size: cover"></div>
-        <div class="picture" style="background: url(img/background/3.jpg) no-repeat; background-size: cover"></div>
-        <div class="picture" style="background: url(img/background/4.jpg) no-repeat; background-size: cover"></div>
-        <div class="picture" style="background: url(img/background/5.jpg) no-repeat; background-size: cover"></div>
-        <div class="picture" style="background: url(img/background/6.jpg) no-repeat; background-size: cover"></div>
+        <div class="picture" style="background: url(img/background/1.jpg) repeat;"></div>
+        <div class="picture" style="background: url(img/background/2.jpg) repeat;"></div>
+        <div class="picture" style="background: url(img/background/3.jpg) repeat;"></div>
+        <div class="picture" style="background: url(img/background/4.jpg) repeat;"></div>
+        <div class="picture" style="background: url(img/background/5.jpg) repeat;"></div>
+        <div class="picture" style="background: url(img/background/6.jpg) repeat;"></div>
       </div>
 
       <p class="text text-shadow">Звук</p>
@@ -312,11 +315,10 @@
         </div>
       </div>
 
-      <button class="control border shadow text text-shadow small" id="backfromsettingNext">Назад</button>
-      <button class="control border shadow text text-shadow small" style="float: right" id="backfromsettingOK">ОК</button>
+      <button class="control border shadow text text-shadow small" style="margin-left: 30%" id="backfromsettingOK">ОК</button>
     </div>
 
-
+    
     <div class="main" id="info" style="display: none;">
       <div>
         <p class="text text-shadow" style="text-align: center">Справка</p>

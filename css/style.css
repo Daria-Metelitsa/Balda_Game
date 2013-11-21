@@ -181,6 +181,7 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
 }
 
 .picture {
+  background-size: cover !important;
   border: 2px solid #d6963a;
   height: 100px;
   float: left;

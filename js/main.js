@@ -189,16 +189,32 @@ $(function() {
   //переход из игры в окно параметров игры
   $(document).on({
     click: function() {
+      last_click = $(this);
       $('#menu').slideUp();
       $('#setting').slideDown();
     }
   }, '#settings');
 
+  //переход из игры в окно параметров игры
+  $(document).on({
+    click: function() {
+      last_click = $(this);
+      $('#progress').slideUp();
+      $('#setting').slideDown();
+    }
+  }, '#setting_game');
+
   //переход зи окна параметров игры в меню (с сохранением параметров)
   $(document).on({
     click: function() {
       $('#setting').slideUp();
-      $('#menu').slideDown();
+      if ( 'settings' == last_click.attr('id') ) {
+        $('#menu').slideDown();
+      } else {
+        $('#progress').slideDown();
+      }
+
+
     }
   }, '#backfromsettingOK');
 
@@ -275,6 +291,17 @@ $(function() {
       });
     }
   }, '#skip');
+
+  //смена фона
+  $(document).on({
+    click: function() {
+      console.log($(this));
+      $('body').attr('style', $(this).attr('style'));
+    }
+  }, '.picture');
+
+
+
 
     //переход на форму выбора буквы
     $(document).on({
