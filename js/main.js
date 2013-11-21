@@ -204,7 +204,7 @@ $(function() {
     }
   }, '#setting_game');
 
-  //переход зи окна параметров игры в меню (с сохранением параметров)
+  //переход из окна параметров игры в меню (с сохранением параметров)
   $(document).on({
     click: function() {
       $('#setting').slideUp();
@@ -213,8 +213,6 @@ $(function() {
       } else {
         $('#progress').slideDown();
       }
-
-
     }
   }, '#backfromsettingOK');
 
@@ -280,17 +278,23 @@ $(function() {
     }
   }, '#surrender');
 
-//всплывающее сообщение - пропустить ход
+  //всплывающее сообщение - пропустить ход
   $(document).on({
     click: function() {
       jConfirm('Вы уверены, что хотите пропустить ход ?', 'Пропустить ход?', function(is_ok) {
         if (is_ok) {
-          //$('#progress').slideUp();
-         // $('#progress').slideDown();
+          //ф-я
         }
       });
     }
   }, '#skip');
+
+//всплывающее сообщение - пауза
+  $(document).on({
+    click: function() {
+      jAlert('Передохнем?', 'Пауза');
+    }
+  }, '#pause');
 
   //смена фона
   $(document).on({
@@ -299,9 +303,6 @@ $(function() {
       $('body').attr('style', $(this).attr('style'));
     }
   }, '.picture');
-
-
-
 
     //переход на форму выбора буквы
     $(document).on({

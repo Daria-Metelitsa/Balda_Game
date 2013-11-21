@@ -46,10 +46,10 @@
       <input id="player-1" type="text" class="input-text shadow control"/>
       <label for="player-2" class="text text-shadow">Игрок 2</label>
       <input id="player-2" type="text" class="input-text shadow control"/>
-      <p class="text text-shadow">Размер поля</p>
+      <p class="text text-shadow" style="margin-top: 20px">Размер поля</p>
       <div class="check-group">
         <label class="text text-shadow">
-          5x5
+          <span style="font-size: 0.6em">5x5</span>
           <span class="control check-wrap border shadow">
             <input id="5x5" data-field-size="5" checked="checked" name="field-size" type="radio"/>
             <span class="check-wrap"></span>
@@ -59,7 +59,7 @@
 
       <div class="check-group">
         <label class="text text-shadow">
-          6x6
+          <span style="font-size: 0.6em">6x6</span>
           <span class="control check-wrap border shadow">
             <input id="6x6" data-field-size="6" name="field-size" type="radio"/>
             <span class="check-wrap"></span>
@@ -67,9 +67,9 @@
         </label>
       </div>
 
-      <div class="check-group">
+      <div class="check-group" style="margin-bottom: 10%;">
         <label class="text text-shadow">
-          7x7
+          <span style="font-size: 0.6em">7x7</span>
           <span class="control check-wrap border shadow">
             <input id="7x7" data-field-size="7" name="field-size" type="radio"/>
             <span class="check-wrap"></span>
@@ -82,6 +82,27 @@
           Поединок
           <span class="control check-wrap border shadow" style="margin-top: 0;">
             <input id="battle" type="checkbox"/>
+            <span class="check-wrap"></span>
+          </span>
+        </label>
+      </div>
+
+      <p class="text text-shadow" style="margin-top: 20px">Время</p>
+      <div class="check-group">
+        <label class="text text-shadow">
+          <span style="font-size: 0.6em">вкл.</span>
+          <span class="control check-wrap border shadow">
+            <input id="timeOn" checked="checked" data-field-size="6" name="timer" type="radio"/>
+            <span class="check-wrap"></span>
+          </span>
+        </label>
+      </div>
+
+      <div class="check-group">
+        <label class="text text-shadow">
+          <span style="font-size: 0.6em">выкл.</span>
+          <span class="control check-wrap border shadow">
+            <input id="timeOff" data-field-size="7" name="timer" type="radio"/>
             <span class="check-wrap"></span>
           </span>
         </label>
@@ -277,7 +298,7 @@
         <label class="text text-shadow">
           <span style="font-size: 0.6em">выкл.</span>
           <span class="control check-wrap border shadow">
-            <input id="soundOFF" name="sound" type="radio"/>
+            <input id="soundOFF" checked="checked" name="sound" type="radio"/>
             <span class="check-wrap"></span>
           </span>
         </label>
@@ -288,7 +309,7 @@
           <label class="text text-shadow">
             <span style="font-size: 0.6em">Звук 1</span>
             <span class="control check-wrap border shadow" style="margin-top: 0;">
-              <input id="sound1" name="soundcheck" type="radio"/>
+              <input id="sound1" checked="checked" name="soundcheck" type="radio"/>
               <span class="check-wrap"></span>
             </span>
           </label>
@@ -318,7 +339,7 @@
       <button class="control border shadow text text-shadow small" style="margin-left: 30%" id="backfromsettingOK">ОК</button>
     </div>
 
-    
+
     <div class="main" id="info" style="display: none;">
       <div>
         <p class="text text-shadow" style="text-align: center">Справка</p>
