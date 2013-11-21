@@ -1,5 +1,5 @@
 body {
-  background: url(../img/background/1.jpg) repeat; 
+  background: url(../img/background/6.jpg) repeat;
 }
 
 button {
@@ -178,6 +178,15 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
   padding-bottom: 2%;
   padding-top:    2%;
   width:          90%;
+}
+
+.picture {
+  border: 2px solid #d6963a;
+  height: 100px;
+  float: left;
+  position: relative;
+  margin: 2%;
+  width: 100px;
 }
 
 .player-active {

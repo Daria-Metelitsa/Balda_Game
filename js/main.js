@@ -40,7 +40,6 @@ $(function() {
   $.ajax({ url:"BALDAD.html", success: foo, dataType: "text" }); // заполняем массив слов
   function foo( text ) {
     string = text.split( /\s+/ );
-    // alert(string);
   }
 
   //Целочисленный Random (случайное целое число от a до b включительно)
@@ -187,6 +186,30 @@ $(function() {
     }
   }, '#to-main');
 
+  //переход из игры в окно параметров игры
+  $(document).on({
+    click: function() {
+      $('#menu').slideUp();
+      $('#setting').slideDown();
+    }
+  }, '#settings');
+
+  //переход зи окна параметров игры в меню (с сохранением параметров)
+  $(document).on({
+    click: function() {
+      $('#setting').slideUp();
+      $('#menu').slideDown();
+    }
+  }, '#backfromsettingOK');
+
+  //переход зи окна параметров игры в меню (без сохрания параметров)
+  $(document).on({
+    click: function() {
+      $('#setting').slideUp();
+      $('#menu').slideDown();
+    }
+  }, '#backfromsettingNext');
+
   //переход из игры в окно статитики
   $(document).on({
     click: function() {
@@ -200,7 +223,6 @@ $(function() {
         //
       $('#statistics').slideUp();
       $('#progress').slideDown();
-
     }
   }, '#statist');
 
