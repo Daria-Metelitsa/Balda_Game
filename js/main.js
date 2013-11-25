@@ -394,10 +394,7 @@ $(function() {
                     input_mode = 'input_char';
                     $('#word').html("Введите букву");
                 }
-
                 return;
-
-
             }
         }
     }, '#send-word');
