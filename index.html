@@ -46,10 +46,10 @@
       <input id="player-1" type="text" class="input-text shadow control"/>
       <label for="player-2" class="text text-shadow">Игрок 2</label>
       <input id="player-2" type="text" class="input-text shadow control"/>
-      <p class="text text-shadow">Размер поля</p>
+      <p class="text text-shadow" style="margin-top: 20px">Размер поля</p>
       <div class="check-group">
         <label class="text text-shadow">
-          5x5
+          <span style="font-size: 0.6em">5x5</span>
           <span class="control check-wrap border shadow">
             <input id="5x5" data-field-size="5" checked="checked" name="field-size" type="radio"/>
             <span class="check-wrap"></span>
@@ -59,7 +59,7 @@
 
       <div class="check-group">
         <label class="text text-shadow">
-          6x6
+          <span style="font-size: 0.6em">6x6</span>
           <span class="control check-wrap border shadow">
             <input id="6x6" data-field-size="6" name="field-size" type="radio"/>
             <span class="check-wrap"></span>
@@ -67,9 +67,9 @@
         </label>
       </div>
 
-      <div class="check-group">
+      <div class="check-group" style="margin-bottom: 10%;">
         <label class="text text-shadow">
-          7x7
+          <span style="font-size: 0.6em">7x7</span>
           <span class="control check-wrap border shadow">
             <input id="7x7" data-field-size="7" name="field-size" type="radio"/>
             <span class="check-wrap"></span>
@@ -87,11 +87,33 @@
         </label>
       </div>
 
+      <p class="text text-shadow" style="margin-top: 20px">Время</p>
+      <div class="check-group">
+        <label class="text text-shadow">
+          <span style="font-size: 0.6em">вкл.</span>
+          <span class="control check-wrap border shadow">
+            <input id="timeOn" checked="checked" data-field-size="6" name="timer" type="radio"/>
+            <span class="check-wrap"></span>
+          </span>
+        </label>
+      </div>
+
+      <div class="check-group">
+        <label class="text text-shadow">
+          <span style="font-size: 0.6em">выкл.</span>
+          <span class="control check-wrap border shadow">
+            <input id="timeOff" data-field-size="7" name="timer" type="radio"/>
+            <span class="check-wrap"></span>
+          </span>
+        </label>
+      </div>
+
       <button class="control border shadow text text-shadow small" id="to-main">Назад</button>
       <button class="control border shadow text text-shadow small" style="float: right" id="start-game">ОК</button>
     </div>
 
     <div class="main" id="progress" style="display: none;">
+      <button id="pause" class="control border shadow" style="background: url(img/pause.jpg) no-repeat; background-size: cover; height: 40px;margin-left: 90%; width: 40px"></button>
       <div>
         <label id="progress-player-1" class="text text-shadow"></label>
         <label id="progress-player-2" class="text text-shadow" style="position: absolute; right: 0;"></label>
@@ -108,8 +130,12 @@
         <button id="skip" class="control border shadow small text-shadow" style="font: 1.45em Georgia, 'Century Schoolbook L', Serif;">Пропустить ход</button>
         <button id="surrender" class="control border shadow small text-shadow" style="float: right; font: 1.45em Georgia, 'Century Schoolbook L', Serif; padding-top: 4%; padding-bottom: 4%">Сдаться</button>
       </div>
-      <button id="statist" class="control border shadow small text-shadow" style="float: right; font: 1.45em Georgia, 'Century Schoolbook L', Serif; padding-top: 4%; padding-bottom: 4%">Слова</button>
-    </div>
+
+      <div style="margin-top: 2%">
+        <button id="statist" class="control border shadow small text-shadow" style="font: 1.45em Georgia, 'Century Schoolbook L', Serif; padding-top: 4%; padding-bottom: 4%">Слова</button>
+        <button id="setting_game" class="control border shadow small text-shadow" style="float: right; font: 1.45em Georgia, 'Century Schoolbook L', Serif; padding-top: 4%; padding-bottom: 4%">Настройки</button>
+      </div>
+
 
     <div class="main" id="letter" style="display: none;">
       <div style="height: 80px">
@@ -238,17 +264,108 @@
         <label class="text text-shadow">Игрок 1</label>
         <label class="text text-shadow" style="position: absolute; right: 0;">Игрок 2</label>
       </div>
+<<<<<<< HEAD:balda.html
 
         <textarea  id="text1" class="area" rows="15" cols="12" disabled="disabled">
 
+=======
+        <textarea   class="area" rows="15" cols="12" readonly="readonly" disabled="disabled">
+>>>>>>> f3ee18afeba2941ae0df89bd145ea8d2b7765b9e:index.html
         </textarea>
-
-
         <textarea id="text2" class="area" rows="15" cols="12" readonly="readonly" disabled="disabled" style="position:absolute; right: 0%">
         </textarea>
-
       <div class="input-group" style="margin-top: 5%">
         <button id="return" class="control border shadow text text-shadow small" style="padding-left: 3%; padding-right: 3%; margin-left: 27%"> Назад </button>
+      </div>
+    </div>
+
+
+    <div class="main" id="setting" style="display: none">
+      <p class="text text-shadow">Фон</p>
+      <div style="height: 250px">
+        <div class="picture" style="background: url(img/background/1.jpg) repeat;"></div>
+        <div class="picture" style="background: url(img/background/2.jpg) repeat;"></div>
+        <div class="picture" style="background: url(img/background/3.jpg) repeat;"></div>
+        <div class="picture" style="background: url(img/background/4.jpg) repeat;"></div>
+        <div class="picture" style="background: url(img/background/5.jpg) repeat;"></div>
+        <div class="picture" style="background: url(img/background/6.jpg) repeat;"></div>
+      </div>
+
+      <p class="text text-shadow">Звук</p>
+      <div class="check-group">
+        <label class="text text-shadow">
+          <span style="font-size: 0.6em">вкл.</span>
+          <span class="control check-wrap border shadow">
+            <input id="soundON" checked="checked" name="sound" type="radio"/>
+            <span class="check-wrap"></span>
+          </span>
+        </label>
+      </div>
+
+      <div class="check-group">
+        <label class="text text-shadow">
+          <span style="font-size: 0.6em">выкл.</span>
+          <span class="control check-wrap border shadow">
+            <input id="soundOFF" checked="checked" name="sound" type="radio"/>
+            <span class="check-wrap"></span>
+          </span>
+        </label>
+      </div>
+
+      <div style="margin-top: 30px">
+        <div class="check-group" style="min-width: 300px;">
+          <label class="text text-shadow">
+            <span style="font-size: 0.6em">Звук 1</span>
+            <span class="control check-wrap border shadow" style="margin-top: 0;">
+              <input id="sound1" checked="checked" name="soundcheck" type="radio"/>
+              <span class="check-wrap"></span>
+            </span>
+          </label>
+        </div>
+
+        <div class="check-group" style="min-width: 300px;">
+          <label class="text text-shadow">
+            <span style="font-size: 0.6em">Звук 2</span>
+            <span class="control check-wrap border shadow" style="margin-top: 0;">
+              <input id="sound2"  name="soundcheck" type="radio"/>
+              <span class="check-wrap"></span>
+            </span>
+          </label>
+        </div>
+
+        <div class="check-group" style="min-width: 300px;">
+          <label class="text text-shadow">
+            <span style="font-size: 0.6em">Звук 3</span>
+            <span class="control check-wrap border shadow" style="margin-top: 0;">
+              <input id="sound3"  name="soundcheck" type="radio"/>
+              <span class="check-wrap"></span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <button class="control border shadow text text-shadow small" style="margin-left: 30%" id="backfromsettingOK">ОК</button>
+    </div>
+
+
+    <div class="main" id="info" style="display: none;">
+      <div>
+        <p class="text text-shadow" style="text-align: center">Справка</p>
+      </div>
+      <div class="area shadow" style="width: 100% !important; overflow-y: scroll; height: 420px; text-align: justify">
+        <p>
+          Игра «Балда» – это логическая игра на составление слов. На поле, состоящее из 25, 36 или 49 клеток, вписывается
+          в центр слово из 5, 6 или 7  букв соответственно. Игроки должны поочередно составлять новые слова, из букв,
+          которые уже стоят на поле и одной новой буквы, которую они добавляют по очереди. Слово должно быть существительным
+          в именительном падеже и единственном лице (кроме тех слов, для которых нет форм в единственном лице, а только во
+          множественном).Не допускается использование названий, жаргонных слов, узкоспециализированных терминов, производных
+          форм слова (например уменьшительно-ласкательных). Слова в игре не могут повторяться. Игроки получают баллы за
+          каждое найденное слово. Сколько букв в слове столько и баллов. Выигрывает тот, кто наберет большее количество
+          баллов.
+        </p>
+      </div>
+      <div class="input-group" style="margin-top: 5%">
+        <button id="backfrominfo" class="control border shadow text text-shadow small" style="padding-left: 3%; padding-right: 3%; margin-left: 27%"> Назад </button>
       </div>
     </div>
 
