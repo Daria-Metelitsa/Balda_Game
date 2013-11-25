@@ -141,11 +141,11 @@ $(function() {
 
       // инициализируем игроков
       var name = $('#player-1').val();
-      player1 = new ClassPlayer(name.length ? name : 'Игрок 1', true, [], 0);
+      player1 = new ClassPlayer(name.length ? name : 'Игрок 1', true, [], 0, [0]);
        // player1.list = ["слово"];
 
       name = $('#player-2').val();
-      player2 = new ClassPlayer(name.length ? name : 'Игрок 2', false, [], 0);
+      player2 = new ClassPlayer(name.length ? name : 'Игрок 2', false, [], 0, [0]);
       //  player2.list = ["словарик"];
 
       $('#progress-player-1').html(player1.name).addClass('player-active').removeClass('text-shadow');
@@ -174,43 +174,51 @@ $(function() {
   //переход из игры в окно статитики
   $(document).on({
     click: function() {
-        /*var text = document.getElementById("#text1");
+        /*
+        $('#progress').slideUp();
+        $('#statistics').slideDown();
+        var text = document.getElementById("#text1");
         for (var i = 0 ; i < player1.list.length; i++)
         {
-            text.innerHTML(player1.list[i]);
+            text.innerHTML(player1.list[i]+ "<br />");
+            $('#text1').html("ghghskdfjgHSDLFG");
         }
-        */
-        jAlert (player1.name + ": "+ player1.list+ ";"+"<br />"+player2.name + ": "+ player2.list+ ";"+"<br />" ,player1.name + " "+genCount1() + " очков, " +player2.name + " "+genCount2() + " очков");
-        //
-      $('#statistics').slideUp();
-      $('#progress').slideDown();
-
+*/
+       jAlert (player1.name + ": "+ player1.list+ ";"+ player1.points+ ";"+"<br />"+player2.name + ": "+ player2.list+ ";"+"<br />" ,
+            player1.name + "   " +player2.name);
+        //*/
     }
   }, '#statist');
+    //вернуться из статистики игры в меню
+    $(document).on({
+        click: function() {
+            $('#statistics').slideUp();
+            $('#progress').slideDown();
+        }
+    }, '#return');
 
     //Реализация функции сдаться
     function GameOver () {
         if(player1.state == true)
         {
-            genCount2();
             jAlert (player2.name + " победил со счетом " + player2.total, 'ПОБЕДА!!!');
-            player1.list=[];
-            player1.total=0;
-
-            player2.list=[];
-            player2.total=0;
         }
         else
         {
-            genCount1();
             jAlert (player1.name + " победил со счетом " + player1.total, 'ПОБЕДА!!!');
-
-            player1.list=[];
-            player1.total=0;
-
-            player2.list=[];
-            player2.total=0;
         }
+        player1.list=[];
+        player1.total=0;
+
+        player2.list=[];
+        player2.total=0;
+
+        player1.list=[];
+        player1.total=0;
+
+        player2.list=[];
+        player2.total=0;
+        $('#word').html("Слово");
     }
   //всплывающее сообщение - сдаться
   $(document).on({
@@ -240,7 +248,9 @@ $(function() {
 
     //переход на форму выбора буквы
     $(document).on({
+
         click: function() {
+            $('#word').html("Слово");
             if (input_mode == 'input_char') {
                 last_click = $(this);
                 input_char = this;
@@ -281,7 +291,6 @@ $(function() {
                             charList.push(this);
                             $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');
                         }
-
                         // лежат на одной строке
                         if(((j+1 == last_cell_j) || (j-1 == last_cell_j)) &&(i == last_cell_i)){
                             word += $(this).text();
@@ -301,6 +310,7 @@ $(function() {
                 }
                 $('#word').html(word);
                 $('#send-word').removeClass('text-disabled ');
+                //$('#word').html("Слово");
             }
         }
     }, '.cell');
@@ -349,25 +359,45 @@ $(function() {
                     if (!checkInputCharInWord()) {
                    // alert("Слово не содержит добавленную букву!");
                         jConfirm('Выберите слово с учетом добавленной буквы!', 'Слово не содержит добавленную букву!');
-                    return;
+                       return;
                 }
-                nextPlayer();
-                word = "";
+                       nextPlayer();
+
                 for (var i = 0; i < charList.length; i++) {
                     $(charList[i]).html('<div style="font-size: 3em; text-align: center; background:#ebdaa3">' + $(charList[i]).text() + '</div>');
                 }
-                charList = [];
-                input_char = null;
-                last_change = null;
-                last_cell_i = -1;
-                last_cell_j = -1;
-                input_mode = 'input_char';
-                $('#word').html(word);
-                $('#word').html("Введите букву");}
+                    charList = [];
+                    input_char = null;
+                    last_change = null;
+                    last_cell_i = -1;
+                    last_cell_j = -1;
+                    input_mode = 'input_char';
+                    $('#word').html("Введите букву");
+                }
                 else {
                   //  alert("Слово не содержится в словаре!");
-                    jConfirm('Проверьте правильность выбранного слова!', 'Слово не содержится в словаре!');
-                    return;}
+                    jConfirm('Добавить слово в словарь', 'Слова нет в словаре', function(is_ok) {
+                        if (is_ok) {
+                            string.push(word);
+                            nextPlayer();
+                        }
+                    });
+
+                    for (var i = 0; i < charList.length; i++) {
+                        $(charList[i]).html('<div style="font-size: 3em; text-align: center; background:#ebdaa3">' + $(charList[i]).text() + '</div>');
+                    }
+                    charList = [];
+                    input_char = null;
+                    last_change = null;
+                    last_cell_i = -1;
+                    last_cell_j = -1;
+                    input_mode = 'input_char';
+                    $('#word').html("Введите букву");
+                }
+
+                return;
+
+
             }
         }
     }, '#send-word');
@@ -376,32 +406,32 @@ $(function() {
         if(player1.state==true){
         player2.state= true;
         player1.state=false;
+
             player1.list.push(word);
+            var k = getCountCharInWord(word);
+            player1.points.push(k);
+            player1.total=player1.total+k;
             $('#progress-player-2').html(player2.name).addClass('player-active').removeClass('text-disabled');
             $('#progress-player-1').html(player1.name).addClass('text-disabled');
         } else {
         player1.state= true;
         player2.state=false;
             player2.list.push(word);
+            var k = getCountCharInWord(word);
+            player2.points.push(k);
+            player2.total=player2.total+k;
             $('#progress-player-1').html(player1.name).addClass('player-active').removeClass('text-disabled');
             $('#progress-player-2').html(player2.name).addClass('text-disabled');
         }
     }
-
-    //функция подсчета общего количества букв
-    function genCount1 (){
-        for (var i =0; i<player1.list.length; i++)
+    // подсчет очков по весу буквы
+    function getCountCharInWord(word) {
+        var wordLength=0;
+        for (var i = 0 ; i< word.length; i++ )
         {
-            player1.total =player1.total + player1.list[i].length;
+            wordLength+=getCountCharInWord(word[i]);
         }
-        return player1.total;
-    }
-    function genCount2 (){
-        for (var i =0; i< player2.list.length; i++)
-        {
-            player2.total =player2.total + player2.list[i].length;
-        }
-        return player2.total;
+        return wordLength;
     }
 
 })
