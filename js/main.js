@@ -251,7 +251,7 @@ $(function() {
     }
   }, '#backfromsettingOK');
 
-  //переход зи окна параметров игры в меню (без сохрания параметров)
+  //переход из окна параметров игры в меню (без сохрания параметров)
   $(document).on({
     click: function() {
       $('#setting').slideUp();
@@ -536,4 +536,4 @@ $(function() {
         return player2.total;
     }
 
-})
+});
