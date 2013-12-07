@@ -6,7 +6,7 @@
 $(function() {
 
   var array_letter_points = {
-    'A': 1, 'Б': 2, 'В': 1, 'Г': 2,
+    'А': 1, 'Б': 2, 'В': 1, 'Г': 2,
     'Д': 1, 'Е': 1, 'Ж': 3, 'З': 3,
     'И': 1, 'Й': 3, 'К': 1, 'Л': 1,
     'М': 1, 'Н': 1, 'О': 1, 'П': 1,
@@ -262,18 +262,13 @@ $(function() {
   //переход из игры в окно статитики
   $(document).on({
     click: function() {
-        /*var text = document.getElementById("#text1");
-        for (var i = 0 ; i < player1.list.length; i++)
-        {
-            text.innerHTML(player1.list[i]);
-        }
-        */
-        jAlert (player1.name + ": "+ player1.list+ ";"+"<br />"+player2.name + ": "+ player2.list+ ";"+"<br />" ,player1.name + " "+genCount1() + " очков, " +player2.name + " "+genCount2() + " очков");
-        //
-      $('#statistics').slideUp();
-      $('#progress').slideDown();
+      $('#text1').val(player1.list.join('\n')+'\nОчки - '+genCount1());
+      $('#text2').val(player2.list.join('\n')+'\nОчки - '+genCount2());
+      $('#progress').slideUp();
+      $('#statistics').slideDown();
     }
   }, '#statist');
+
     //вернуться из статистики игры в меню
     $(document).on({
         click: function() {
@@ -573,8 +568,13 @@ $(function() {
         {
           if ( 'bonus' == player1.list[i] ) {
             player1.total++;
-          } else {
-            player1.total += player1.list[i].length;
+          }
+          else {
+            var word = player1.list[i];
+            for (var j =0; j<word.length; j++)
+            {
+              player1.total += getLetterPoints(word[j]);
+            }
           }
         }
         return player1.total;
@@ -586,7 +586,11 @@ $(function() {
           if ( 'bonus' == player2.list[i] ) {
             player2.total++;
           } else {
-            player2.total += player2.list[i].length;
+            var word = player2.list[i];
+            for (var j =0; j<word.length; j++)
+            {
+              player2.total += getLetterPoints(word[j]);
+            }
           }
         }
         return player2.total;
