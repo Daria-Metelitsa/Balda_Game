@@ -174,11 +174,11 @@ $(function() {
 
       // инициализируем игроков
       var name = $('#player-1').val();
-      player1 = new ClassPlayer(name.length ? name : 'Игрок 1', true, [], 0);
+      player1 = new ClassPlayer(name.length ? name : 'Игрок 1', true, [], 0, [0]);
        // player1.list = ["слово"];
 
       name = $('#player-2').val();
-      player2 = new ClassPlayer(name.length ? name : 'Игрок 2', false, [], 0);
+      player2 = new ClassPlayer(name.length ? name : 'Игрок 2', false, [], 0, [0]);
       //  player2.list = ["словарик"];
 
       $('#progress-player-1').html(player1.name).addClass('player-active').removeClass('text-shadow');
@@ -274,6 +274,13 @@ $(function() {
       $('#progress').slideDown();
     }
   }, '#statist');
+    //вернуться из статистики игры в меню
+    $(document).on({
+        click: function() {
+            $('#statistics').slideUp();
+            $('#progress').slideDown();
+        }
+    }, '#return');
 
     //Реализация функции сдаться
     function GameOver () {
@@ -281,23 +288,24 @@ $(function() {
         {
             genCount2();
             jAlert (player2.name + " победил со счетом " + player2.total, 'ПОБЕДА!!!');
-            player1.list=[];
-            player1.total=0;
-
-            player2.list=[];
-            player2.total=0;
         }
         else
         {
             genCount1();
             jAlert (player1.name + " победил со счетом " + player1.total, 'ПОБЕДА!!!');
-
-            player1.list=[];
-            player1.total=0;
-
-            player2.list=[];
-            player2.total=0;
         }
+        player1.list=[];
+        player1.total=0;
+
+        player2.list=[];
+        player2.total=0;
+
+        player1.list=[];
+        player1.total=0;
+
+        player2.list=[];
+        player2.total=0;
+        $('#word').html("Слово");
     }
   //всплывающее сообщение - сдаться
   $(document).on({
@@ -506,9 +514,8 @@ $(function() {
                     if (!checkInputCharInWord()) {
                    // alert("Слово не содержит добавленную букву!");
                         jConfirm('Выберите слово с учетом добавленной буквы!', 'Слово не содержит добавленную букву!');
-                    return;
+                     return;
                 }
-
                 if ( isMiniGame() || $(this).attr('data-mini-game') ) {
                   startMiniGame(player1.state);
                 }
@@ -518,17 +525,27 @@ $(function() {
                 for (var i = 0; i < charList.length; i++) {
                     $(charList[i]).html('<div style="font-size: 3em; text-align: center; background:#ebdaa3">' + $(charList[i]).text() + '</div>');
                 }
-                charList = [];
-                input_char = null;
-                last_change = null;
-                last_cell_i = -1;
-                last_cell_j = -1;
-                input_mode = 'input_char';
-                $('#word').html("Введите букву");}
+                }
                 else {
-                  //alert("Слово не содержится в словаре!");
-                    jAlert('Проверьте правильность выбранного слова!', 'Слово не содержится в словаре!');
-                    return;}
+                    jConfirm('Добавить слово в словарь', 'Слова нет в словаре', function(is_ok) {
+                        if (is_ok) {
+                            string.push(word);
+                            nextPlayer();
+                        }
+                    });
+
+                    for (var i = 0; i < charList.length; i++) {
+                        $(charList[i]).html('<div style="font-size: 3em; text-align: center; background:#ebdaa3">' + $(charList[i]).text() + '</div>');
+                    }
+
+                }
+              charList = [];
+              input_char = null;
+              last_change = null;
+              last_cell_i = -1;
+              last_cell_j = -1;
+              input_mode = 'input_char';
+              $('#word').html("Введите букву");
             }
             drawBlocked();
         }
@@ -562,6 +579,7 @@ $(function() {
         }
         return player1.total;
     }
+  
     function genCount2 (){
         for (var i =0; i< player2.list.length; i++)
         {
@@ -573,5 +591,4 @@ $(function() {
         }
         return player2.total;
     }
-
 });
