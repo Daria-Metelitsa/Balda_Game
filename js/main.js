@@ -37,27 +37,28 @@ $(function() {
 
   var string = [];// объявляем массив слов
   var bukva = [];//массив букв
-  var r;//переменная для выбора случайного слова
+
   $.ajax({ url:"BALDAD.html", success: foo, dataType: "text" }); // заполняем массив слов
   function foo( text ) {
     string = text.split( /\s+/ );
   }
 
   //Целочисленный Random (случайное целое число от a до b включительно)
-  function Random(a,b) {
-    //var r = 0;
-    if (!a && !b) return Math.round(Math.random());
-    if (a && !b) {
-      b=a;
-      a=0;
+  function Random(a, b) {
+    if ( !a && !b ) {
+      return Math.round(Math.random());
     }
-    if (a > b)
-    {
-      r = Math.floor(b+Math.random()*(a-b+1));
+
+    if (a && !b) {
+      b = a;
+      a = 0;
+    }
+
+    if (a > b) {
+      return Math.floor(b+Math.random()*(a-b+1));
     }
     else
-    { r = Math.floor(a+Math.random()*(b-a+1));}
-    return r;
+    { return Math.floor(a+Math.random()*(b-a+1));}
   }
 
   //функция добавления начального слова
@@ -67,8 +68,7 @@ $(function() {
     var cc = 0;
     do
     {
-      Random(0,5996);
-      word = string[r];
+      word = string[Random(0, 5996)];
       bukva=word.split('');
       //alert(bukva);
       if (bukva.length==size)
@@ -462,6 +462,32 @@ $(function() {
         return false;
     }
 
+  function isMiniGame() {
+    var chance = 5 == field_size ? 15 : (6 == field_size ? 20 : 25),
+        rand   = Random(0, 100),
+        start  = Random(0, 100 - chance);
+
+    return rand > start && rand <= start + chance;
+  }
+
+  function startMiniGame(is_player1) {
+    var i = Random(0, riddle.length);
+    jPrompt(riddle[i].text, '', 'Ура! Мини игра!', function(s_answer) {
+      if ( null === s_answer ) {
+        alert('Мини игра отменена!');
+      } else if ( s_answer.toString().trim() == riddle[i].answer ) {
+        alert('Ответ верный!');
+        if ( is_player1 ) {
+          player1.list.push('bonus');
+        } else {
+          player2.list.push('bonus');
+        }
+      } else {
+        alert('Ответ не верный');
+      }
+    });
+  }
+
     // нажатие на кнопку "OK"
     $(document).on({
         click: function() {
@@ -482,6 +508,11 @@ $(function() {
                         jConfirm('Выберите слово с учетом добавленной буквы!', 'Слово не содержит добавленную букву!');
                     return;
                 }
+
+                if ( isMiniGame() || $(this).attr('data-mini-game') ) {
+                  startMiniGame(player1.state);
+                }
+
                 nextPlayer();
                 word = "";
                 for (var i = 0; i < charList.length; i++) {
@@ -493,7 +524,6 @@ $(function() {
                 last_cell_i = -1;
                 last_cell_j = -1;
                 input_mode = 'input_char';
-                $('#word').html(word);
                 $('#word').html("Введите букву");}
                 else {
                   //alert("Слово не содержится в словаре!");
@@ -524,14 +554,22 @@ $(function() {
     function genCount1 (){
         for (var i =0; i<player1.list.length; i++)
         {
-            player1.total =player1.total + player1.list[i].length;
+          if ( 'bonus' == player1.list[i] ) {
+            player1.total++;
+          } else {
+            player1.total += player1.list[i].length;
+          }
         }
         return player1.total;
     }
     function genCount2 (){
         for (var i =0; i< player2.list.length; i++)
         {
-            player2.total =player2.total + player2.list[i].length;
+          if ( 'bonus' == player2.list[i] ) {
+            player2.total++;
+          } else {
+            player2.total += player2.list[i].length;
+          }
         }
         return player2.total;
     }
