@@ -603,7 +603,12 @@ $(function() {
         }
         return player2.total;
     }
-	
+
+  //защита от склоллинга
+  document.body.addEventListener('touchmove', function(event) {
+      event.preventDefault();
+    }, false);
+
 	//проверка на наличие локального хранилища в браузере
     function isLocalStorageAvailable() {
         try {
