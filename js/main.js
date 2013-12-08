@@ -117,13 +117,9 @@ $(function() {
       //alert(c);
     }while((i<5996) && (ff==false));
       return ff;
-    /*if(ff==true)
-    {
-      alert (slovo);
-    }*/
   }
 
-    // расскрасить поле в зависимости от блокировки
+    // раскрасить поле в зависимости от блокировки
     function drawBlocked(){
         for (var i = 0; i < field_size; i++) {
             for (var j = 0; j < field_size; j++) {
@@ -133,13 +129,13 @@ $(function() {
                         || (j > 0 && $('#cell-' + i + '-' + (j-1)).text() != '')
                         || (i < field_size-1 && $('#cell-' + (i+1) + '-' + j).text() != '')
                         || (j < field_size-1 && $('#cell-' + i + '-' + (j+1)).text() != '')) {
-                        $('#cell-' + i + '-' + j).html('<div style="font-size: 3em; text-align: center; background: #ebdaa3; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                        $('#cell-' + i + '-' + j).html('<div style="font-size: 2.2em; text-align: center; background: #ebdaa3; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
                     } else {
-                        $('#cell-' + i + '-' + j).html('<div style="font-size: 3em; text-align: center; opacity: 0.5; background: #996633; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                        $('#cell-' + i + '-' + j).html('<div style="font-size: 2.2em; text-align: center; opacity: 0.5; background: #996633; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
                     }
                 }else {
                     if (last_change.attr('id').charAt(5) * 1 == i && last_change.attr('id').charAt(7) * 1 == j) {
-                        $('#cell-' + i + '-' + j).html('<div style="font-size: 3em; text-align: center; background: #fba82b; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                        $('#cell-' + i + '-' + j).html('<div style="font-size: 2.2em; text-align: center; background: #fba82b; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
                         continue;
                     }
                     // пропускаем не соприкасающиеся с заполнеными (прошлая введеная не в счет)
@@ -147,9 +143,9 @@ $(function() {
                         || (j > 0 && $('#cell-' + i + '-' + (j-1)).text() != '' && (last_change.attr('id').charAt(5) * 1 != i || last_change.attr('id').charAt(7) * 1 != (j-1)))
                         || (i < field_size-1 && $('#cell-' + (i+1) + '-' + j).text() != '' && (last_change.attr('id').charAt(5) * 1 != (i+1) || last_change.attr('id').charAt(7) * 1 != j))
                         || (j < field_size-1 && $('#cell-' + i + '-' + (j+1)).text() != '' && (last_change.attr('id').charAt(5) * 1 != i || last_change.attr('id').charAt(7) * 1 != (j+1)))) {
-                        $('#cell-' + i + '-' + j).html('<div style="font-size: 3em; text-align: center; background: #ebdaa3; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                        $('#cell-' + i + '-' + j).html('<div style="font-size: 2.2em; text-align: center; background: #ebdaa3; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
                     } else {
-                        $('#cell-' + i + '-' + j).html('<div style="font-size: 3em; text-align: center; opacity: 0.5; background: #996633; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                        $('#cell-' + i + '-' + j).html('<div style="font-size: 2.2em; text-align: center; opacity: 0.5; background: #996633; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
                     }
                 }
             }
@@ -164,9 +160,6 @@ $(function() {
         $('#word').html("Введите букву");
 
       AddFirstWord(field_size);
-      // var f= "РАНЬ";
-      //Poisk(f);
-      // alert (string);
       $('#param').slideUp();
       $('#progress').slideDown(500);
 
@@ -419,7 +412,7 @@ $(function() {
                             last_cell_j = j;
                             charList.push(this);
                             if(this != input_char)
-                            {   $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');}
+                            {   $(this).html('<div style="font-size: 2.2em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');}
                         }
 
                         // лежат на одной строке
@@ -429,7 +422,7 @@ $(function() {
                             last_cell_j = j;
                             charList.push(this);
                             if(this != input_char)
-                            {   $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');}
+                            {   $(this).html('<div style="font-size: 2.2em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');}
                         }
                     }
                     else {
@@ -438,7 +431,7 @@ $(function() {
                         last_cell_j = j;
                         charList.push(this);
                         if(this != input_char)
-                        {   $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');}
+                        {   $(this).html('<div style="font-size: 2.2em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');}
                     }
                 }
                 $('#word').html(word);

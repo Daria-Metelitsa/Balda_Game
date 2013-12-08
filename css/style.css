@@ -81,18 +81,18 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
 }
 
 .cell-5 {
-  height: 4em;
-  width:  4em;
+  height: 3.5em;
+  width:  3.5em;
 }
 
 .cell-6 {
-  height: 3.3em;
-  width:  3.3em;
+  height: 2.8em;
+  width:  2.8em;
 }
 
 .cell-7 {
-  height: 2.8em;
-  width:  2.8em;
+  height: 2.3em;
+  width:  2.3em;
 }
 
 .control {
@@ -115,7 +115,7 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
 }
 
 .game-name-text-big{
-  font:        2.65em Georgia, "Century Schoolbook L", Serif;
+  font:        2.3em Georgia, "Century Schoolbook L", Serif;
   padding-top: 2%;
 }
 
@@ -135,7 +135,7 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
 .input-group .button {
   border-left:   1px solid #d6963a;
   border-radius: 0 5px 5px 0;
-  font-size:     265%;
+  font-size:     220%;
   padding:       2%;
   position:      absolute;
   right:         -2%;
@@ -153,7 +153,7 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
 
 .input-text {
   border:        0;
-  font-size:     265%;
+  font-size:     220%;
   margin-bottom: 2%;
   padding:       2%;
   width:         95%;
@@ -171,7 +171,7 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
   position:  relative;
   border:    0;
   margin:    3% auto;
-  width:     360px;
+  width:     330px;
 }
 
 .middle-div {
@@ -183,11 +183,11 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
 .picture {
   background-size: cover !important;
   border: 2px solid #d6963a;
-  height: 100px;
+  height: 90px;
   float: left;
   position: relative;
   margin: 2%;
-  width: 100px;
+  width: 90px;
 }
 
 .player-active {
@@ -207,19 +207,19 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
   background-color:  #ead89f;
   color:             #000000;
   cursor:            pointer;
-  font:              2.65em Georgia, "Century Schoolbook L", Serif;
+  font:              2.3em Georgia, "Century Schoolbook L", Serif;
   margin: 5%;
 }
 
 #popup_ok {
   cursor:           pointer;
-  font:             2.65em Georgia, "Century Schoolbook L", Serif;
+  font:             2.3em Georgia, "Century Schoolbook L", Serif;
   color:            #000000;
   background-color: #ead89f;
 }
 
 #popup_container #popup_title {
-  font:              2.65em Georgia, "Century Schoolbook L", Serif;
+  font:              2.3em Georgia, "Century Schoolbook L", Serif;
   color:             #000000;
   font-weight:       normal;
   text-align:        left;
@@ -238,7 +238,7 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
 }
 
 #popup_message {
-  font:   2.65em Georgia, "Century Schoolbook L", Serif;
+  font:   2.3em Georgia, "Century Schoolbook L", Serif;
   color: #000000;
 }
 
@@ -248,7 +248,7 @@ input[type="radio"]:checked + .check-wrap,  input[type="checkbox"]:checked + .ch
 }
 
 .text {
-  font:   2.65em Georgia, "Century Schoolbook L", Serif;
+  font:   2.3em Georgia, "Century Schoolbook L", Serif;
   margin: 0.5%;
 }
 
