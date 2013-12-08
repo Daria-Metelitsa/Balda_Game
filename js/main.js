@@ -5,6 +5,13 @@
 /* анонимная функция*/
 $(function() {
 
+//Загрузка сохраненных настроек при запуске игры
+  if (isLocalStorageAvailable()) {
+      if (localStorage.getItem('background') != null) {
+          $('body').attr('style', localStorage.getItem('background'));
+      }
+  }
+
   var array_letter_points = {
     'А': 1, 'Б': 2, 'В': 1, 'Г': 2,
     'Д': 1, 'Е': 1, 'Ж': 3, 'З': 3,
@@ -339,6 +346,7 @@ $(function() {
     click: function() {
       console.log($(this));
       $('body').attr('style', $(this).attr('style'));
+      isLocalStorageAvailable()? localStorage.setItem('background', $(this).attr('style')) : '';
     }
   }, '.picture');
 
@@ -594,5 +602,14 @@ $(function() {
           }
         }
         return player2.total;
+    }
+	
+	//проверка на наличие локального хранилища в браузере
+    function isLocalStorageAvailable() {
+        try {
+            return 'localStorage' in window && window['localStorage'] !== null;
+        } catch (e) {
+            return false;
+        }
     }
 });
