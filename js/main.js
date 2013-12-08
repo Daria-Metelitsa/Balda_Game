@@ -565,7 +565,8 @@ $(function() {
 
     //функция подсчета общего количества букв
     function genCount1 (){
-        for (var i =0; i<player1.list.length; i++)
+      player1.total = 0;
+        for (var i = 0; i < player1.list.length; i++)
         {
           if ( 'bonus' == player1.list[i] ) {
             player1.total++;
@@ -582,7 +583,8 @@ $(function() {
     }
   
     function genCount2 (){
-        for (var i =0; i< player2.list.length; i++)
+      player2.total = 0;
+        for (var i = 0; i < player2.list.length; i++)
         {
           if ( 'bonus' == player2.list[i] ) {
             player2.total++;
