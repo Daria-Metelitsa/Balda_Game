@@ -189,6 +189,43 @@ $(function() {
     }
   }, '#start-game');
 
+    //переход на страницу игрового процесса сохраненной игры
+  $(document).on({
+    click: function() {
+        if (isLocalStorageAvailable() && localStorage.getItem("save") == "yes") {
+          field_size = localStorage.getItem("field_size");
+          fields_chars_arr = JSON.parse(localStorage.getItem("fields_chars"));
+          var html       = '';
+            $('#word').html("Введите букву");
+
+          $('#menu').slideUp();
+          $('#progress').slideDown(500);
+
+          for (var i = 0; i < field_size; i++) {
+            html += '<tr>';
+            for (var j = 0; j < field_size; j++) {
+              html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 3em; text-align: center">' + fields_chars_arr[i][j] + '</div></td>';
+            }
+            html += '</tr>';
+          }
+
+          // инициализируем игроков
+          player1 = JSON.parse(localStorage.getItem('player1'));
+          player2 = JSON.parse(localStorage.getItem('player2'));
+
+          if (player1.state == true) {
+            $('#progress-player-1').html(player1.name).addClass('player-active').removeClass('text-shadow');
+            $('#progress-player-2').html(player2.name).addClass('text-disabled');
+          } else {
+            $('#progress-player-1').html(player1.name).addClass('text-disabled');
+            $('#progress-player-2').html(player2.name).addClass('player-active').removeClass('text-shadow');
+          }
+          $('#game-field').html(html);
+            drawBlocked();
+        }
+    }
+  }, '#continue');
+  
   //переход из меню в окно настройки игры
   $(document).on({
     click: function() {
@@ -316,16 +353,62 @@ $(function() {
     }
   }, '#surrender');
 
+   // функция пропуска хода
+    function Pass () {
+        if(player1.state == true)
+        {
+            player1.state = false;
+            player2.state = true;
+            $('#progress-player-2').html(player2.name).addClass('player-active').removeClass('text-disabled');
+            $('#progress-player-1').html(player1.name).addClass('text-disabled');
+        }
+        else
+        {
+            player2.state = false;
+            player1.state = true;
+            $('#progress-player-1').html(player1.name).addClass('player-active').removeClass('text-disabled');
+            $('#progress-player-2').html(player2.name).addClass('text-disabled');
+        }
+    }
+
   //всплывающее сообщение - пропустить ход
   $(document).on({
     click: function() {
       jConfirm('Вы уверены, что хотите пропустить ход ?', 'Пропустить ход?', function(is_ok) {
         if (is_ok) {
-          //ф-я
+          Pass();
         }
       });
     }
   }, '#skip');
+
+  //всплывающее сообщение - сохранить игру
+  $(document).on({
+    click: function() {
+      jConfirm('Вы уверены, что хотите сохранить игру? (предыдущая сохраненная игра будет перезаписана)', 'Сохранить игру', function(is_ok) {
+        if (is_ok) {
+            for (var i = 0; i < field_size; i++) {
+                fields_chars_arr[i] = [];
+                for (var j = 0; j < field_size; j++) {
+                    fields_chars_arr[i][j] = $('#cell-' + i + '-' + j).text();
+                }
+            }
+          if (isLocalStorageAvailable()) {
+              localStorage.setItem('save', 'yes');
+              localStorage.setItem('player1', JSON.stringify(player1));
+              localStorage.setItem('player2', JSON.stringify(player2));
+              localStorage.setItem('fields_chars', JSON.stringify(fields_chars_arr));
+              localStorage.setItem('field_size', field_size);
+          }
+        }
+      });
+    }
+  }, '#save');
+    
+   //если есть сохраненная игра - делаем кнопку продолжить активной
+    if (isLocalStorageAvailable() && localStorage.getItem("save") == 'yes') {
+        $('#continue').prop('disabled', false);
+    }
 
 //всплывающее сообщение - пауза
   $(document).on({
