@@ -151,6 +151,7 @@ $(function() {
 
   //переход на страницу игрового процесса и генерация поля произвольного размера
   $(document).on({
+
     click: function() {
       field_size = $('input[name="field-size"]:checked').attr('data-field-size');
       var html       = '';
@@ -186,6 +187,9 @@ $(function() {
 
       $('#game-field').html(html);
         drawBlocked();
+
+
+
     }
   }, '#start-game');
 
@@ -498,6 +502,25 @@ $(function() {
                 else {
                   //alert("Слово не содержится в словаре!");
                     jAlert('Проверьте правильность выбранного слова!', 'Слово не содержится в словаре!');
+                    jConfirm('Добавить слово в словарь', 'Новое слово в соваре?', function(is_ok) {
+                        if (is_ok) {
+                            string.push(word);
+                            nextPlayer();
+                            word = "";
+                            for (var i = 0; i < charList.length; i++) {
+                                $(charList[i]).html('<div style="font-size: 3em; text-align: center; background:#ebdaa3">' + $(charList[i]).text() + '</div>');
+                            }
+                            charList = [];
+                            input_char = null;
+                            last_change = null;
+                            last_cell_i = -1;
+                            last_cell_j = -1;
+                            input_mode = 'input_char';
+                            $('#word').html(word);
+                            $('#word').html("Введите букву");
+
+                        }
+                        });
                     return;}
             }
             drawBlocked();
@@ -509,12 +532,14 @@ $(function() {
         player2.state= true;
         player1.state=false;
             player1.list.push(word);
+
             $('#progress-player-2').html(player2.name).addClass('player-active').removeClass('text-disabled');
             $('#progress-player-1').html(player1.name).addClass('text-disabled');
         } else {
         player1.state= true;
         player2.state=false;
             player2.list.push(word);
+
             $('#progress-player-1').html(player1.name).addClass('player-active').removeClass('text-disabled');
             $('#progress-player-2').html(player2.name).addClass('text-disabled');
         }
@@ -522,18 +547,27 @@ $(function() {
 
     //функция подсчета общего количества букв
     function genCount1 (){
-        for (var i =0; i<player1.list.length; i++)
+        player1.total=0;
+        for (var i =0; i< player1.list.length; i++)
         {
             player1.total =player1.total + player1.list[i].length;
         }
         return player1.total;
+
     }
     function genCount2 (){
+        player2.total=0;
         for (var i =0; i< player2.list.length; i++)
         {
             player2.total =player2.total + player2.list[i].length;
         }
         return player2.total;
+    }
+
+    //Задать время на выполнение хода
+    function SetTimerForPlayers()
+    {
+            setInterval(nextPlayer(), 120000);
     }
 
 })
