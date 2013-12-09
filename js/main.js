@@ -28,6 +28,7 @@ $(function() {
   var word = "";
   var charList = [];
   var input_char = null;
+  var field_size = 0; //размер поля
 
   //получить очки за букву
   function getLetterPoints(letter){
@@ -40,7 +41,6 @@ $(function() {
   $.ajax({ url:"BALDAD.html", success: foo, dataType: "text" }); // заполняем массив слов
   function foo( text ) {
     string = text.split( /\s+/ );
-    // alert(string);
   }
 
   //Целочисленный Random (случайное целое число от a до b включительно)
@@ -116,10 +116,43 @@ $(function() {
     }*/
   }
 
+    // расскрасить поле в зависимости от блокировки
+    function drawBlocked(){
+        for (var i = 0; i < field_size; i++) {
+            for (var j = 0; j < field_size; j++) {
+                if (input_char == null) {
+                    // пропускаем не соприкасающиеся с заполнеными
+                    if  ((i > 0 && $('#cell-' + (i-1) + '-' + j).text() != '')
+                        || (j > 0 && $('#cell-' + i + '-' + (j-1)).text() != '')
+                        || (i < field_size-1 && $('#cell-' + (i+1) + '-' + j).text() != '')
+                        || (j < field_size-1 && $('#cell-' + i + '-' + (j+1)).text() != '')) {
+                        $('#cell-' + i + '-' + j).html('<div style="font-size: 3em; text-align: center; background: #ebdaa3; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                    } else {
+                        $('#cell-' + i + '-' + j).html('<div style="font-size: 3em; text-align: center; opacity: 0.5; background: #996633; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                    }
+                }else {
+                    if (last_change.attr('id').charAt(5) * 1 == i && last_change.attr('id').charAt(7) * 1 == j) {
+                        $('#cell-' + i + '-' + j).html('<div style="font-size: 3em; text-align: center; background: #fba82b; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                        continue;
+                    }
+                    // пропускаем не соприкасающиеся с заполнеными (прошлая введеная не в счет)
+                    if  ((i > 0 && $('#cell-' + (i-1) + '-' + j).text() != '' && (last_change.attr('id').charAt(5) * 1 != (i-1) || last_change.attr('id').charAt(7) * 1 != j))
+                        || (j > 0 && $('#cell-' + i + '-' + (j-1)).text() != '' && (last_change.attr('id').charAt(5) * 1 != i || last_change.attr('id').charAt(7) * 1 != (j-1)))
+                        || (i < field_size-1 && $('#cell-' + (i+1) + '-' + j).text() != '' && (last_change.attr('id').charAt(5) * 1 != (i+1) || last_change.attr('id').charAt(7) * 1 != j))
+                        || (j < field_size-1 && $('#cell-' + i + '-' + (j+1)).text() != '' && (last_change.attr('id').charAt(5) * 1 != i || last_change.attr('id').charAt(7) * 1 != (j+1)))) {
+                        $('#cell-' + i + '-' + j).html('<div style="font-size: 3em; text-align: center; background: #ebdaa3; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                    } else {
+                        $('#cell-' + i + '-' + j).html('<div style="font-size: 3em; text-align: center; opacity: 0.5; background: #996633; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                    }
+                }
+            }
+        }
+    }
+
   //переход на страницу игрового процесса и генерация поля произвольного размера
   $(document).on({
     click: function() {
-      var field_size = $('input[name="field-size"]:checked').attr('data-field-size');
+      field_size = $('input[name="field-size"]:checked').attr('data-field-size');
       var html       = '';
         $('#word').html("Введите букву");
 
@@ -152,6 +185,7 @@ $(function() {
       $('#progress-player-2').html(player2.name).addClass('text-disabled');
 
       $('#game-field').html(html);
+        drawBlocked();
     }
   }, '#start-game');
 
@@ -163,6 +197,22 @@ $(function() {
     }
   }, '#game-param');
 
+  //переход из меню в справку
+  $(document).on({
+    click: function() {
+      $('#menu').slideUp();
+      $('#info').slideDown();
+    }
+  }, '#reference');
+
+  //переход из справки в меню
+  $(document).on({
+    click: function() {
+      $('#info').slideUp();
+      $('#menu').slideDown();
+    }
+  }, '#backfrominfo');
+
   //вернуться из настроек игры в меню
   $(document).on({
     click: function() {
@@ -170,6 +220,44 @@ $(function() {
       $('#menu').slideDown();
     }
   }, '#to-main');
+
+  //переход из игры в окно параметров игры
+  $(document).on({
+    click: function() {
+      last_click = $(this);
+      $('#menu').slideUp();
+      $('#setting').slideDown();
+    }
+  }, '#settings');
+
+  //переход из игры в окно параметров игры
+  $(document).on({
+    click: function() {
+      last_click = $(this);
+      $('#progress').slideUp();
+      $('#setting').slideDown();
+    }
+  }, '#setting_game');
+
+  //переход из окна параметров игры в меню (с сохранением параметров)
+  $(document).on({
+    click: function() {
+      $('#setting').slideUp();
+      if ( 'settings' == last_click.attr('id') ) {
+        $('#menu').slideDown();
+      } else {
+        $('#progress').slideDown();
+      }
+    }
+  }, '#backfromsettingOK');
+
+  //переход из окна параметров игры в меню (без сохрания параметров)
+  $(document).on({
+    click: function() {
+      $('#setting').slideUp();
+      $('#menu').slideDown();
+    }
+  }, '#backfromsettingNext');
 
   //переход из игры в окно статитики
   $(document).on({
@@ -184,7 +272,6 @@ $(function() {
         //
       $('#statistics').slideUp();
       $('#progress').slideDown();
-
     }
   }, '#statist');
 
@@ -226,29 +313,70 @@ $(function() {
     }
   }, '#surrender');
 
-//всплывающее сообщение - пропустить ход
+  //всплывающее сообщение - пропустить ход
   $(document).on({
     click: function() {
       jConfirm('Вы уверены, что хотите пропустить ход ?', 'Пропустить ход?', function(is_ok) {
         if (is_ok) {
-          //$('#progress').slideUp();
-         // $('#progress').slideDown();
+          //ф-я
         }
       });
     }
   }, '#skip');
 
+//всплывающее сообщение - пауза
+  $(document).on({
+    click: function() {
+      jAlert('Передохнем?', 'Пауза');
+    }
+  }, '#pause');
+
+  //смена фона
+  $(document).on({
+    click: function() {
+      console.log($(this));
+      $('body').attr('style', $(this).attr('style'));
+    }
+  }, '.picture');
+
     //переход на форму выбора буквы
     $(document).on({
         click: function() {
+            var i = $(this).attr('id').charAt(5) * 1;
+            var j = $(this).attr('id').charAt(7) * 1;
             if (input_mode == 'input_char') {
-                last_click = $(this);
-                input_char = this;
-                $('#progress').slideUp();
-                $('#letter').slideDown();
+                // пропускаем заполненые
+                if ($(this).text() != '' && this != input_char) {
+                    return;
+                }
+
+                if (input_char == null) {
+                    // пропускаем не соприкасающиеся с заполнеными
+                    if  ((i > 0 && $('#cell-' + (i-1) + '-' + j).text() != '')
+                        || (j > 0 && $('#cell-' + i + '-' + (j-1)).text() != '')
+                        || (i < field_size-1 && $('#cell-' + (i+1) + '-' + j).text() != '')
+                        || (j < field_size-1 && $('#cell-' + i + '-' + (j+1)).text() != '')) {
+                        last_click = $(this);
+                        input_char = this;
+                        $('#progress').slideUp();
+                        $('#letter').slideDown();
+                    }
+                } else {
+                    // пропускаем не соприкасающиеся с заполнеными (прошлая введеная не в счет)
+                    if  ((i > 0 && $('#cell-' + (i-1) + '-' + j).text() != '' && (last_change.attr('id').charAt(5) * 1 != (i-1) || last_change.attr('id').charAt(7) * 1 != j))
+                        || (j > 0 && $('#cell-' + i + '-' + (j-1)).text() != '' && (last_change.attr('id').charAt(5) * 1 != i || last_change.attr('id').charAt(7) * 1 != (j-1)))
+                        || (i < field_size-1 && $('#cell-' + (i+1) + '-' + j).text() != '' && (last_change.attr('id').charAt(5) * 1 != (i+1) || last_change.attr('id').charAt(7) * 1 != j))
+                        || (j < field_size-1 && $('#cell-' + i + '-' + (j+1)).text() != '' && (last_change.attr('id').charAt(5) * 1 != i || last_change.attr('id').charAt(7) * 1 != (j+1)))) {
+                        last_click = $(this);
+                        input_char = this;
+                        $('#progress').slideUp();
+                        $('#letter').slideDown();
+                    }
+                }
+
               //  input_mode = 'input_word';
             } else if (input_mode == 'input_word'){
-                if($(this).text() != '') {
+                    if($(this).text() != '') {
                     var i = $(this).attr('id').charAt(5) * 1;
                     var j = $(this).attr('id').charAt(7) * 1;
                     if (last_cell_i >= 0 && last_cell_j >=0) {
@@ -279,7 +407,8 @@ $(function() {
                             last_cell_i = i;
                             last_cell_j = j;
                             charList.push(this);
-                            $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');
+                            if(this != input_char)
+                            {   $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');}
                         }
 
                         // лежат на одной строке
@@ -288,7 +417,8 @@ $(function() {
                             last_cell_i = i;
                             last_cell_j = j;
                             charList.push(this);
-                            $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');
+                            if(this != input_char)
+                            {   $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');}
                         }
                     }
                     else {
@@ -296,7 +426,8 @@ $(function() {
                         last_cell_i = i;
                         last_cell_j = j;
                         charList.push(this);
-                        $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');
+                        if(this != input_char)
+                        {   $(this).html('<div style="font-size: 3em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');}
                     }
                 }
                 $('#word').html(word);
@@ -365,10 +496,11 @@ $(function() {
                 $('#word').html(word);
                 $('#word').html("Введите букву");}
                 else {
-                  //  alert("Слово не содержится в словаре!");
-                    jConfirm('Проверьте правильность выбранного слова!', 'Слово не содержится в словаре!');
+                  //alert("Слово не содержится в словаре!");
+                    jAlert('Проверьте правильность выбранного слова!', 'Слово не содержится в словаре!');
                     return;}
             }
+            drawBlocked();
         }
     }, '#send-word');
 
