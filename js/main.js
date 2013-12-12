@@ -40,8 +40,9 @@ $(function() {
   }
 
   var string = [];// объявляем массив слов
+  var wordd = [];// объявляем массив слов дня
   var bukva = [];//массив букв
-
+  var r;//переменная для выбора случайного слова
   $.ajax({ url:"BALDAD.html", success: foo, dataType: "text" }); // заполняем массив слов
   function foo( text ) {
     string = text.split( /\s+/ );
@@ -116,6 +117,51 @@ $(function() {
       return ff;
   }
 
+  //функция создания слов дня
+  function SlovoDnya()
+  {
+    for( var i=0;i<500; i++)
+    {
+      Random(0,5996);
+      wordd [i]= string[r];
+    }
+  }
+
+  //проверка слова на слово дня
+  //если SD=true, то увеличиваем кол-во очков
+  function PoiskSD(slovo)
+  {
+    var st1 = slovo.split('');
+    var s =st1.length;
+    //alert(str1);
+    var st2;
+    var i=0;
+    // var c=0;
+    var SD = false;
+    do{
+      var c=0;
+      st2=wordd[i].split('');
+      //alert(st2);
+      if(s==st2.length)
+      {
+        for(var j=0; j<s; j++)
+        {
+          if(st1[j]==st2[j])
+          {
+            c=c+1;
+          }
+        }
+        if(c==s){ SD=true; //alert(c);
+        }
+        else { i=i+1; }
+      }
+      else { i=i+1;}
+      //alert(c);
+    }while((i<500) && (SD==false));
+    // alert(SD);
+    return SD;
+  }
+
     // раскрасить поле в зависимости от блокировки
     function drawBlocked(){
         for (var i = 0; i < field_size; i++) {
@@ -157,6 +203,7 @@ $(function() {
         $('#word').html("Введите букву");
 
       AddFirstWord(field_size);
+      SlovoDnya();
       $('#param').slideUp();
       $('#progress').slideDown(500);
 
