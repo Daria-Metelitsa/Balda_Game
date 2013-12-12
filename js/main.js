@@ -6,123 +6,123 @@
 $(function() {
 
 //Загрузка сохраненных настроек при запуске игры
-  if (isLocalStorageAvailable()) {
-      if (localStorage.getItem('background') != null) {
-          $('body').attr('style', localStorage.getItem('background'));
-      }
-  }
+    if (isLocalStorageAvailable()) {
+        if (localStorage.getItem('background') != null) {
+            $('body').attr('style', localStorage.getItem('background'));
+        }
+    }
 
-  var array_letter_points = {
-    'А': 1, 'Б': 2, 'В': 1, 'Г': 2,
-    'Д': 1, 'Е': 1, 'Ж': 3, 'З': 3,
-    'И': 1, 'Й': 3, 'К': 1, 'Л': 1,
-    'М': 1, 'Н': 1, 'О': 1, 'П': 1,
-    'Р': 1, 'С': 1, 'Т': 1, 'У': 2,
-    'Ф': 4, 'Х': 3, 'Ц': 4, 'Ч': 3,
-    'Ш': 4, 'Щ': 4, 'Ъ': 5, 'Ы': 3,
-    'Ь': 3, 'Э': 5, 'Ю': 3, 'Я': 2
-  };
+    var array_letter_points = {
+        'А': 1, 'Б': 2, 'В': 1, 'Г': 2,
+        'Д': 1, 'Е': 1, 'Ж': 3, 'З': 3,
+        'И': 1, 'Й': 3, 'К': 1, 'Л': 1,
+        'М': 1, 'Н': 1, 'О': 1, 'П': 1,
+        'Р': 1, 'С': 1, 'Т': 1, 'У': 2,
+        'Ф': 4, 'Х': 3, 'Ц': 4, 'Ч': 3,
+        'Ш': 4, 'Щ': 4, 'Ъ': 5, 'Ы': 3,
+        'Ь': 3, 'Э': 5, 'Ю': 3, 'Я': 2
+    };
 
-  //последний объект, на котором был произведен клик
-  var active_player = 1; // какой игрок в текущий момент активен
-  var last_click = null;
-  var last_change = null;
-  var last_cell_i = -1;
-  var last_cell_j = -1;
-  var player1; // хранится объект первого игрока
-  var player2; // хранится объект второго игрока
-  var input_mode = 'input_char';
-  var word = "";
-  var charList = [];
-  var input_char = null;
-  var field_size = 0; //размер поля
-  var point_player1=0;
-  var point_player2=0;
-  var tur1=0;
-  var tur2=0;
+    //последний объект, на котором был произведен клик
+    var active_player = 1; // какой игрок в текущий момент активен
+    var last_click = null;
+    var last_change = null;
+    var last_cell_i = -1;
+    var last_cell_j = -1;
+    var player1; // хранится объект первого игрока
+    var player2; // хранится объект второго игрока
+    var input_mode = 'input_char';
+    var word = "";
+    var charList = [];
+    var input_char = null;
+    var field_size = 0; //размер поля
+    var point_player1=0;
+    var point_player2=0;
+    var tur1=0;
+    var tur2=0;
     var m=0;
 
-  //получить очки за букву
-  function getLetterPoints(letter){
-    return array_letter_points[letter];
-  }
-
-  var string = [];// объявляем массив слов
-  var bukva = [];//массив букв
-
-  $.ajax({ url:"BALDAD.html", success: foo, dataType: "text" }); // заполняем массив слов
-  function foo( text ) {
-    string = text.split( /\s+/ );
-  }
-
-  //Целочисленный Random (случайное целое число от a до b включительно)
-  function Random(a, b) {
-    if ( !a && !b ) {
-      return Math.round(Math.random());
+    //получить очки за букву
+    function getLetterPoints(letter){
+        return array_letter_points[letter];
     }
 
-    if (a && !b) {
-      b = a;
-      a = 0;
+    var string = [];// объявляем массив слов
+    var bukva = [];//массив букв
+
+    $.ajax({ url:"BALDAD.html", success: foo, dataType: "text" }); // заполняем массив слов
+    function foo( text ) {
+        string = text.split( /\s+/ );
     }
 
-    if (a > b) {
-      return Math.floor(b+Math.random()*(a-b+1));
-    }
-    else
-    { return Math.floor(a+Math.random()*(b-a+1));}
-  }
+    //Целочисленный Random (случайное целое число от a до b включительно)
+    function Random(a, b) {
+        if ( !a && !b ) {
+            return Math.round(Math.random());
+        }
 
-  //функция добавления начального слова
-  function AddFirstWord(size)
-  {
-    var word;// слово
-    var cc = 0;
-    do
+        if (a && !b) {
+            b = a;
+            a = 0;
+        }
+
+        if (a > b) {
+            return Math.floor(b+Math.random()*(a-b+1));
+        }
+        else
+        { return Math.floor(a+Math.random()*(b-a+1));}
+    }
+
+    //функция добавления начального слова
+    function AddFirstWord(size)
     {
-      word = string[Random(0, 5996)];
-      bukva=word.split('');
-      //alert(bukva);
-      if (bukva.length==size)
-      {
-        cc=1;
-      }
-    }while( cc == 0);
-    return bukva;
-  }
-
-  //поиск слова в словаре
-  function Poisk(slovo)
-  {
-    var str1 = slovo.split('');
-    var s =str1.length;
-    //alert(str1);
-    var str2;
-    var i=0;
-    // var c=0;
-    var ff = false;
-    do{
-      var c=0;
-      str2=string[i].split('');
-      //alert(str2);
-      if(s==str2.length)
-      {
-        for(var j=0; j<s; j++)
+        var word;// слово
+        var cc = 0;
+        do
         {
-          if(str1[j]==str2[j])
-          {
-            c=c+1;
-          }
-        }
-        if(c==s){ ff=true; //alert(c);
-        }
-        else { i=i+1; }
-      }
-      else { i=i+1;}
-      //alert(c);
-    }while((i<5996) && (ff==false));
-      return ff;
-  }
+            word = string[Random(0, 5996)];
+            bukva=word.split('');
+            //alert(bukva);
+            if (bukva.length==size)
+            {
+                cc=1;
+            }
+        }while( cc == 0);
+        return bukva;
+    }
+
+    //поиск слова в словаре
+    function Poisk(slovo)
+    {
+        var str1 = slovo.split('');
+        var s =str1.length;
+        //alert(str1);
+        var str2;
+        var i=0;
+        // var c=0;
+        var ff = false;
+        do{
+            var c=0;
+            str2=string[i].split('');
+            //alert(str2);
+            if(s==str2.length)
+            {
+                for(var j=0; j<s; j++)
+                {
+                    if(str1[j]==str2[j])
+                    {
+                        c=c+1;
+                    }
+                }
+                if(c==s){ ff=true; //alert(c);
+                }
+                else { i=i+1; }
+            }
+            else { i=i+1;}
+            //alert(c);
+        }while((i<5996) && (ff==false));
+        return ff;
+    }
 
     // раскрасить поле в зависимости от блокировки
     function drawBlocked(){
@@ -169,7 +169,8 @@ $(function() {
         for (var i = 0; i < field_size; i++) {
             html += '<tr>';
             for (var j = 0; j < field_size; j++) {
-                html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 2.2em; text-align: center">' + ( center-2 == i ? bukva[j] : '')+( center-1 == i ? bukva[j] : '')+( center+1 == i ? bukva[j] : '')+( center == i ? bukva[j] : '') + '</div></td>';
+            //    html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 2.2em; text-align: center">' + ( center-2 == i ? bukva[j] : '')+( center-1 == i ? bukva[j] : '')+( center+1 == i ? bukva[j] : '')+( center == i ? bukva[j] : '') + '</div></td>';
+                html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 2.2em; text-align: center">'+( center == i ? bukva[j] : '') + '</div></td>';
             }
             html += '</tr>';
 
@@ -189,161 +190,161 @@ $(function() {
 
     }
 
-  //переход на страницу игрового процесса и генерация поля произвольного размера
-  $(document).on({
-    click: function() {
-      field_size = $('input[name="field-size"]:checked').attr('data-field-size');
-      var html       = '';
-        $('#word').html("Введите букву");
-
-      AddFirstWord(field_size);
-      $('#param').slideUp();
-      $('#progress').slideDown(500);
-
-      var center = Math.floor(field_size/2);
-      for (var i = 0; i < field_size; i++) {
-        html += '<tr>';
-        for (var j = 0; j < field_size; j++) {
-        //  html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 2.2em; text-align: center">' + ( center == i ? bukva[j] : '') + '</div></td>';
-            html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 3em; text-align: center">' + ( center-2 == i ? bukva[j] : '')+( center-1 == i ? bukva[j] : '')+( center+1 == i ? bukva[j] : '')+( center == i ? bukva[j] : '') + '</div></td>';
-
-        }
-        html += '</tr>';
-      }
-
-      // инициализируем игроков
-      var name = $('#player-1').val();
-      player1 = new ClassPlayer(name.length ? name : 'Игрок 1', true, [], 0, [0]);
-       // player1.list = ["слово"];
-
-      name = $('#player-2').val();
-      player2 = new ClassPlayer(name.length ? name : 'Игрок 2', false, [], 0, [0]);
-      //  player2.list = ["словарик"];
-
-      $('#progress-player-1').html(player1.name).addClass('player-active').removeClass('text-shadow');
-      $('#progress-player-2').html(player2.name).addClass('text-disabled');
-
-      $('#game-field').html(html);
-        drawBlocked();
-    }
-  }, '#start-game');
-
-    //переход на страницу игрового процесса сохраненной игры
-  $(document).on({
-    click: function() {
-        if (isLocalStorageAvailable() && localStorage.getItem("save") == "yes") {
-          field_size = localStorage.getItem("field_size");
-          fields_chars_arr = JSON.parse(localStorage.getItem("fields_chars"));
-          var html       = '';
+    //переход на страницу игрового процесса и генерация поля произвольного размера
+    $(document).on({
+        click: function() {
+            field_size = $('input[name="field-size"]:checked').attr('data-field-size');
+            var html       = '';
             $('#word').html("Введите букву");
 
-          $('#menu').slideUp();
-          $('#progress').slideDown(500);
+            AddFirstWord(field_size);
+            $('#param').slideUp();
+            $('#progress').slideDown(500);
 
-          for (var i = 0; i < field_size; i++) {
-            html += '<tr>';
-            for (var j = 0; j < field_size; j++) {
-              html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 2.2em; text-align: center">' + fields_chars_arr[i][j] + '</div></td>';
+            var center = Math.floor(field_size/2);
+            for (var i = 0; i < field_size; i++) {
+                html += '<tr>';
+                for (var j = 0; j < field_size; j++) {
+                      html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 2.2em; text-align: center">' + ( center == i ? bukva[j] : '') + '</div></td>';
+                  //  html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 3em; text-align: center">' + ( center-2 == i ? bukva[j] : '')+( center-1 == i ? bukva[j] : '')+( center+1 == i ? bukva[j] : '')+( center == i ? bukva[j] : '') + '</div></td>';
+
+                }
+                html += '</tr>';
             }
-            html += '</tr>';
-          }
 
-          // инициализируем игроков
-          player1 = JSON.parse(localStorage.getItem('player1'));
-          player2 = JSON.parse(localStorage.getItem('player2'));
+            // инициализируем игроков
+            var name = $('#player-1').val();
+            player1 = new ClassPlayer(name.length ? name : 'Игрок 1', true, [], 0, [0]);
+            // player1.list = ["слово"];
 
-          if (player1.state == true) {
+            name = $('#player-2').val();
+            player2 = new ClassPlayer(name.length ? name : 'Игрок 2', false, [], 0, [0]);
+            //  player2.list = ["словарик"];
+
             $('#progress-player-1').html(player1.name).addClass('player-active').removeClass('text-shadow');
             $('#progress-player-2').html(player2.name).addClass('text-disabled');
-          } else {
-            $('#progress-player-1').html(player1.name).addClass('text-disabled');
-            $('#progress-player-2').html(player2.name).addClass('player-active').removeClass('text-shadow');
-          }
-          $('#game-field').html(html);
+
+            $('#game-field').html(html);
             drawBlocked();
         }
-    }
-  }, '#continue');
-  
-  //переход из меню в окно настройки игры
-  $(document).on({
-    click: function() {
-      $('#menu').slideUp();
-      $('#param').slideDown();
-    }
-  }, '#game-param');
+    }, '#start-game');
 
-  //переход из меню в справку
-  $(document).on({
-    click: function() {
-      $('#menu').slideUp();
-      $('#info').slideDown();
-    }
-  }, '#reference');
+    //переход на страницу игрового процесса сохраненной игры
+    $(document).on({
+        click: function() {
+            if (isLocalStorageAvailable() && localStorage.getItem("save") == "yes") {
+                field_size = localStorage.getItem("field_size");
+                fields_chars_arr = JSON.parse(localStorage.getItem("fields_chars"));
+                var html       = '';
+                $('#word').html("Введите букву");
 
-  //переход из справки в меню
-  $(document).on({
-    click: function() {
-      $('#info').slideUp();
-      $('#menu').slideDown();
-    }
-  }, '#backfrominfo');
+                $('#menu').slideUp();
+                $('#progress').slideDown(500);
 
-  //вернуться из настроек игры в меню
-  $(document).on({
-    click: function() {
-      $('#param').slideUp();
-      $('#menu').slideDown();
-    }
-  }, '#to-main');
+                for (var i = 0; i < field_size; i++) {
+                    html += '<tr>';
+                    for (var j = 0; j < field_size; j++) {
+                        html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 2.2em; text-align: center">' + fields_chars_arr[i][j] + '</div></td>';
+                    }
+                    html += '</tr>';
+                }
 
-  //переход из игры в окно параметров игры
-  $(document).on({
-    click: function() {
-      last_click = $(this);
-      $('#menu').slideUp();
-      $('#setting').slideDown();
-    }
-  }, '#settings');
+                // инициализируем игроков
+                player1 = JSON.parse(localStorage.getItem('player1'));
+                player2 = JSON.parse(localStorage.getItem('player2'));
 
-  //переход из игры в окно параметров игры
-  $(document).on({
-    click: function() {
-      last_click = $(this);
-      $('#progress').slideUp();
-      $('#setting').slideDown();
-    }
-  }, '#setting_game');
+                if (player1.state == true) {
+                    $('#progress-player-1').html(player1.name).addClass('player-active').removeClass('text-shadow');
+                    $('#progress-player-2').html(player2.name).addClass('text-disabled');
+                } else {
+                    $('#progress-player-1').html(player1.name).addClass('text-disabled');
+                    $('#progress-player-2').html(player2.name).addClass('player-active').removeClass('text-shadow');
+                }
+                $('#game-field').html(html);
+                drawBlocked();
+            }
+        }
+    }, '#continue');
 
-  //переход из окна параметров игры в меню (с сохранением параметров)
-  $(document).on({
-    click: function() {
-      $('#setting').slideUp();
-      if ( 'settings' == last_click.attr('id') ) {
-        $('#menu').slideDown();
-      } else {
-        $('#progress').slideDown();
-      }
-    }
-  }, '#backfromsettingOK');
+    //переход из меню в окно настройки игры
+    $(document).on({
+        click: function() {
+            $('#menu').slideUp();
+            $('#param').slideDown();
+        }
+    }, '#game-param');
 
-  //переход из окна параметров игры в меню (без сохрания параметров)
-  $(document).on({
-    click: function() {
-      $('#setting').slideUp();
-      $('#menu').slideDown();
-    }
-  }, '#backfromsettingNext');
+    //переход из меню в справку
+    $(document).on({
+        click: function() {
+            $('#menu').slideUp();
+            $('#info').slideDown();
+        }
+    }, '#reference');
 
-  //переход из игры в окно статитики
-  $(document).on({
-    click: function() {
-      $('#text1').val(player1.list.join('\n')+'\nОчки - '+genCount1());
-      $('#text2').val(player2.list.join('\n')+'\nОчки - '+genCount2());
-      $('#progress').slideUp();
-      $('#statistics').slideDown();
-    }
-  }, '#statist');
+    //переход из справки в меню
+    $(document).on({
+        click: function() {
+            $('#info').slideUp();
+            $('#menu').slideDown();
+        }
+    }, '#backfrominfo');
+
+    //вернуться из настроек игры в меню
+    $(document).on({
+        click: function() {
+            $('#param').slideUp();
+            $('#menu').slideDown();
+        }
+    }, '#to-main');
+
+    //переход из игры в окно параметров игры
+    $(document).on({
+        click: function() {
+            last_click = $(this);
+            $('#menu').slideUp();
+            $('#setting').slideDown();
+        }
+    }, '#settings');
+
+    //переход из игры в окно параметров игры
+    $(document).on({
+        click: function() {
+            last_click = $(this);
+            $('#progress').slideUp();
+            $('#setting').slideDown();
+        }
+    }, '#setting_game');
+
+    //переход из окна параметров игры в меню (с сохранением параметров)
+    $(document).on({
+        click: function() {
+            $('#setting').slideUp();
+            if ( 'settings' == last_click.attr('id') ) {
+                $('#menu').slideDown();
+            } else {
+                $('#progress').slideDown();
+            }
+        }
+    }, '#backfromsettingOK');
+
+    //переход из окна параметров игры в меню (без сохрания параметров)
+    $(document).on({
+        click: function() {
+            $('#setting').slideUp();
+            $('#menu').slideDown();
+        }
+    }, '#backfromsettingNext');
+
+    //переход из игры в окно статитики
+    $(document).on({
+        click: function() {
+            $('#text1').val(player1.list.join('\n')+'\nОчки - '+genCount1());
+            $('#text2').val(player2.list.join('\n')+'\nОчки - '+genCount2());
+            $('#progress').slideUp();
+            $('#statistics').slideDown();
+        }
+    }, '#statist');
 
     //вернуться из статистики игры в меню
     $(document).on({
@@ -447,21 +448,21 @@ $(function() {
         player2.total=0;
         $('#word').html("Слово");
     }
-  //всплывающее сообщение - сдаться
-  $(document).on({
-    click: function() {
-      jConfirm('Вы уверены, что хотите сдаться ?', 'Сдаться?', function(is_ok) {
-          if (is_ok) {
-              GameOver();
-              $('#progress').slideUp();
-              $('#menu').slideDown();
+    //всплывающее сообщение - сдаться
+    $(document).on({
+        click: function() {
+            jConfirm('Вы уверены, что хотите сдаться ?', 'Сдаться?', function(is_ok) {
+                if (is_ok) {
+                    GameOver();
+                    $('#progress').slideUp();
+                    $('#menu').slideDown();
 
-          }
-      });
-    }
-  }, '#surrender');
+                }
+            });
+        }
+    }, '#surrender');
 
-   // функция пропуска хода
+    // функция пропуска хода
     function Pass () {
         if(player1.state == true)
         {
@@ -479,60 +480,60 @@ $(function() {
         }
     }
 
-  //всплывающее сообщение - пропустить ход
-  $(document).on({
-    click: function() {
-      jConfirm('Вы уверены, что хотите пропустить ход ?', 'Пропустить ход?', function(is_ok) {
-        if (is_ok) {
-          Pass();
-        }
-      });
-    }
-  }, '#skip');
-
-  //всплывающее сообщение - сохранить игру
-  $(document).on({
-    click: function() {
-      jConfirm('Вы уверены, что хотите сохранить игру? (предыдущая сохраненная игра будет перезаписана)', 'Сохранить игру', function(is_ok) {
-        if (is_ok) {
-            for (var i = 0; i < field_size; i++) {
-                fields_chars_arr[i] = [];
-                for (var j = 0; j < field_size; j++) {
-                    fields_chars_arr[i][j] = $('#cell-' + i + '-' + j).text();
+    //всплывающее сообщение - пропустить ход
+    $(document).on({
+        click: function() {
+            jConfirm('Вы уверены, что хотите пропустить ход ?', 'Пропустить ход?', function(is_ok) {
+                if (is_ok) {
+                    Pass();
                 }
-            }
-          if (isLocalStorageAvailable()) {
-              localStorage.setItem('save', 'yes');
-              localStorage.setItem('player1', JSON.stringify(player1));
-              localStorage.setItem('player2', JSON.stringify(player2));
-              localStorage.setItem('fields_chars', JSON.stringify(fields_chars_arr));
-              localStorage.setItem('field_size', field_size);
-          }
+            });
         }
-      });
-    }
-  }, '#save');
-    
-   //если есть сохраненная игра - делаем кнопку продолжить активной
+    }, '#skip');
+
+    //всплывающее сообщение - сохранить игру
+    $(document).on({
+        click: function() {
+            jConfirm('Вы уверены, что хотите сохранить игру? (предыдущая сохраненная игра будет перезаписана)', 'Сохранить игру', function(is_ok) {
+                if (is_ok) {
+                    for (var i = 0; i < field_size; i++) {
+                        fields_chars_arr[i] = [];
+                        for (var j = 0; j < field_size; j++) {
+                            fields_chars_arr[i][j] = $('#cell-' + i + '-' + j).text();
+                        }
+                    }
+                    if (isLocalStorageAvailable()) {
+                        localStorage.setItem('save', 'yes');
+                        localStorage.setItem('player1', JSON.stringify(player1));
+                        localStorage.setItem('player2', JSON.stringify(player2));
+                        localStorage.setItem('fields_chars', JSON.stringify(fields_chars_arr));
+                        localStorage.setItem('field_size', field_size);
+                    }
+                }
+            });
+        }
+    }, '#save');
+
+    //если есть сохраненная игра - делаем кнопку продолжить активной
     if (isLocalStorageAvailable() && localStorage.getItem("save") == 'yes') {
         $('#continue').prop('disabled', false);
     }
 
 //всплывающее сообщение - пауза
-  $(document).on({
-    click: function() {
-      jAlert('Передохнем?', 'Пауза');
-    }
-  }, '#pause');
+    $(document).on({
+        click: function() {
+            jAlert('Передохнем?', 'Пауза');
+        }
+    }, '#pause');
 
-  //смена фона
-  $(document).on({
-    click: function() {
-      console.log($(this));
-      $('body').attr('style', $(this).attr('style'));
-      isLocalStorageAvailable()? localStorage.setItem('background', $(this).attr('style')) : '';
-    }
-  }, '.picture');
+    //смена фона
+    $(document).on({
+        click: function() {
+            console.log($(this));
+            $('body').attr('style', $(this).attr('style'));
+            isLocalStorageAvailable()? localStorage.setItem('background', $(this).attr('style')) : '';
+        }
+    }, '.picture');
 
     //переход на форму выбора буквы
     $(document).on({
@@ -569,9 +570,9 @@ $(function() {
                     }
                 }
 
-              //  input_mode = 'input_word';
+                //  input_mode = 'input_word';
             } else if (input_mode == 'input_word'){
-                    if($(this).text() != '') {
+                if($(this).text() != '') {
                     var i = $(this).attr('id').charAt(5) * 1;
                     var j = $(this).attr('id').charAt(7) * 1;
                     if (last_cell_i >= 0 && last_cell_j >=0) {
@@ -595,7 +596,7 @@ $(function() {
                                 return;
                             }
 
-                           // $(this).html('<div style="font-size: 3em; text-align: center; background:#ebdaa3">' + $(this).text() + '</div>');
+                            // $(this).html('<div style="font-size: 3em; text-align: center; background:#ebdaa3">' + $(this).text() + '</div>');
                             if (this == input_char) {
                                 $(this).html('<div style="font-size: 2.2em; text-align: center; background:#fba82b; height: 100%">' + $(this).text() + '</div>');
                             } else {
@@ -603,12 +604,12 @@ $(function() {
                             }
                             return;
                         } else {
-                        //буква входит в слово
-                        for (var k=0; k < charList.length; k++){
-                            if (charList[k] == this) {
-                                return;
+                            //буква входит в слово
+                            for (var k=0; k < charList.length; k++){
+                                if (charList[k] == this) {
+                                    return;
+                                }
                             }
-                        }
                         }
                         //лежат на одном столбце
                         if(((i+1 == last_cell_i) || (i-1 == last_cell_i)) &&(j == last_cell_j)){
@@ -645,7 +646,7 @@ $(function() {
         }
     }, '.cell');
 
-  //переход обратно на форму с игрой (из формы выбора буквы)
+    //переход обратно на форму с игрой (из формы выбора буквы)
     $(document).on({
         click: function() {
             var obj = $(this);
@@ -671,35 +672,38 @@ $(function() {
         return false;
     }
 
-  function isMiniGame() {
-    var chance = 5 == field_size ? 15 : (6 == field_size ? 20 : 25),
-        rand   = Random(0, 100),
-        start  = Random(0, 100 - chance);
+    function isMiniGame() {
+        var chance = 5 == field_size ? 15 : (6 == field_size ? 20 : 25),
+            rand   = Random(0, 100),
+            start  = Random(0, 100 - chance);
 
-    return rand > start && rand <= start + chance;
-  }
+        return rand > start && rand <= start + chance;
+    }
 
-  function startMiniGame(is_player1) {
-    var i = Random(0, riddle.length);
-    jPrompt(riddle[i].text, '', 'Ура! Мини игра!', function(s_answer) {
-      if ( null === s_answer ) {
-        alert('Мини игра отменена!');
-      } else if ( s_answer.toString().trim() == riddle[i].answer ) {
-        alert('Ответ верный!');
-        if ( is_player1 ) {
-          player1.list.push('bonus');
-        } else {
-          player2.list.push('bonus');
-        }
-      } else {
-        alert('Ответ не верный');
-      }
-    });
-  }
+    function startMiniGame(is_player1) {
+        var i = Random(0, riddle.length);
+        jPrompt(riddle[i].text, '', 'Ура! Мини игра!', function(s_answer) {
+            if ( null === s_answer ) {
+                alert('Мини игра отменена!');
+            } else if ( s_answer.toString().trim() == riddle[i].answer ) {
+                alert('Ответ верный!');
+                if ( is_player1 ) {
+                    player1.list.push('bonus');
+                } else {
+                    player2.list.push('bonus');
+                }
+            } else {
+                alert('Ответ не верный');
+            }
+        });
+    }
 
     // нажатие на кнопку "OK"
     $(document).on({
         click: function() {
+            $('#send-word').addClass('text-disabled ');
+            if(last_change.html==null){
+            }
             $('#send-word').addClass('text-disabled ');
             if (input_mode == 'input_char') {
                 input_mode = 'input_word';
@@ -721,7 +725,7 @@ $(function() {
                     if ( isMiniGame() || $(this).attr('data-mini-game') ) {
                         startMiniGame(player1.state);
                     }
-
+                    win();
                     nextPlayer();
                     word = "";
 
@@ -777,49 +781,57 @@ $(function() {
         }
     }, '#send-word');
 
-function win(){
-    var h=0;
-    for (var i = 0; i < field_size; i++) {
-        for (var j = 0; j < field_size; j++) {
-            if  ( $('#cell-' + i + '-' + j).text() != ''){
-                h++;
+    function win(){
+        var h=0;
+        for (var i = 0; i < field_size; i++) {
+            for (var j = 0; j < field_size; j++) {
+                if  ( $('#cell-' + i + '-' + j).text() != ''){
+                    h++;
+                }
+                else{
+                }
             }
-            else{
+        }
+        if(h/field_size==field_size)
+        {
+            genCount1();
+            genCount2();
+
+            if( ! $('input[name="battle"]:checked')){
+                Game_Over();
+                if(tur1>1 && (tur1-tur2)!=0)
+                {
+                    Winner1();
+                }
+                else{
+                    Start_Game();
+                }
+                if(tur2>1&&(tur2-tur1)!=0)
+                {
+                    Winner2();
+                }
+                else{
+                    Start_Game();
+                }
+            }
+           else{
+                Game_Over();
+                $('#progress').slideUp();
+                $('#menu').slideDown();
             }
         }
     }
-    if(h/field_size==field_size)
-    {
-        genCount1();
-        genCount2();
-        Game_Over();
-        if(tur1>1 && (tur1-tur2)!=0)
-        {
-            Winner1();
-        }
-        else{
-            Start_Game();
-        }
-        if(tur2>1&&(tur2-tur1)!=0)
-        {
-            Winner2();
-        }
-        else{
-            Start_Game();
-        }
-    }
-}
 
     function nextPlayer() {
         if(player1.state==true){
-        player2.state= true;
-        player1.state=false;
+            player2.state= true;
+            player1.state=false;
             player1.list.push(word);
             $('#progress-player-2').html(player2.name).addClass('player-active').removeClass('text-disabled');
             $('#progress-player-1').html(player1.name).addClass('text-disabled');
         } else {
-        player1.state= true;
-        player2.state=false;
+            player1.state= true;
+            player2.state=false;
             player2.list.push(word);
             $('#progress-player-1').html(player1.name).addClass('player-active').removeClass('text-disabled');
             $('#progress-player-2').html(player2.name).addClass('text-disabled');
@@ -828,41 +840,41 @@ function win(){
 
     //функция подсчета общего количества букв
     function genCount1 (){
-      player1.total = 0;
+        player1.total = 0;
         for (var i = 0; i < player1.list.length; i++)
         {
-          if ( 'bonus' == player1.list[i] ) {
-            player1.total++;
-          }
-          else {
-            var word = player1.list[i];
-            for (var j =0; j<word.length; j++)
-            {
-              player1.total += getLetterPoints(word[j]);
+            if ( 'bonus' == player1.list[i] ) {
+                player1.total++;
             }
-          }
+            else {
+                var word = player1.list[i];
+                for (var j =0; j<word.length; j++)
+                {
+                    player1.total += getLetterPoints(word[j]);
+                }
+            }
         }
         return player1.total;
     }
-  
+
     function genCount2 (){
-      player2.total = 0;
+        player2.total = 0;
         for (var i = 0; i < player2.list.length; i++)
         {
-          if ( 'bonus' == player2.list[i] ) {
-            player2.total++;
-          } else {
-            var word = player2.list[i];
-            for (var j =0; j<word.length; j++)
-            {
-              player2.total += getLetterPoints(word[j]);
+            if ( 'bonus' == player2.list[i] ) {
+                player2.total++;
+            } else {
+                var word = player2.list[i];
+                for (var j =0; j<word.length; j++)
+                {
+                    player2.total += getLetterPoints(word[j]);
+                }
             }
-          }
         }
         return player2.total;
     }
 
-	//проверка на наличие локального хранилища в браузере
+    //проверка на наличие локального хранилища в браузере
     function isLocalStorageAvailable() {
         try {
             return 'localStorage' in window && window['localStorage'] !== null;
