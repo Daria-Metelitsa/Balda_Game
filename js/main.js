@@ -349,14 +349,43 @@ $(function() {
   //всплывающее сообщение - сдаться
   $(document).on({
     click: function() {
-      jConfirm('Вы уверены, что хотите сдаться ?', 'Сдаться?', function(is_ok) {
-          if (is_ok) {
-              GameOver();
-              $('#progress').slideUp();
-              $('#menu').slideDown();
+      if(last_click == null)
+      {
+        field_size = $('input[name="field-size"]:checked').attr('data-field-size');
+        // $("div.control border shadow small text-shadow button:contains('Новое слово')").text('Сдаться');
+        var html       = '';
+        $('#word').html("Введите букву");
 
+        AddFirstWord(field_size);
+        SlovoDnya();
+
+        $('#param').slideUp();
+        $('#progress').slideDown(500);
+
+        var center = Math.floor(field_size/2);
+        for (var i = 0; i < field_size; i++) {
+          html += '<tr>';
+          for (var j = 0; j < field_size; j++) {
+            html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 3em; text-align: center">' + ( center == i ? bukva[j] : '') + '</div></td>';
           }
-      });
+          html += '</tr>';
+        }
+
+        $('#game-field').html(html);
+        drawBlocked();
+      }
+      else
+      {
+        jConfirm('Вы уверены, что хотите сдаться ?', 'Сдаться?', function(is_ok) {
+          if (is_ok) {
+            GameOver();
+            last_click=null;
+            $('#surrender').text('Новое слово');
+            $('#progress').slideUp();
+            $('#menu').slideDown();
+          }
+        });
+      }
     }
   }, '#surrender');
 
@@ -487,6 +516,10 @@ $(function() {
   //переход обратно на форму с игрой (из формы выбора буквы)
     $(document).on({
         click: function() {
+          if(last_click != null)
+          {
+            $('#surrender').text('Сдаться');
+          }
             var obj = $(this);
             if(last_change != null) {
                 last_change.html ('');
