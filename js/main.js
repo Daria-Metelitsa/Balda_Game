@@ -43,6 +43,16 @@ $(function() {
   var wordd = [];// объявляем массив слов дня
   var bukva = [];//массив букв
   var r;//переменная для выбора случайного слова
+  var firstAudio= new Audio();
+  var secondAudio = new Audio();
+  var thirdAudio = new Audio();
+  firstAudio.src = "Sound1.ogg";
+  secondAudio.src = "Sound2.ogg";
+  thirdAudio.src = "Sound3.ogg";
+  //флаги для определения номера композиции
+  var st1=false;
+  var st2=false;
+  var st3=false;
   $.ajax({ url:"BALDAD.html", success: foo, dataType: "text" }); // заполняем массив слов
   function foo( text ) {
     string = text.split( /\s+/ );
@@ -286,6 +296,85 @@ $(function() {
   //переход из окна параметров игры в меню (с сохранением параметров)
   $(document).on({
     click: function() {
+      var ch1 = $('input[name="sound"]:checked').attr('id');
+      var ch2 = $('input[name="soundcheck"]:checked').attr('id');
+      //alert (ch1);
+      if(ch1=="soundON"){
+        if(ch2=="sound1")
+        {
+          if (st2==true)
+          {
+            secondAudio.pause();
+            secondAudio.currentTime = 0;
+            st2=false;
+          }
+          if(st3==true)
+          {
+            thirdAudio.pause();
+            thirdAudio.currentTime = 0;
+            st3=false;
+          }
+
+          firstAudio.play();
+          st1=true;
+        }
+        else if(ch2=="sound2")
+        {
+          if(st1==true)
+          {
+            firstAudio.pause();
+            firstAudio.currentTime = 0;
+            st1=false;
+          }
+          if(st3==true)
+          {
+            thirdAudio.pause();
+            thirdAudio.currentTime = 0;
+            st3=false;
+          }
+
+          secondAudio.play();
+          st2=true;
+        }
+        else
+        {
+          if(st1==true)
+          {
+            firstAudio.pause();
+            firstAudio.currentTime = 0;
+            st1=false;
+          }
+          if(st2==true)
+          {
+            secondAudio.pause();
+            secondAudio.currentTime = 0;
+            st2=false;
+          }
+
+          thirdAudio.play();
+          st3=true;
+        }
+      }
+      else{
+        if(st1==true)
+        {
+          firstAudio.pause();
+          firstAudio.currentTime = 0;
+          st1=false;
+        }
+        else if(st2==true)
+        {
+          secondAudio.pause();
+          secondAudio.currentTime = 0;
+          st2=false;
+        }
+        else
+        {
+          thirdAudio.pause();
+          thirdAudio.currentTime = 0;
+          st3=false;
+        }
+      }
       $('#setting').slideUp();
       if ( 'settings' == last_click.attr('id') ) {
         $('#menu').slideDown();
