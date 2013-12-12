@@ -701,15 +701,12 @@ $(function() {
     $(document).on({
         click: function() {
             $('#send-word').addClass('text-disabled ');
-            if(last_change.html==null){
-            }
-            $('#send-word').addClass('text-disabled ');
             if (input_mode == 'input_char') {
                 input_mode = 'input_word';
                 $('#word').html("Ваше слово");
             } else {
                 if (charList.length <= 1) {
-                   // alert("Размер слова должен быть минимум 2 буквы!");
+                    // alert("Размер слова должен быть минимум 2 буквы!");
                     jConfirm('Размер слова должен быть минимум 2 буквы!', 'Недопустимый размер слова!');
                     return;
                 }
@@ -718,46 +715,20 @@ $(function() {
                     jConfirm('Выберите слово с учетом добавленной буквы!', 'Слово не содержит добавленную букву!');
                     return;
                 }
-                // добавить проверку на наличие слова в словаре и другие
-                 Checking();
-                ////проверка на поединок
-                //дописать изменение активности игрока?
-            }
-        }
-    }, '#send-word');
+                // добавить проверку на наличие слова в словаре
+                if(Poisk(word)==true){
 
-    function Checking(){
-        if(Poisk(word)==true){
-            if ( isMiniGame() || $(this).attr('data-mini-game') ) {
-                startMiniGame(player1.state);
-            }
-            nextPlayer();
-            word = "";
-            for (var i = 0; i < charList.length; i++) {
-                $(charList[i]).html('<div style="font-size: 2.2em; text-align: center; background:#ebdaa3">' + $(charList[i]).text() + '</div>');
-            }
-            charList = [];
-            input_char = null;
-            last_change = null;
-            last_cell_i = -1;
-            last_cell_j = -1;
-            input_mode = 'input_char';
-            $('#word').html(word);
-            $('#word').html("Введите букву");
-            Win(h);
-        }
-        else{
-            jConfirm('Добавить слово в словарь', 'Слова нет в словаре', function(is_ok) {
-                if (is_ok) {
-                    string.push(word);
-
-                    nextPlayer();
-
-                    Win(h);
-                    for (var i = 0; i < charList.length; i++) {
-                        $(charList[i]).html('<div style="font-size: 2.2em; text-align: center; background:#ebdaa3">' + $(charList[i]).text() + '</div>');
+                    if ( isMiniGame() || $(this).attr('data-mini-game') ) {
+                        startMiniGame(player1.state);
                     }
 
+                    nextPlayer();
+                    word = "";
+
+                    for (var i = 0; i < charList.length; i++) {
+                        $(charList[i]).html('<div style="font-size: 3em; text-align: center; background:#ebdaa3">' + $(charList[i]).text() + '</div>');
+                    }
+                    charList = [];
                     input_char = null;
                     last_change = null;
                     last_cell_i = -1;
@@ -765,69 +736,79 @@ $(function() {
                     input_mode = 'input_char';
                     $('#word').html(word);
                     $('#word').html("Введите букву");
+                }
+                else {
+                    jConfirm('Добавить слово в словарь', 'Слова нет в словаре', function(is_ok) {
+                        if (is_ok) {
+                            string.push(word);
+                            nextPlayer();
+                            word="";
 
-                     word = " ";
-                    charList = [];
-
+                            input_char = null;
+                            last_change = null;
+                            last_cell_i = -1;
+                            last_cell_j = -1;
+                            input_mode = 'input_char';
+                            $('#word').html("Введите букву");
+                            for (var i = 0; i < charList.length; i++) {
+                                $(charList[i]).html('<div style="font-size: 2.2em; text-align: center; background:#ebdaa3">' + $(charList[i]).text() + '</div>');
+                            }
+                            charList = [];
+                            win();
+                        }
+                        else{
+                            for (var i = 0; i < charList.length; i++) {
+                                $(charList[i]).html('<div style="font-size: 2.2em; text-align: center; background:#ebdaa3">' + $(charList[i]).text() + '</div>');
+                            }
+                            last_change.html ('');
+                            word="";
+                            charList = [];
+                            input_char = null;
+                            last_change = null;
+                            last_cell_i = -1;
+                            last_cell_j = -1;
+                            input_mode = 'input_char';
+                            $('#word').html("Введите букву");
+                        }
+                    });
                 }
-                else{
-                    // откат до начального состояния игрового поля
-                    for (var i = 0; i < charList.length; i++) {
-                        $(charList[i]).html('<div style="font-size: 2.2em; text-align: center; background:#ebdaa3">' + $(charList[i]).text() + '</div>');
-                    }
-                    last_change.html ('');
-                    charList = [];
-                    input_char = null;
-                    last_change = null;
-                    last_cell_i = -1;
-                    last_cell_j = -1;
-                    input_mode = 'input_char';
-                    $('#word').html('');
-                    $('#word').html("Введите букву");
-                    word = "";
-                }
-            });
-
-        }
-        drawBlocked();
-        var h=0;
-        //для проверки на завершение игры
-        for (var i = 0; i < field_size; i++) {
-            for (var j = 0; j < field_size; j++) {
-                if  ( $('#cell-' + i + '-' + j).text() != ''){
-                    h++;
-                }
-                else{
-                }
+                drawBlocked();
             }
         }
-        return h;
+    }, '#send-word');
+
+function win(){
+    var h=0;
+    for (var i = 0; i < field_size; i++) {
+        for (var j = 0; j < field_size; j++) {
+            if  ( $('#cell-' + i + '-' + j).text() != ''){
+                h++;
+            }
+            else{
+            }
+        }
     }
-    function Win(h)
+    if(h/field_size==field_size)
     {
-        if(h/field_size==field_size)
+        genCount1();
+        genCount2();
+        Game_Over();
+        if(tur1>1 && (tur1-tur2)!=0)
         {
-            genCount1();
-            genCount2();
-            Game_Over();
-            if(tur1>1 && (tur1-tur2)!=0)
-            {
-               // jAlert('Игра'+(h+1),player1.name+'победил со счетом'+player1.total);
-                Winner1();
-            }
-            else{
-                Start_Game();
-            }
-            if(tur2>1&&(tur2-tur1)!=0 )
-            {
-               // jAlert('Игра'+(h+1),player2.name+'победил со счетом'+player2.total);
-                Winner2();
-            }
-            else{
-                Start_Game();
-            }
+            Winner1();
+        }
+        else{
+            Start_Game();
+        }
+        if(tur2>1&&(tur2-tur1)!=0)
+        {
+            Winner2();
+        }
+        else{
+            Start_Game();
         }
     }
+}
 
     function nextPlayer() {
         if(player1.state==true){
