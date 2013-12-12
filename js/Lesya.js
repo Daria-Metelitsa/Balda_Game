@@ -1,7 +1,6 @@
-﻿var ClassPlayer = function (name, state, list, total, points) {
+﻿var ClassPlayer = function (name, state, list, total) {
 	this.name  = name; // имя игрока
 	this.list  = []; // весь массив слов
-    this.points = []; //массив очков для подсчета по весу буквы
 	this.total = 0; // общая сумма баллов
     this.state = true; // активность игрока
 }

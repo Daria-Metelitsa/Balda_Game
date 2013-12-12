@@ -24,7 +24,7 @@ $(function() {
     };
 
     //последний объект, на котором был произведен клик
-    var active_player = 1; // какой игрок в текущий момент активен
+    //var active_player = 1; // какой игрок в текущий момент активен
     var last_click = null;
     var last_change = null;
     var last_cell_i = -1;
@@ -160,7 +160,7 @@ $(function() {
 
     function Start_Game(){
         field_size = $('input[name="field-size"]:checked').attr('data-field-size');
-        var html       = '';
+        var html = '';
         $('#word').html("Введите букву");
         AddFirstWord(field_size);
         $('#param').slideUp();
@@ -170,7 +170,7 @@ $(function() {
         for (var i = 0; i < field_size; i++) {
             html += '<tr>';
             for (var j = 0; j < field_size; j++) {
-            //    html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 2.2em; text-align: center">' + ( center-2 == i ? bukva[j] : '')+( center-1 == i ? bukva[j] : '')+( center+1 == i ? bukva[j] : '')+( center == i ? bukva[j] : '') + '</div></td>';
+
                 html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 2.2em; text-align: center">'+( center == i ? bukva[j] : '') + '</div></td>';
             }
             html += '</tr>';
@@ -340,10 +340,12 @@ $(function() {
     //переход из игры в окно статитики
     $(document).on({
         click: function() {
-            $('#text1').val(player1.list.join('\n')+'\nОчки - '+genCount1());
-            $('#text2').val(player2.list.join('\n')+'\nОчки - '+genCount2());
-            $('#progress').slideUp();
-            $('#statistics').slideDown();
+          $('#play1').html(player1.name);
+          $('#play2').html(player2.name);
+          $('#text1').val(player1.list.join('\n')+'\nОчки - '+genCount1());
+          $('#text2').val(player2.list.join('\n')+'\nОчки - '+genCount2());
+          $('#progress').slideUp();
+          $('#statistics').slideDown();
         }
     }, '#statist');
 
@@ -357,8 +359,6 @@ $(function() {
 
 //Вывод очков одиночной игры //и поединка
     function Game_Over(){
-        //getCount1();
-        //getCount2();
         if(player1.total>player2.total){
             point_player1=point_player1+player1.total;
             point_player2=point_player2+player2.total;
@@ -397,8 +397,7 @@ $(function() {
     //определение победителя
     //сообщения
     function Winner1() {
-
-        jAlert(player1.name + ' выиграл со счетом'+ point_player1, 'Игра окончена!', function(is_ok) {
+        jAlert(player1.name + ' выиграл со счетом - '+ point_player1, 'Игра окончена!', function(is_ok) {
             if (is_ok) {
                 $('#progress').slideUp();
                 $('#menu').slideDown();
@@ -412,8 +411,7 @@ $(function() {
     }
 
     function Winner2() {
-
-        jAlert(player2.name + 'выиграл со счетом'+ point_player2, 'Игра окончена!', function(is_ok) {
+        jAlert(player2.name + 'выиграл со счетом - '+ point_player2, 'Игра окончена!', function(is_ok) {
             if (is_ok) {
                 $('#progress').slideUp();
                 $('#menu').slideDown();
@@ -424,17 +422,18 @@ $(function() {
             }
         });
     }
+
     //Реализация функции сдаться
     function GameOver () {
         if(player1.state == true)
         {
             genCount2();
-            jAlert (player2.name + " победил со счетом " + player2.total, 'ПОБЕДА!!!');
+            jAlert (player2.name + " победил со счетом - " + player2.total, 'ПОБЕДА!!!');
         }
         else
         {
             genCount1();
-            jAlert (player1.name + " победил со счетом " + player1.total, 'ПОБЕДА!!!');
+            jAlert (player1.name + " победил со счетом - " + player1.total, 'ПОБЕДА!!!');
         }
         player1.list=[];
         player1.total=0;
@@ -452,7 +451,7 @@ $(function() {
     //всплывающее сообщение - сдаться
     $(document).on({
         click: function() {
-            jConfirm('Вы уверены, что хотите сдаться ?', 'Сдаться?', function(is_ok) {
+            jConfirm('Вы уверены, что хотите сдаться?', 'Сдаться?', function(is_ok) {
                 if (is_ok) {
                     GameOver();
                     $('#progress').slideUp();
@@ -510,6 +509,8 @@ $(function() {
                         localStorage.setItem('fields_chars', JSON.stringify(fields_chars_arr));
                         localStorage.setItem('field_size', field_size);
                     }
+                  $('#progress').slideUp();
+                  $('#menu').slideDown();
                 }
             });
         }
