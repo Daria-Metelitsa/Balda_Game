@@ -36,6 +36,7 @@ $(function() {
     var charList = [];
     var input_char = null;
     var field_size = 0; //размер поля
+	var fields_chars_arr = []; //массив букв игрового поля
     var point_player1=0;
     var point_player2=0;
     var tur1=0;
