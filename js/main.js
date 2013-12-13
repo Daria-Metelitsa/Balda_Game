@@ -519,17 +519,20 @@ $(function() {
                     $(charList[i]).html('<div style="font-size: 3em; text-align: center; background:#ebdaa3">' + $(charList[i]).text() + '</div>');
                 }
                 }
-                if (SearchRepeat(word)==true)
-                {
-                    jConfirm('Повтор слова', 'Слово уже существует!');
-                    return;
-                }
+
                 else {
                     jConfirm('Добавить слово в словарь', 'Слова нет в словаре', function(is_ok) {
                         if (is_ok) {
                                 string.push(word);
                                 nextPlayer();
                                 word = "";
+                            for (var i = 0; i < charList.length; i++) {
+                                $(charList[i]).html('<div style="font-size: 3em; text-align: center; background:#ebdaa3">' + $(charList[i]).text() + '</div>');
+                            }
+                        }
+                        else
+                        {
+                            return;
                         }
                     });
 
@@ -538,6 +541,12 @@ $(function() {
                     }
 
                 }
+               /* if (SearchRepeat(word)==true)
+                {
+                    jConfirm('Повтор слова', 'Слово уже существует!');
+                    return;
+                }
+                */
               charList = [];
               input_char = null;
               last_change = null;
@@ -551,6 +560,7 @@ $(function() {
     }, '#send-word');
 
     function nextPlayer() {
+
         if(player1.state==true){
         player2.state= true;
         player1.state=false;
@@ -602,9 +612,14 @@ $(function() {
         return player2.total;
     }
     //Задать время на выполнение хода
+    function forTimer() {
+        nextPlayer();
+        jAlert('Время на выполнение хода истекло');
+    }
+
     function SetTimerForPlayers()
     {
-        setInterval(nextPlayer(), 12000);
+        setTimeout(forTimer(), 10000);
     }
     function SearchRepeat(slovo)
     {
