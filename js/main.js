@@ -40,8 +40,19 @@ $(function() {
   }
 
   var string = [];// объявляем массив слов
+  var wordd = [];// объявляем массив слов дня
   var bukva = [];//массив букв
-
+  var r;//переменная для выбора случайного слова
+  var firstAudio= new Audio();
+  var secondAudio = new Audio();
+  var thirdAudio = new Audio();
+  firstAudio.src = "Sound1.ogg";
+  secondAudio.src = "Sound2.ogg";
+  thirdAudio.src = "Sound3.ogg";
+  //флаги для определения номера композиции
+  var st1=false;
+  var st2=false;
+  var st3=false;
   $.ajax({ url:"BALDAD.html", success: foo, dataType: "text" }); // заполняем массив слов
   function foo( text ) {
     string = text.split( /\s+/ );
@@ -116,6 +127,51 @@ $(function() {
       return ff;
   }
 
+  //функция создания слов дня
+  function SlovoDnya()
+  {
+    for( var i=0;i<500; i++)
+    {
+      Random(0,5996);
+      wordd [i]= string[r];
+    }
+  }
+
+  //проверка слова на слово дня
+  //если SD=true, то увеличиваем кол-во очков
+  function PoiskSD(slovo)
+  {
+    var st1 = slovo.split('');
+    var s =st1.length;
+    //alert(str1);
+    var st2;
+    var i=0;
+    // var c=0;
+    var SD = false;
+    do{
+      var c=0;
+      st2=wordd[i].split('');
+      //alert(st2);
+      if(s==st2.length)
+      {
+        for(var j=0; j<s; j++)
+        {
+          if(st1[j]==st2[j])
+          {
+            c=c+1;
+          }
+        }
+        if(c==s){ SD=true; //alert(c);
+        }
+        else { i=i+1; }
+      }
+      else { i=i+1;}
+      //alert(c);
+    }while((i<500) && (SD==false));
+    // alert(SD);
+    return SD;
+  }
+
     // раскрасить поле в зависимости от блокировки
     function drawBlocked(){
         for (var i = 0; i < field_size; i++) {
@@ -157,6 +213,7 @@ $(function() {
         $('#word').html("Введите букву");
 
       AddFirstWord(field_size);
+      SlovoDnya();
       $('#param').slideUp();
       $('#progress').slideDown(500);
 
@@ -239,6 +296,85 @@ $(function() {
   //переход из окна параметров игры в меню (с сохранением параметров)
   $(document).on({
     click: function() {
+      var ch1 = $('input[name="sound"]:checked').attr('id');
+      var ch2 = $('input[name="soundcheck"]:checked').attr('id');
+      //alert (ch1);
+      if(ch1=="soundON"){
+        if(ch2=="sound1")
+        {
+          if (st2==true)
+          {
+            secondAudio.pause();
+            secondAudio.currentTime = 0;
+            st2=false;
+          }
+          if(st3==true)
+          {
+            thirdAudio.pause();
+            thirdAudio.currentTime = 0;
+            st3=false;
+          }
+
+          firstAudio.play();
+          st1=true;
+        }
+        else if(ch2=="sound2")
+        {
+          if(st1==true)
+          {
+            firstAudio.pause();
+            firstAudio.currentTime = 0;
+            st1=false;
+          }
+          if(st3==true)
+          {
+            thirdAudio.pause();
+            thirdAudio.currentTime = 0;
+            st3=false;
+          }
+
+          secondAudio.play();
+          st2=true;
+        }
+        else
+        {
+          if(st1==true)
+          {
+            firstAudio.pause();
+            firstAudio.currentTime = 0;
+            st1=false;
+          }
+          if(st2==true)
+          {
+            secondAudio.pause();
+            secondAudio.currentTime = 0;
+            st2=false;
+          }
+
+          thirdAudio.play();
+          st3=true;
+        }
+      }
+      else{
+        if(st1==true)
+        {
+          firstAudio.pause();
+          firstAudio.currentTime = 0;
+          st1=false;
+        }
+        else if(st2==true)
+        {
+          secondAudio.pause();
+          secondAudio.currentTime = 0;
+          st2=false;
+        }
+        else
+        {
+          thirdAudio.pause();
+          thirdAudio.currentTime = 0;
+          st3=false;
+        }
+      }
       $('#setting').slideUp();
       if ( 'settings' == last_click.attr('id') ) {
         $('#menu').slideDown();
@@ -302,14 +438,43 @@ $(function() {
   //всплывающее сообщение - сдаться
   $(document).on({
     click: function() {
-      jConfirm('Вы уверены, что хотите сдаться ?', 'Сдаться?', function(is_ok) {
-          if (is_ok) {
-              GameOver();
-              $('#progress').slideUp();
-              $('#menu').slideDown();
+      if(last_click == null)
+      {
+        field_size = $('input[name="field-size"]:checked').attr('data-field-size');
+        // $("div.control border shadow small text-shadow button:contains('Новое слово')").text('Сдаться');
+        var html       = '';
+        $('#word').html("Введите букву");
 
+        AddFirstWord(field_size);
+        SlovoDnya();
+
+        $('#param').slideUp();
+        $('#progress').slideDown(500);
+
+        var center = Math.floor(field_size/2);
+        for (var i = 0; i < field_size; i++) {
+          html += '<tr>';
+          for (var j = 0; j < field_size; j++) {
+            html += '<td id="cell-' + i + '-' + j + '" class="cell cell-' + field_size + '"><div style="font-size: 3em; text-align: center">' + ( center == i ? bukva[j] : '') + '</div></td>';
           }
-      });
+          html += '</tr>';
+        }
+
+        $('#game-field').html(html);
+        drawBlocked();
+      }
+      else
+      {
+        jConfirm('Вы уверены, что хотите сдаться ?', 'Сдаться?', function(is_ok) {
+          if (is_ok) {
+            GameOver();
+            last_click=null;
+            $('#surrender').text('Новое слово');
+            $('#progress').slideUp();
+            $('#menu').slideDown();
+          }
+        });
+      }
     }
   }, '#surrender');
 
@@ -440,6 +605,10 @@ $(function() {
   //переход обратно на форму с игрой (из формы выбора буквы)
     $(document).on({
         click: function() {
+          if(last_click != null)
+          {
+            $('#surrender').text('Сдаться');
+          }
             var obj = $(this);
             if(last_change != null) {
                 last_change.html ('');
