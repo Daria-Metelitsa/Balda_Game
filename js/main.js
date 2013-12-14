@@ -677,7 +677,12 @@ $(function() {
                    // alert("Слово не содержит добавленную букву!");
                         jConfirm('Выберите слово с учетом добавленной буквы!', 'Слово не содержит добавленную букву!');
                      return;
-                }
+                       }
+                    if (SearchRepeat(word)==true)
+                    {
+                        jConfirm('Повтор слова', 'Слово уже существует!');
+                        return;
+                    }
                 if ( isMiniGame() || $(this).attr('data-mini-game') ) {
                   startMiniGame(player1.state);
                 }
@@ -689,19 +694,17 @@ $(function() {
                 }
                 }
 
-                else {
+                else
+                {
                     jConfirm('Добавить слово в словарь', 'Слова нет в словаре', function(is_ok) {
                         if (is_ok) {
+                            string.length = string.length +1;
                                 string.push(word);
                                 nextPlayer();
                                 word = "";
                             for (var i = 0; i < charList.length; i++) {
                                 $(charList[i]).html('<div style="font-size: 3em; text-align: center; background:#ebdaa3">' + $(charList[i]).text() + '</div>');
                             }
-                        }
-                        else
-                        {
-                            return;
                         }
                     });
 
@@ -710,12 +713,7 @@ $(function() {
                     }
 
                 }
-               /* if (SearchRepeat(word)==true)
-                {
-                    jConfirm('Повтор слова', 'Слово уже существует!');
-                    return;
-                }
-                */
+
               charList = [];
               input_char = null;
               last_change = null;
@@ -724,6 +722,7 @@ $(function() {
               input_mode = 'input_char';
               $('#word').html("Введите букву");
             }
+
             drawBlocked();
         }
     }, '#send-word');
