@@ -1,6 +1,13 @@
 /* анонимная функция*/
 $(function() {
 
+  var firstAudio= new Audio();
+  var secondAudio = new Audio();
+  var thirdAudio = new Audio();
+  firstAudio.src = "Sound1.ogg";
+  secondAudio.src = "Sound2.ogg";
+  thirdAudio.src = "Sound3.ogg";
+
 //Загрузка сохраненных настроек при запуске игры
   if (isLocalStorageAvailable()) {
       if (localStorage.getItem('background') != null) {
@@ -50,7 +57,6 @@ $(function() {
   };
 
   //последний объект, на котором был произведен клик
-  var active_player = 1; // какой игрок в текущий момент активен
   var last_click = null;
   var last_change = null;
   var last_cell_i = -1;
@@ -59,6 +65,7 @@ $(function() {
   var player2; // хранится объект второго игрока
   var input_mode = 'input_char';
   var word = "";
+  var wordd = [];
   var charList = [];
   var input_char = null;
   var field_size = 0; //размер поля
@@ -70,12 +77,6 @@ $(function() {
 
   var string = [];// объявляем массив слов
   var bukva = [];//массив букв
-  var firstAudio= new Audio();
-  var secondAudio = new Audio();
-  var thirdAudio = new Audio();
-  firstAudio.src = "Sound1.ogg";
-  secondAudio.src = "Sound2.ogg";
-  thirdAudio.src = "Sound3.ogg";
   //флаги для определения номера композиции
   var st1=false;
   var st2=false;
@@ -112,7 +113,6 @@ $(function() {
     {
       word = string[Random(0, 5996)];
       bukva=word.split('');
-      //alert(bukva);
       if (bukva.length==size)
       {
         cc=1;
@@ -159,8 +159,8 @@ $(function() {
   {
     for( var i=0;i<500; i++)
     {
-      Random(0,5996);
-      wordd [i]= string[r];
+      var r = Random(0,5996);
+      wordd[i]= string[r];
     }
   }
 
@@ -203,29 +203,33 @@ $(function() {
     function drawBlocked(){
         for (var i = 0; i < field_size; i++) {
             for (var j = 0; j < field_size; j++) {
+                var $cell = $('#cell-' + i + '-' + j);
+
                 if (input_char == null) {
                     // пропускаем не соприкасающиеся с заполнеными
                     if  ((i > 0 && $('#cell-' + (i-1) + '-' + j).text() != '')
                         || (j > 0 && $('#cell-' + i + '-' + (j-1)).text() != '')
                         || (i < field_size-1 && $('#cell-' + (i+1) + '-' + j).text() != '')
                         || (j < field_size-1 && $('#cell-' + i + '-' + (j+1)).text() != '')) {
-                        $('#cell-' + i + '-' + j).html('<div style="font-size: 2.2em; text-align: center; background: #ebdaa3; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                        $cell.html('<div style="font-size: 2.2em; text-align: center; background: #ebdaa3; height: 100%">' + $cell.text() + '</div>');
                     } else {
-                        $('#cell-' + i + '-' + j).html('<div style="font-size: 2.2em; text-align: center; opacity: 0.5; background: #996633; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                        $cell.html('<div style="font-size: 2.2em; text-align: center; opacity: 0.5; background: #996633; height: 100%">' + $cell.text() + '</div>');
                     }
                 }else {
-                    if (last_change.attr('id').charAt(5) * 1 == i && last_change.attr('id').charAt(7) * 1 == j) {
-                        $('#cell-' + i + '-' + j).html('<div style="font-size: 2.2em; text-align: center; background: #fba82b; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                    var at5 = parseInt(last_change.attr('id').charAt(5));
+                    var at7 = parseInt(last_change.attr('id').charAt(7));
+                    if (at5 == i && at7 == j) {
+                        $cell.html('<div style="font-size: 2.2em; text-align: center; background: #fba82b; height: 100%">' + $cell.text() + '</div>');
                         continue;
                     }
                     // пропускаем не соприкасающиеся с заполнеными (прошлая введеная не в счет)
-                    if  ((i > 0 && $('#cell-' + (i-1) + '-' + j).text() != '' && (last_change.attr('id').charAt(5) * 1 != (i-1) || last_change.attr('id').charAt(7) * 1 != j))
-                        || (j > 0 && $('#cell-' + i + '-' + (j-1)).text() != '' && (last_change.attr('id').charAt(5) * 1 != i || last_change.attr('id').charAt(7) * 1 != (j-1)))
-                        || (i < field_size-1 && $('#cell-' + (i+1) + '-' + j).text() != '' && (last_change.attr('id').charAt(5) * 1 != (i+1) || last_change.attr('id').charAt(7) * 1 != j))
-                        || (j < field_size-1 && $('#cell-' + i + '-' + (j+1)).text() != '' && (last_change.attr('id').charAt(5) * 1 != i || last_change.attr('id').charAt(7) * 1 != (j+1)))) {
-                        $('#cell-' + i + '-' + j).html('<div style="font-size: 2.2em; text-align: center; background: #ebdaa3; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                    if  ((i > 0 && $('#cell-' + (i-1) + '-' + j).text() != '' && (at5 != (i-1) || at7 != j))
+                        || (j > 0 && $('#cell-' + i + '-' + (j-1)).text() != '' && (at5 != i || at7 != (j-1)))
+                        || (i < field_size-1 && $('#cell-' + (i+1) + '-' + j).text() != '' && (at5 != (i+1) || at7 != j))
+                        || (j < field_size-1 && $('#cell-' + i + '-' + (j+1)).text() != '' && (at5 != i || at7 != (j+1)))) {
+                        $cell.html('<div style="font-size: 2.2em; text-align: center; background: #ebdaa3; height: 100%">' + $cell.text() + '</div>');
                     } else {
-                        $('#cell-' + i + '-' + j).html('<div style="font-size: 2.2em; text-align: center; opacity: 0.5; background: #996633; height: 100%">' + $('#cell-' + i + '-' + j).text() + '</div>');
+                        $cell.html('<div style="font-size: 2.2em; text-align: center; opacity: 0.5; background: #996633; height: 100%">' + $cell.text() + '</div>');
                     }
                 }
             }
@@ -526,20 +530,21 @@ $(function() {
   //смена фона
   $(document).on({
     click: function() {
-      console.log($(this));
-      $('body').attr('style', $(this).attr('style'));
-      isLocalStorageAvailable()? localStorage.setItem('background', $(this).attr('style')) : '';
+      var $this = $(this);
+      $('body').attr('style', $this.attr('style'));
+      isLocalStorageAvailable()? localStorage.setItem('background', $this.attr('style')) : '';
     }
   }, '.picture');
 
     //переход на форму выбора буквы
     $(document).on({
         click: function() {
-            var i = $(this).attr('id').charAt(5) * 1;
-            var j = $(this).attr('id').charAt(7) * 1;
+            var $this = $(this);
+            var i = parseInt($this.attr('id').charAt(5));
+            var j = parseInt($this.attr('id').charAt(7));
             if (input_mode == 'input_char') {
                 // пропускаем заполненые
-                if ($(this).text() != '' && this != input_char) {
+                if ($this.text() != '' && this != input_char) {
                     return;
                 }
 
@@ -549,18 +554,20 @@ $(function() {
                         || (j > 0 && $('#cell-' + i + '-' + (j-1)).text() != '')
                         || (i < field_size-1 && $('#cell-' + (i+1) + '-' + j).text() != '')
                         || (j < field_size-1 && $('#cell-' + i + '-' + (j+1)).text() != '')) {
-                        last_click = $(this);
+                        last_click = $this;
                         input_char = this;
                         $('#progress').slideUp();
                         $('#letter').slideDown();
                     }
                 } else {
+                  var at5 = parseInt(last_change.attr('id').charAt(5));
+                  var at7 = parseInt(last_change.attr('id').charAt(7));
                     // пропускаем не соприкасающиеся с заполнеными (прошлая введеная не в счет)
-                    if  ((i > 0 && $('#cell-' + (i-1) + '-' + j).text() != '' && (last_change.attr('id').charAt(5) * 1 != (i-1) || last_change.attr('id').charAt(7) * 1 != j))
-                        || (j > 0 && $('#cell-' + i + '-' + (j-1)).text() != '' && (last_change.attr('id').charAt(5) * 1 != i || last_change.attr('id').charAt(7) * 1 != (j-1)))
-                        || (i < field_size-1 && $('#cell-' + (i+1) + '-' + j).text() != '' && (last_change.attr('id').charAt(5) * 1 != (i+1) || last_change.attr('id').charAt(7) * 1 != j))
-                        || (j < field_size-1 && $('#cell-' + i + '-' + (j+1)).text() != '' && (last_change.attr('id').charAt(5) * 1 != i || last_change.attr('id').charAt(7) * 1 != (j+1)))) {
-                        last_click = $(this);
+                    if  ((i > 0 && $('#cell-' + (i-1) + '-' + j).text() != '' && (at5 != (i-1) || at7 != j))
+                        || (j > 0 && $('#cell-' + i + '-' + (j-1)).text() != '' && (at5 != i || at7 != (j-1)))
+                        || (i < field_size-1 && $('#cell-' + (i+1) + '-' + j).text() != '' && (at5 != (i+1) || at7 != j))
+                        || (j < field_size-1 && $('#cell-' + i + '-' + (j+1)).text() != '' && (at5 != i || at7 != (j+1)))) {
+                        last_click = $this;
                         input_char = this;
                         $('#progress').slideUp();
                         $('#letter').slideDown();
@@ -569,9 +576,9 @@ $(function() {
 
               //  input_mode = 'input_word';
             } else if (input_mode == 'input_word'){
-                    if($(this).text() != '') {
-                    var i = $(this).attr('id').charAt(5) * 1;
-                    var j = $(this).attr('id').charAt(7) * 1;
+                    if($this.text() != '') {
+                    var i = parseInt($this.attr('id').charAt(5));
+                    var j = parseInt($this.attr('id').charAt(7));
                     if (last_cell_i >= 0 && last_cell_j >=0) {
                         if (charList.length > 0 && charList[charList.length-1] == this) {
                             charList.pop();
@@ -579,12 +586,12 @@ $(function() {
                                 last_cell_i = -1;
                                 last_cell_j = -1;
                             } else {
-                                last_cell_i = $(charList[charList.length-1]).attr('id').charAt(5) * 1;
-                                last_cell_j = $(charList[charList.length-1]).attr('id').charAt(7) * 1;
+                                last_cell_i = parseInt($(charList[charList.length-1]).attr('id').charAt(5));
+                                last_cell_j = parseInt($(charList[charList.length-1]).attr('id').charAt(7));
                             }
                             word = word.substring(0, word.length - 1);
                             $('#word').html(word);
-                            $(this).html('<div style="font-size: 3em; text-align: center; background:#ebdaa3">' + $(this).text() + '</div>');
+                            $this.html('<div style="font-size: 3em; text-align: center; background:#ebdaa3">' + $this.text() + '</div>');
                             return;
                         } else {
                         //буква входит в слово
@@ -596,31 +603,31 @@ $(function() {
                         }
                         //лежат на одном столбце
                         if(((i+1 == last_cell_i) || (i-1 == last_cell_i)) &&(j == last_cell_j)){
-                            word += $(this).text();
+                            word += $this.text();
                             last_cell_i = i;
                             last_cell_j = j;
                             charList.push(this);
                             if(this != input_char)
-                            {   $(this).html('<div style="font-size: 2.2em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');}
+                            {   $this.html('<div style="font-size: 2.2em; text-align: center; background: #fbd252; height: 100%">' + $this.text() + '</div>');}
                         }
 
                         // лежат на одной строке
                         if(((j+1 == last_cell_j) || (j-1 == last_cell_j)) &&(i == last_cell_i)){
-                            word += $(this).text();
+                            word += $this.text();
                             last_cell_i = i;
                             last_cell_j = j;
                             charList.push(this);
                             if(this != input_char)
-                            {   $(this).html('<div style="font-size: 2.2em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');}
+                            {   $this.html('<div style="font-size: 2.2em; text-align: center; background: #fbd252; height: 100%">' + $this.text() + '</div>');}
                         }
                     }
                     else {
-                        word += $(this).text();
+                        word += $this.text();
                         last_cell_i = i;
                         last_cell_j = j;
                         charList.push(this);
                         if(this != input_char)
-                        {   $(this).html('<div style="font-size: 2.2em; text-align: center; background: #fbd252; height: 100%">' + $(this).text() + '</div>');}
+                        {   $this.html('<div style="font-size: 2.2em; text-align: center; background: #fbd252; height: 100%">' + $this.text() + '</div>');}
                     }
                 }
                 $('#word').html(word);
@@ -805,29 +812,20 @@ $(function() {
         }
         return player2.total;
     }
-    //Задать время на выполнение хода
-    function forTimer() {
-        nextPlayer();
-        jAlert('Время на выполнение хода истекло');
-    }
 
-    function SetTimerForPlayers()
-    {
-        setTimeout(forTimer(), 10000);
-    }
     function SearchRepeat(slovo)
     {
         var ff = false;
         for (var i=0; i<player1.list.length; i++)
         {
-            if (word == player1.list[i])
+            if (slovo == player1.list[i])
             {
                 ff=true;
             }
         }
         for (var i=0; i<player2.list.length; i++)
         {
-            if (word == player2.list[i])
+            if (slovo == player2.list[i])
             {
                 ff=true;
             }
