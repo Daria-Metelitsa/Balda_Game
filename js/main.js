@@ -7,6 +7,36 @@ $(function() {
       if (localStorage.getItem('background') != null) {
           $('body').attr('style', localStorage.getItem('background'));
       }
+      if (localStorage.getItem('sound') == 'on') {
+          $('#soundON').attr("checked", "checked");
+          var soundNumber = localStorage.getItem('audio');
+          var st = localStorage.getItem('st');
+          switch (soundNumber) {
+              case 'first_audio':
+                if (st = 'st2') st2=false;
+                if (st = 'st3') st3=false;
+                st1=true;
+                firstAudio.play();
+                $('#sound1').attr("checked", "checked");
+              break;
+              case 'second_audio':
+                if (st = 'st1') st1=false;
+                if (st = 'st3') st3=false;
+                st2=true;
+                secondAudio.play();
+                $('#sound2').attr("checked", "checked");
+              break;
+              case 'third_audio':
+                if (st = 'st1') st1=false;
+                if (st = 'st2') st2=false;
+                st3=true;
+                thirdAudio.play();
+                $('#sound3').attr("checked", "checked");
+              break;
+          }
+      } else {
+          $('#soundOFF').attr("checked", "checked");
+      }
   }
 
   var array_letter_points = {
