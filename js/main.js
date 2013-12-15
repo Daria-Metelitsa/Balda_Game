@@ -675,10 +675,9 @@ $(function() {
     }
 
     function isMiniGame() {
-        var chance = 5 == field_size ? 15 : (6 == field_size ? 20 : 25),
+        var chance = 5 == field_size ? 20 : (6 == field_size ? 25 : 30),
             rand   = Random(0, 100),
             start  = Random(0, 100 - chance);
-
         return rand > start && rand <= start + chance;
     }
 
